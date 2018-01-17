@@ -23,7 +23,7 @@ git push -u origin deepin-manual
 所有的 npm 包即可.
 ```shell
 cd /PATH/TO/deepin-manual
-git submodule add https://cr.deepin.io/vendor-deps src/web/node_modules
+git submodule add -f https://cr.deepin.io/vendor-deps src/web/node_modules
 ```
 
 现在, 来修改 vendor-deps, 使用 `deepin-manual`分支.
@@ -71,5 +71,5 @@ git push
 ## 以后在自己项目中更新
 ```shell
 cd /PATH/TO/deepin-manual
-git submodule update --remote src/web/node_modules
+git submodule update --remote
 ```
