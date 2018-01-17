@@ -23,22 +23,7 @@ git push -u origin deepin-manual
 所有的 npm 包即可.
 ```shell
 cd /PATH/TO/deepin-manual
-git submodule add -f https://cr.deepin.io/vendor-deps src/web/node_modules
-```
-
-现在, 来修改 vendor-deps, 使用 `deepin-manual`分支.
-```ini
-[submodule "src/web/node_modules"]
-	path = src/web/node_modules
-	url = https://cr.deepin.io/vendor-deps
-```
-修改之后:
-```ini
-[submodule "src/web/node_modules"]
-	path = src/web/node_modules
-	url = https://cr.deepin.io/vendor-deps
-	branch = deepin-manual
-
+git submodule add -b deepin-manual -f --depth 1 https://cr.deepin.io/vendor-deps src/web/node_modules
 ```
 
 最后, 拉取 vendor-deps 内容.
