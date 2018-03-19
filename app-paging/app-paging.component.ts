@@ -7,44 +7,38 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./app-paging.component.scss']
 })
 export class AppPagingComponent implements OnInit {
-  pageLimit = 7;
-  count: number;
+  @Input() count: number;
+  page: number;
+  size = defaultPageSize;
+
   pages: number[];
-  current: number;
-
-  @Input('pageCount')
-  set pageCount(count: number) {
-    this.count = count;
-    this.getPages();
-  }
-
-  @Input('currentPage')
-  set currentPage(current: number) {
-    this.current = current;
-    this.getPages();
-  }
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.paramMap.subscribe(param => {
+      this.page = parseInt(param.get('page'));
+      this.pages = this.getPages();
+    });
+  }
 
-  getPages() {
+  getPages(): number[] {
     let pages = new Array(this.count).fill(0).map((v, i) => i + 1);
-    if (pages.length <= this.pageLimit) {
+    if (pages.length <= pagingSize) {
       this.pages = pages;
       return;
     }
-    if (this.current < this.pageLimit / 2) {
-      pages = pages.slice(0, this.pageLimit);
-    } else if (this.current < this.count - this.pageLimit / 2) {
+    if (this.page < pagingSize / 2) {
+      pages = pages.slice(0, pagingSize);
+    } else if (this.page < this.count - pagingSize / 2) {
       pages = pages.slice(
-        this.current - this.pageLimit / 2,
-        this.current + this.pageLimit / 2
+        this.page - pagingSize / 2,
+        this.page + pagingSize / 2
       );
     } else {
-      pages = pages.slice(this.count - this.pageLimit);
+      pages = pages.slice(this.count - pagingSize);
     }
-    this.pages = pages;
+    return pages;
   }
 
   goto(page: number) {
@@ -56,3 +50,4 @@ export class AppPagingComponent implements OnInit {
 }
 
 export const defaultPageSize = 10;
+export const pagingSize = 7;

@@ -7,11 +7,15 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
   styleUrls: ['./app-search.component.scss']
 })
 export class AppSearchComponent implements OnInit {
-  @Input() search: string;
+  search: string;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(
+      query => (this.search = query.get('search'))
+    );
+  }
 
   onSearch(search) {
     const extras: NavigationExtras = {
