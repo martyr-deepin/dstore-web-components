@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 
 @Component({
@@ -7,17 +8,20 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
   styleUrls: ['./app-search.component.scss']
 })
 export class AppSearchComponent implements OnInit {
-  search: string;
+  searchControl = new FormControl();
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe(
-      query => (this.search = query.get('search'))
+    this.route.queryParamMap.subscribe(query =>
+      this.searchControl.setValue(query.get('search'))
     );
+    this.searchControl.valueChanges
+      .debounceTime(300)
+      .subscribe(this.onSearch.bind(this));
   }
 
-  onSearch(search) {
+  onSearch(search?: string) {
     const extras: NavigationExtras = {
       relativeTo: this.route
     };

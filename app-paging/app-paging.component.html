@@ -5,7 +5,7 @@
   <li [class]="page==1?'disabled':'waves-effect'">
     <a [routerLink]="['../',page==1?page:page-1]" queryParamsHandling="merge"><i class="material-icons">chevron_left</i></a>
   </li>
-  <ng-container *ngIf="pages[0]>1">
+  <ng-container *ngIf="!pages.includes(1)">
     <li>
       <a [routerLink]="['../',1]" queryParamsHandling="merge">1</a>
     </li>
@@ -14,7 +14,7 @@
   <li class="waves-effect" *ngFor="let p of pages" routerLinkActive="active">
     <a [routerLink]="['../',p]" queryParamsHandling="merge">{{p}}</a>
   </li>
-  <ng-container *ngIf="pages[pages.length-1]<this.count">
+  <ng-container *ngIf="!pages.includes(this.count)">
     <li>...</li>
     <li>
       <a [routerLink]="['../',this.count]" queryParamsHandling="merge">{{this.count}}</a>
