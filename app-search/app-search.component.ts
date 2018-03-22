@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-search',
