@@ -1,0 +1,26 @@
+<ul class="pagination" *ngIf="count">
+  <li class="range-field">
+    <input type="range" min="1" [max]="count" [value]="page" (change)="goto($event.target.value)" />
+  </li>
+  <li [class]="page==1?'disabled':'waves-effect'">
+    <a [routerLink]="['../',page==1?page:page-1]" queryParamsHandling="merge"><i class="material-icons">chevron_left</i></a>
+  </li>
+  <ng-container *ngIf="!pages.includes(1)">
+    <li>
+      <a [routerLink]="['../',1]" queryParamsHandling="merge">1</a>
+    </li>
+    <li>...</li>
+  </ng-container>
+  <li class="waves-effect" *ngFor="let p of pages" routerLinkActive="active">
+    <a [routerLink]="['../',p]" queryParamsHandling="merge">{{p}}</a>
+  </li>
+  <ng-container *ngIf="!pages.includes(this.count)">
+    <li>...</li>
+    <li>
+      <a [routerLink]="['../',this.count]" queryParamsHandling="merge">{{this.count}}</a>
+    </li>
+  </ng-container>
+  <li [class]="page==this.count?'disabled':'waves-effect'">
+    <a [routerLink]="['../',page==count?page:page+1]" queryParamsHandling="merge"><i class="material-icons">chevron_right</i></a>
+  </li>
+</ul>
