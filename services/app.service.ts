@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/let';
-import 'rxjs/add/observable/range';
-import 'rxjs/add/operator/last';
 import 'rxjs/add/operator/share';
 
 import * as _ from 'lodash';
@@ -25,6 +22,7 @@ interface Result {
 @Injectable()
 export class AppService {
   metadataService = environment.metadataServer;
+  apiURL = `${this.metadataService}api/app`;
 
   apps: App[];
   lastModified: string;
@@ -33,16 +31,24 @@ export class AppService {
   constructor(
     private http: HttpClient,
     private categoryServer: CategoryService
-  ) {
-    this.cacheObservable = this._getAppList();
+  ) {}
+
+  setApiURL(apiURL: string) {
+    this.apiURL = apiURL;
   }
-  getAppList() {
+
+  // 获取应用列表
+  getAppList(): Observable<App[]> {
+    if (!this.cacheObservable) {
+      this.cacheObservable = this._getAppList();
+    }
     return this.cacheObservable;
   }
+
+  // 获取应用列表-共享缓存
   _getAppList(): Observable<App[]> {
-    const api = `${this.metadataService}api/app`;
     return this.http
-      .get(api, {
+      .get(this.apiURL, {
         responseType: 'text',
         params: this.lastModified ? { since: this.lastModified } : null
       })
@@ -51,7 +57,7 @@ export class AppService {
         console.log('checkError', this.lastModified);
         if (result.error && result.error.code === ErrorCode.CodeForceSync) {
           return this.http
-            .get(api, { responseType: 'text' })
+            .get(this.apiURL, { responseType: 'text' })
             .map(body => <Result>JSON.parse(body));
         }
         return Observable.of(result);
@@ -86,9 +92,19 @@ export class AppService {
       .share();
   }
 
-  getAppListByNames(appNames: string[]) {
+  // 根据应用名列表获取应用
+  getAppListByNames(appNames: string[]): Observable<{ [key: string]: App }> {
     return this.getAppList()
       .map(apps => apps.filter(app => appNames.includes(app.name)))
       .map(apps => <{ [key: string]: App }>_.keyBy(apps, app => app.name));
+  }
+  // 根据应用名获取应用
+  getAppByName(appName: string): Observable<App> {
+    return this.getAppList().map(apps =>
+      _.chain(apps)
+        .find(app => app.name === appName)
+        .cloneDeep()
+        .value()
+    );
   }
 }

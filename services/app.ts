@@ -42,7 +42,10 @@ export function appReplacer(k: string, v: any): any {
   v = JSON.parse(JSON.stringify(v));
   switch (k) {
     case 'locale':
-      return (<LocalInfo[]>v).filter(desc => desc.description.name);
+      return _.pickBy(
+        <{ [key: string]: LocalInfo }>v,
+        info => info.description.name
+      );
     case 'packageURI':
       return JSON.stringify(v);
     case 'versions':
@@ -61,15 +64,15 @@ export function appReplacer(k: string, v: any): any {
         },
         ...img.screenshot.map((imgPath, index) => ({
           type: ImageType.Screenshot,
-          path: img,
+          path: imgPath,
           order: index
         })),
         ...img.screenshotHD.map((imgPath, index) => ({
           type: ImageType.ScreenshotHD,
-          path: img,
+          path: imgPath,
           order: index
         }))
-      ];
+      ].filter(image => image.path);
   }
   return v;
 }
