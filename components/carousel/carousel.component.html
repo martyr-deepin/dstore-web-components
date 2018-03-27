@@ -1,0 +1,10 @@
+<div class="carouselList">
+  <img
+    *ngFor="let app of apps; index as i; first as isFirst; last as isLast" 
+    [attr.index]="i"
+    [class.select]='selectIndex==i'
+    [class.next]='i==selectIndex+1 || (selectIndex==section.apps.length-1 && isFirst)'
+    [class.previous]='i==selectIndex-1 || (selectIndex==0 && isLast)'
+    [src]="metadataServer+app.icon"
+    (click)="selectIndex=i">
+</div>

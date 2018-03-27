@@ -1,0 +1,36 @@
+.rankingList {
+  display: flex;
+  flex-direction: column;
+  .ranking {
+    display: flex;
+    height: 3.5rem;
+    margin-top: 1rem;
+    .icon {
+      margin-left: 1rem;
+      img {
+        width: 3rem;
+      }
+    }
+    .content {
+      display: flex;
+      width: 80%;
+      margin-left: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      .ranked {
+        font-weight: bold;
+      }
+      .info {
+        margin-left: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.category {
+  margin-top: 0.5rem;
+  color: gray;
+  font-size: 13px;
+}

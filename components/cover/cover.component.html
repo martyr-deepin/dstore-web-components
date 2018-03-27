@@ -1,0 +1,17 @@
+<dstore-title title="最新上传"></dstore-title>
+<div class="coverList">
+  <div class="cover" *ngFor="let app of apps">
+    <img [src]="metadataServer + app.localInfo.images.cover">
+    <span class="truncate">{{app.localInfo.description.name}}</span>
+    <div class="info">
+      <span class="category">{{app.localCategory}}</span>
+      <div class="score">
+        <div [style.width.rem]="3.4"></div>
+      </div>
+    </div>
+  </div>
+  <!--Placeholder-->
+  <div class="cover"></div>
+  <div class="cover"></div>
+  <div class="cover"></div>
+</div>

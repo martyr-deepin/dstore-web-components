@@ -1,0 +1,28 @@
+.carouselList {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  img {
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: transform 500ms;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: scaleX(0.6) scaleY(0.6);
+    &.previous {
+      transform: translateX(-10%) translateZ(0px) scaleY(0.9);
+    }
+    &.select {
+      transform: translateX(0) translateZ(1px) scaleY(1);
+    }
+    &.next {
+      transform: translateX(10%) translateZ(0px) scaleY(0.9);
+    }
+    background-color: white;
+  }
+}

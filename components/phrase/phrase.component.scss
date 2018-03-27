@@ -1,0 +1,23 @@
+.phraseList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .phraseItem {
+    width: 12rem;
+    margin-top: 1rem;
+    display: flex;
+    .icon {
+      height: 4.5rem;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      margin-left: 0.5rem;
+      .phrase {
+        color: gray;
+        font-size: 13px;
+      }
+    }
+  }
+}

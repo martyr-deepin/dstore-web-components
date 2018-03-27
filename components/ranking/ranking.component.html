@@ -1,0 +1,17 @@
+<dstore-title title="排行榜"></dstore-title>
+<div class="rankingList">
+  <div class="ranking" *ngFor="let app of ranking;index as $index">
+    <div class="icon">
+      <img [src]="metadataServer+app.icon">
+    </div>
+    <div class="content">
+      <div class="ranked">
+        {{$index+1}}.
+      </div>
+      <div class="info">
+        <span>{{app.localInfo.description.name}}</span>
+        <span class="category">{{app.localCategory}}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.topicList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .topicItem {
+    margin-top: 1rem;
+    width: 15rem;
+    height: 10rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      z-index: -1;
+      border-radius: 10px;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    }
+    .title {
+      color: white;
+      font-size: x-large;
+      font-weight: bolder;
+      text-shadow: 0 0px 10px white, 0 0px 10px black;
+    }
+  }
+}
