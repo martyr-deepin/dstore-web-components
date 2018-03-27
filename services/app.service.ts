@@ -82,7 +82,8 @@ export class AppService {
           return this.apps;
         });
       })
-      .retry(3)
+      // FIXME(Shaohua): error TS2339: Property 'retry' does not exist on type 'Observable<App[]>'.
+      // .retry(3)
       .share();
   }
 
