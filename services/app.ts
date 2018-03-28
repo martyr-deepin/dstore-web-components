@@ -35,6 +35,10 @@ export class App {
   downloadRanking: number;
   localInfo: LocalInfo;
   localCategory: string;
+  updatingCount: number;
+  updatingVersion: string;
+  lastUpdated: Date;
+  updatingRanking: number;
 }
 
 // 自定义序列号App JSON
