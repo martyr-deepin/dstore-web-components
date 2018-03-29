@@ -17,6 +17,7 @@ import { RankingComponent } from './components/ranking/ranking.component';
 import { PhraseComponent } from './components/phrase/phrase.component';
 import { TopicComponent } from './components/topic/topic.component';
 import { iconComponent } from './components/icon/icon.component';
+import { AssembleComponent } from './components/assemble/assemble.component';
 
 import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
@@ -47,7 +48,8 @@ import { AppSearchComponent } from './web-components/app-search/app-search.compo
     iconComponent,
     AppNavComponent,
     AppPagingComponent,
-    AppSearchComponent
+    AppSearchComponent,
+    AssembleComponent
   ],
   exports: [
     TitleComponent,
@@ -59,7 +61,8 @@ import { AppSearchComponent } from './web-components/app-search/app-search.compo
     iconComponent,
     AppNavComponent,
     AppPagingComponent,
-    AppSearchComponent
+    AppSearchComponent,
+    AssembleComponent
   ]
 })
 export class DstoreModule {}

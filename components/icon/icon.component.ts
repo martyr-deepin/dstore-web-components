@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
-import { Section } from '../../services/section';
+import { Section, SectionApp } from '../../services/section';
 
 @Component({
   selector: 'dstore-icon',
@@ -20,9 +20,7 @@ export class iconComponent implements OnInit {
 
   ngOnInit() {
     this.appService
-      .getAppListByNames(this.section.apps.map(app => app.name))
-      .subscribe(
-        appList => (this.apps = this.section.apps.map(app => appList[app.name]))
-      );
+      .getAppListByNames(this.section.items.map((app: SectionApp) => app.name))
+      .subscribe(appList => (this.apps = appList));
   }
 }

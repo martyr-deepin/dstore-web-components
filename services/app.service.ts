@@ -47,57 +47,60 @@ export class AppService {
 
   // 获取应用列表-共享缓存
   _getAppList(): Observable<App[]> {
-    return this.http
-      .get(this.apiURL, {
-        responseType: 'text',
-        params: this.lastModified ? { since: this.lastModified } : null
-      })
-      .map(body => <Result>JSON.parse(body, appReviver))
-      .mergeMap(result => {
-        console.log('checkError', this.lastModified);
-        if (result.error && result.error.code === ErrorCode.CodeForceSync) {
-          return this.http
-            .get(this.apiURL, { responseType: 'text' })
-            .map(body => <Result>JSON.parse(body));
-        }
-        return Observable.of(result);
-      })
-      .mergeMap(result => {
-        return this.categoryServer.getList().map(categories => {
-          if (this.lastModified === result.lastModified) {
-            return this.apps;
+    return (
+      this.http
+        .get(this.apiURL, {
+          responseType: 'text',
+          params: this.lastModified ? { since: this.lastModified } : null
+        })
+        .map(body => <Result>JSON.parse(body, appReviver))
+        .mergeMap(result => {
+          console.log('checkError', this.lastModified);
+          if (result.error && result.error.code === ErrorCode.CodeForceSync) {
+            return this.http
+              .get(this.apiURL, { responseType: 'text' })
+              .map(body => <Result>JSON.parse(body));
           }
-          this.lastModified = result.lastModified;
-          this.cacheObservable = this._getAppList();
-          this.apps = _.chain(result.apps)
-            .concat(this.apps)
-            .compact()
-            .orderBy(
-              [(app: App) => app.updateTime, (app: App) => app.name],
-              ['desc', 'desc']
-            )
-            .each(app => {
-              app.localInfo =
-                app.locale['zh_CN'] && app.locale['zh_CN'].description.name
-                  ? app.locale['zh_CN']
-                  : app.locale['en_US'];
-              app.localCategory =
-                categories[app.category].LocalName || app.category;
-            })
-            .value();
-          return this.apps;
-        });
-      })
-      // FIXME(Shaohua): error TS2339: Property 'retry' does not exist on type 'Observable<App[]>'.
-      // .retry(3)
-      .share();
+          return Observable.of(result);
+        })
+        .mergeMap(result => {
+          return this.categoryServer.getList().map(categories => {
+            if (this.lastModified === result.lastModified) {
+              return this.apps;
+            }
+            this.lastModified = result.lastModified;
+            this.cacheObservable = this._getAppList();
+            this.apps = _.chain(result.apps)
+              .concat(this.apps)
+              .compact()
+              .orderBy(
+                [(app: App) => app.updateTime, (app: App) => app.name],
+                ['desc', 'desc']
+              )
+              .each(app => {
+                app.localInfo =
+                  app.locale['zh_CN'] && app.locale['zh_CN'].description.name
+                    ? app.locale['zh_CN']
+                    : app.locale['en_US'];
+                app.localCategory =
+                  categories[app.category].LocalName || app.category;
+              })
+              .value();
+            return this.apps;
+          });
+        })
+        // FIXME(Shaohua): error TS2339: Property 'retry' does not exist on type 'Observable<App[]>'.
+        // .retry(3)
+        .share()
+    );
   }
 
   // 根据应用名列表获取应用
-  getAppListByNames(appNames: string[]): Observable<{ [key: string]: App }> {
+  getAppListByNames(appNames: string[]): Observable<App[]> {
     return this.getAppList()
       .map(apps => apps.filter(app => appNames.includes(app.name)))
-      .map(apps => <{ [key: string]: App }>_.keyBy(apps, app => app.name));
+      .map(apps => <{ [key: string]: App }>_.keyBy(apps, app => app.name))
+      .map(appDict => appNames.map(name => appDict[name]).filter(app => app));
   }
   // 根据应用名获取应用
   getAppByName(appName: string): Observable<App> {

@@ -1,11 +1,11 @@
-<dstore-title title="装机必备"></dstore-title>
+<dstore-title [title]="section.title"></dstore-title>
 
-<div class="phraseList" *ngIf="appList">
-  <div class="phraseItem" *ngFor="let app of section.apps">
-    <img [src]="metadataServer+appList[app.name].icon" class="icon">
+<div class="phraseList" *ngIf="apps">
+  <div class="phraseItem" *ngFor="let app of apps;let i = index">
+    <img [src]="metadataServer+app.icon" class="icon">
     <div class="info">
-      <span class="truncate">{{appList[app.name].localInfo.description.name}}</span>
-      <span class="phrase">{{app.phrase['zh_CN']}}</span>
+      <span class="truncate">{{app.localInfo.description.name}}</span>
+      <span class="phrase">{{section.items[i].phrase[0]}}</span>
     </div>
   </div>
   <div class="phraseItem"></div>

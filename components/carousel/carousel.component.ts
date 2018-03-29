@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { Section } from '../../services/section';
+import { Section, SectionCarousel } from '../../services/section';
 
 @Component({
   selector: 'dstore-carousel',
@@ -24,9 +24,11 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit() {
     this.appService
-      .getAppListByNames(this.section.apps.map(app => app.name))
+      .getAppListByNames(
+        this.section.items.map((app: SectionCarousel) => app.name)
+      )
       .subscribe(appList => {
-        this.apps = this.section.apps.map(app => appList[app.name]);
+        this.apps = appList;
       });
   }
 }

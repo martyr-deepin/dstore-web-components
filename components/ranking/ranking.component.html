@@ -1,4 +1,4 @@
-<dstore-title title="排行榜"></dstore-title>
+<dstore-title [title]="section.title[0]"></dstore-title>
 <div class="rankingList">
   <div class="ranking" *ngFor="let app of ranking;index as $index">
     <div class="icon">
