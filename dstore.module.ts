@@ -22,6 +22,7 @@ import { AssembleComponent } from './components/assemble/assemble.component';
 import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
 import { AppSearchComponent } from './web-components/app-search/app-search.component';
+import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { AppSearchComponent } from './web-components/app-search/app-search.compo
     AppNavComponent,
     AppPagingComponent,
     AppSearchComponent,
-    AssembleComponent
+    AssembleComponent,
+    ConvertToNumberDirective
   ],
   exports: [
     TitleComponent,
@@ -62,7 +64,8 @@ import { AppSearchComponent } from './web-components/app-search/app-search.compo
     AppNavComponent,
     AppPagingComponent,
     AppSearchComponent,
-    AssembleComponent
+    AssembleComponent,
+    ConvertToNumberDirective
   ]
 })
 export class DstoreModule {}
