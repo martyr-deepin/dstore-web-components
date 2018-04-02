@@ -22,6 +22,7 @@ import { AssembleComponent } from './components/assemble/assemble.component';
 import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
 import { AppSearchComponent } from './web-components/app-search/app-search.component';
+import { ImageUpdateComponent } from './web-components/image-update/image-update.component';
 import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
 
 @NgModule({
@@ -51,6 +52,7 @@ import { ConvertToNumberDirective } from './directive/convert-to-number.directiv
     AppPagingComponent,
     AppSearchComponent,
     AssembleComponent,
+    ImageUpdateComponent,
     ConvertToNumberDirective
   ],
   exports: [
@@ -65,6 +67,7 @@ import { ConvertToNumberDirective } from './directive/convert-to-number.directiv
     AppPagingComponent,
     AppSearchComponent,
     AssembleComponent,
+    ImageUpdateComponent,
     ConvertToNumberDirective
   ]
 })

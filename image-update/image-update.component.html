@@ -1,0 +1,8 @@
+<div class="imgBox" (click)="imageInput.click()">
+  <img [src]="imgSrc" *ngIf="imgSrc">
+  <input type="file" hidden #imageInput [multiple]="multiple" [attr.accept]="accept">
+  <button class="btn-flat">
+    <i class=material-icons>backup</i>
+  </button>
+</div>
+<span class="grey-text">{{desc}}</span>
