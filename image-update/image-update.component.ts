@@ -40,6 +40,8 @@ export class ImageUpdateComponent implements OnInit {
   @Input() multiple = true;
   @Input() types: string[] = [];
   @Input() maxFileSize = 12e6;
+  @Input() width: number;
+  @Input() height: number;
   @Input() limitImgSize = false;
   @Input() uploadType = ImageType.Cover;
   @Input() title = '';
@@ -58,6 +60,13 @@ export class ImageUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (!this.width) {
+      this.width = this.el.nativeElement.clientWidth;
+    }
+    if (!this.height) {
+      this.height = this.el.nativeElement.clientHeight;
+    }
+
     // 绑定文件输入框事件
     Observable.fromEvent(this.imageInput.nativeElement, 'change')
       .map((event: Event) => {
@@ -72,7 +81,6 @@ export class ImageUpdateComponent implements OnInit {
         }
         if (this.types.length > 0) {
           const [type, format] = file.type.split('/');
-          console.log(type, format, this.types);
           if (type !== 'image' || !this.types.includes(format)) {
             throw ImageError.Format;
           }
@@ -105,23 +113,20 @@ export class ImageUpdateComponent implements OnInit {
             .map(img => {
               // 检查图片尺寸
               if (this.limitImgSize) {
-                if (
-                  this.el.nativeElement.clientWidth !== img.width ||
-                  this.el.nativeElement.clientHeight !== img.height
-                ) {
+                if (this.width !== img.width || this.height !== img.height) {
                   throw ImageError.ImgSize;
                 }
               }
               // 缩放图片
               const canvas = document.createElement('canvas');
-              canvas.width = this.el.nativeElement.clientWidth;
+              canvas.width = this.width;
               canvas.height = canvas.width * img.height / img.width;
               canvas
                 .getContext('2d')
                 .drawImage(img, 0, 0, canvas.width, canvas.height);
               return canvas.toDataURL();
             })
-            .flatMap(dataURL => {
+            .mergeMap(dataURL => {
               // 上传图片
               const formData = new FormData();
               formData.append('type', this.uploadType.toString());
@@ -130,6 +135,7 @@ export class ImageUpdateComponent implements OnInit {
                 .post(`${this.server}api/upload`, formData)
                 .map((result: { path: string }) => {
                   this.upload.emit(result.path);
+                  this.materializeService.toastSuccess('图片上传成功');
                   return dataURL;
                 });
             })
@@ -146,6 +152,7 @@ export class ImageUpdateComponent implements OnInit {
       })
       // 预览图片
       .subscribe(dataURL => {
+        console.log('dataURL');
         this.imgSrc = this.domSanitizer.bypassSecurityTrustUrl(dataURL);
       });
   }
@@ -163,11 +170,7 @@ export class ImageUpdateComponent implements OnInit {
       strArr.push(this.title);
     }
     if (this.limitImgSize) {
-      strArr.push(
-        `尺寸${this.el.nativeElement.clientWidth}X${
-          this.el.nativeElement.clientHeight
-        }`
-      );
+      strArr.push(`尺寸${this.width}X${this.height}`);
     }
     if (this.types.length > 0) {
       strArr.push('格式' + this.types.join('，'));
