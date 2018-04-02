@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Section } from '../../services/section';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'dstore-topic',
@@ -6,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./topic.component.scss']
 })
 export class TopicComponent implements OnInit {
-  appList = new Array(4);
+  @Input() section: Section;
+
+  server = environment.server;
 
   constructor() {}
 

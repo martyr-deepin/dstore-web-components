@@ -15,20 +15,11 @@ import { Section, SectionCarousel } from '../../services/section';
 })
 export class CarouselComponent implements OnInit {
   @Input() section: Section;
-  metadataServer = environment.metadataServer;
-  selectIndex = 0;
 
-  apps: App[] = [];
+  server = environment.server;
+  selectIndex = 0;
 
   constructor(private appService: AppService) {}
 
-  ngOnInit() {
-    this.appService
-      .getAppListByNames(
-        this.section.items.map((app: SectionCarousel) => app.name)
-      )
-      .subscribe(appList => {
-        this.apps = appList;
-      });
-  }
+  ngOnInit() {}
 }

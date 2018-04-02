@@ -1,4 +1,4 @@
-<dstore-title [title]="section.title"></dstore-title>
+<dstore-title [title]="section.title[0]"></dstore-title>
 
 <div class="phraseList" *ngIf="apps">
   <div class="phraseItem" *ngFor="let app of apps;let i = index">
