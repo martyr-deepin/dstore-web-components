@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { Section, SectionCarousel } from '../../services/section';
+import { SectionCarousel } from '../../services/section';
 
 @Component({
   selector: 'dstore-carousel',
@@ -14,7 +14,7 @@ import { Section, SectionCarousel } from '../../services/section';
   styleUrls: ['./carousel.component.scss']
 })
 export class CarouselComponent implements OnInit {
-  @Input() section: Section;
+  @Input() carouselList: SectionCarousel[];
 
   server = environment.server;
   selectIndex = 0;

@@ -23,7 +23,12 @@ import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
 import { AppSearchComponent } from './web-components/app-search/app-search.component';
 import { ImageUpdateComponent } from './web-components/image-update/image-update.component';
+
 import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
+import { DevPipe } from './pipes/dev';
+import { AppInfoPipe } from './pipes/app-info';
+import { FitLanguage } from './pipes/fit-lang';
+import { FitImage } from './pipes/fit-image';
 
 @NgModule({
   imports: [
@@ -53,7 +58,11 @@ import { ConvertToNumberDirective } from './directive/convert-to-number.directiv
     AppSearchComponent,
     AssembleComponent,
     ImageUpdateComponent,
-    ConvertToNumberDirective
+    ConvertToNumberDirective,
+    DevPipe,
+    AppInfoPipe,
+    FitLanguage,
+    FitImage
   ],
   exports: [
     TitleComponent,
@@ -68,7 +77,11 @@ import { ConvertToNumberDirective } from './directive/convert-to-number.directiv
     AppSearchComponent,
     AssembleComponent,
     ImageUpdateComponent,
-    ConvertToNumberDirective
+    ConvertToNumberDirective,
+    DevPipe,
+    AppInfoPipe,
+    FitLanguage,
+    FitImage
   ]
 })
 export class DstoreModule {}

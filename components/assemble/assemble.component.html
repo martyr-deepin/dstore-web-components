@@ -1,25 +1,26 @@
-<dstore-title [title]="section.title[0]"></dstore-title>
+<dstore-title [title]="title|fitLanguage"></dstore-title>
 
-<div class="assembleList" *ngIf="appList">
-  <div class="assemble" *ngFor="let assemble of section.items">
+<div class="assembleList">
+  <div class="assemble" *ngFor="let assemble of assembleList">
     <div class="title">
       {{assemble.name[0]}}
     </div>
     <div *ngFor="let app of assemble.apps;first as isFirst" class="appItem" [class.first]="isFirst">
       <ng-container *ngIf="!isFirst;else Cover">
-        <img [src]="metadataServer+appList[app.name].icon" class="icon">
+        <img [src]="metadataServer+(app.name|appInfo|async)?.icon" class="icon">
         <div class="info">
-          <span class="truncate">{{appList[app.name].localInfo.description.name}}</span>
-          <span class="slogan">{{appList[app.name].localInfo.description.slogan}}</span>
+          <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
+          <span class="slogan">{{(app.name|appInfo|async)?.localInfo.description.slogan}}</span>
         </div>
       </ng-container>
       <ng-template #Cover>
-        <img [src]="metadataServer+appList[app.name].localInfo.images.cover" class="cover">
+        <img [src]="metadataServer+(app.name|appInfo|async)?.localInfo.images.cover" class="cover">
         <div class="info">
-          <span class="truncate">{{appList[app.name].localInfo.description.name}}</span>
-          <span class="slogan">{{appList[app.name].localInfo.description.slogan}}</span>
+          <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
+          <span class="slogan">{{(app.name|appInfo|async)?.localInfo.description.slogan}}</span>
         </div>
       </ng-template>
     </div>
   </div>
+  <div *ngFor="let i of [1,2,3]" class="assemble" [style.height]='0'></div>
 </div>

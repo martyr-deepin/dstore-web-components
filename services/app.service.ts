@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/share';
 
@@ -25,14 +26,14 @@ export class AppService {
   metadataService = environment.metadataServer;
   apiURL = `${this.metadataService}api/app`;
 
-  apps: App[];
-  lastModified: string;
-  cacheObservable: Observable<App[]>;
-
   constructor(
     private http: HttpClient,
     private categoryServer: CategoryService
   ) {}
+
+  apps: App[];
+  lastModified: string;
+  cacheObservable: Observable<App[]>;
 
   setApiURL(apiURL: string) {
     this.apiURL = apiURL;
@@ -44,6 +45,12 @@ export class AppService {
       this.cacheObservable = this._getAppList();
     }
     return this.cacheObservable;
+  }
+
+  getAppListDict(): Observable<{ [key: string]: App }> {
+    return this.getAppList()
+      .map(apps => _.keyBy(apps, 'name'))
+      .share();
   }
 
   // 获取应用列表-共享缓存
@@ -95,12 +102,13 @@ export class AppService {
   }
 
   // 根据应用名列表获取应用
-  getAppListByNames(appNames: string[]): Observable<App[]> {
+  getAppListByNames(appNames: string[]): Observable<{ [key: string]: App }> {
     return this.getAppList()
       .map(apps => apps.filter(app => appNames.includes(app.name)))
-      .map(apps => <{ [key: string]: App }>_.keyBy(apps, app => app.name))
-      .map(appDict => appNames.map(name => appDict[name]).filter(app => app));
+      .map(apps => <{ [key: string]: App }>_.keyBy(apps, app => app.name));
+    // .map(appDict => appNames.map(name => appDict[name]).filter(app => app));
   }
+
   // 根据应用名获取应用
   getAppByName(appName: string): Observable<App> {
     return this.getAppList().map(apps =>

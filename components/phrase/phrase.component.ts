@@ -1,9 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../environments/environment';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
-import { Section, SectionPhrase } from '../../services/section';
+import { SectionPhrase } from '../../services/section';
+
+interface AppPhrase {
+  app: App;
+  phrase: SectionPhrase;
+}
 
 @Component({
   selector: 'dstore-phrase',
@@ -13,16 +19,9 @@ import { Section, SectionPhrase } from '../../services/section';
 export class PhraseComponent implements OnInit {
   metadataServer = environment.metadataServer;
 
-  @Input() section: Section;
-  apps: App[];
+  @Input() title: string;
+  @Input() phraseList: SectionPhrase[];
+  constructor() {}
 
-  constructor(private appService: AppService) {}
-
-  ngOnInit() {
-    this.appService
-      .getAppListByNames(
-        this.section.items.map((app: SectionPhrase) => app.name)
-      )
-      .subscribe(appList => (this.apps = appList));
-  }
+  ngOnInit() {}
 }

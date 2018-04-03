@@ -1,11 +1,11 @@
-<dstore-title [title]="section.title[0]"></dstore-title>
+<dstore-title [title]="title"></dstore-title>
 
 <div class="iconList">
-  <div class="iconItem" *ngFor="let app of apps">
-    <img [src]="metadataServer+app.icon" class="icon">
+  <div class="iconItem" *ngFor="let app of apps" [hidden]="!app.name">
+    <img [src]="metadataServer+(app.name|appInfo|async)?.icon" class="icon">
     <div class="info">
-      <span class="truncate">{{app.localInfo.description.name}}</span>
-      <span class="category">{{app.localCategory}}</span>
+      <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
+      <span class="category">{{(app.name|appInfo|async)?.localCategory}}</span>
     </div>
   </div>
   <div class="iconItem"></div>

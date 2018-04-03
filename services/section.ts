@@ -30,12 +30,11 @@ export class SectionApp {
 }
 
 export class SectionCarousel extends SectionApp {
-  image = '';
-  imageHD = '';
+  images: string[] = [];
 }
 
 export class SectionPhrase extends SectionApp {
-  phrase: string[] = ['', ''];
+  phrases: string[] = ['', ''];
 }
 
 export class SectionTopic {
@@ -56,23 +55,15 @@ export class SectionAssemble {
 }
 
 export function sectionAddItem(section: Section) {
-  switch (section.type) {
-    case SectionType.Carousel:
-      section.items.push(new SectionCarousel());
-      break;
-    case SectionType.Cover:
-      section.items.push(new SectionApp());
-      break;
-    case SectionType.Icon:
-      section.items.push(new SectionApp());
-      break;
-    case SectionType.Phrase:
-      section.items.push(new SectionPhrase());
-      break;
-    case SectionType.Assemble:
-      section.items.push(new SectionAssemble());
-      break;
-    case SectionType.Topic:
-      section.items.push(new SectionTopic());
+  const newSectionItem = {
+    [SectionType.Carousel]: new SectionCarousel(),
+    [SectionType.Cover]: new SectionApp(),
+    [SectionType.Icon]: new SectionApp(),
+    [SectionType.Phrase]: new SectionPhrase(),
+    [SectionType.Assemble]: new SectionAssemble(),
+    [SectionType.Topic]: new SectionTopic()
+  };
+  if (newSectionItem[section.type]) {
+    section.items = [...section.items, newSectionItem[section.type]];
   }
 }

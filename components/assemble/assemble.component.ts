@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { Section, SectionApp } from '../../services/section';
+import { SectionAssemble } from '../../services/section';
 
 @Component({
   selector: 'dstore-assemble',
@@ -14,28 +14,11 @@ import { Section, SectionApp } from '../../services/section';
   styleUrls: ['./assemble.component.scss']
 })
 export class AssembleComponent implements OnInit {
-  @Input() section: Section;
-
   metadataServer = environment.metadataServer;
-
-  appList: { [key: string]: App };
+  @Input() title: string = '';
+  @Input() assembleList: SectionAssemble[] = [];
 
   constructor(private appService: AppService) {}
 
-  ngOnInit() {
-    // console.log(
-    //   _.chain(this.section.items)
-    //     .flatMap(assemble => assemble.apps.map(app => app.name))
-    //     .value()
-    // );
-    this.appService
-      .getAppListByNames(
-        _.flatMap(this.section.items, assemble =>
-          assemble.apps.map(app => app.name)
-        )
-      )
-      .subscribe(appList => {
-        this.appList = _.keyBy(appList, app => app.name);
-      });
-  }
+  ngOnInit() {}
 }

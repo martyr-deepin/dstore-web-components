@@ -7,13 +7,12 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     .cover {
-      width: 15rem;
+      width: 226px;
       img {
         margin-top: 1rem;
-        width: 226px;
-        height: 140px;
+        width: 100%;
         border-radius: 5px;
         box-shadow: 0 0px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3);
       }

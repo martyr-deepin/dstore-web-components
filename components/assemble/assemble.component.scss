@@ -1,8 +1,10 @@
 .assembleList {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   .assemble {
-    width: 17rem;
-    margin: 0.5rem;
+    margin-top: 1rem;
+    width: 226px;
     border-radius: 5px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
     .title {
@@ -28,15 +30,14 @@
       }
       display: flex;
       .icon {
-        height: 3rem;
-        margin: 0.5rem 0;
+        height: calc(48px + 0.5rem);
       }
       .info {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         margin-left: 0.5rem;
-        width: 80%;
+        width: 75%;
         margin-bottom: 0.3rem;
         border-bottom: 1px solid rgba(0, 0, 0, 0.3);
         .slogan {

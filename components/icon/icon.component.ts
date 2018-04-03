@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
-import { Section, SectionApp } from '../../services/section';
+import { SectionApp } from '../../services/section';
 
 @Component({
   selector: 'dstore-icon',
@@ -12,15 +12,10 @@ import { Section, SectionApp } from '../../services/section';
 })
 export class iconComponent implements OnInit {
   metadataServer = environment.metadataServer;
-
-  @Input() section: Section;
-  apps: App[] = [];
+  @Input() title: string = '';
+  @Input() apps: SectionApp[] = [];
 
   constructor(private appService: AppService) {}
 
-  ngOnInit() {
-    this.appService
-      .getAppListByNames(this.section.items.map((app: SectionApp) => app.name))
-      .subscribe(appList => (this.apps = appList));
-  }
+  ngOnInit() {}
 }

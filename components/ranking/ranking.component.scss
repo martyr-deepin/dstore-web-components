@@ -3,12 +3,11 @@
   flex-direction: column;
   .ranking {
     display: flex;
-    height: 3.5rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     .icon {
       margin-left: 1rem;
       img {
-        width: 3rem;
+        width: 48px;
       }
     }
     .content {
