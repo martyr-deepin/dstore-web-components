@@ -29,6 +29,7 @@ import { DevPipe } from './pipes/dev';
 import { AppInfoPipe } from './pipes/app-info';
 import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
+import { Ceil } from './pipes/ceil';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { FitImage } from './pipes/fit-image';
     DevPipe,
     AppInfoPipe,
     FitLanguage,
-    FitImage
+    FitImage,
+    Ceil
   ],
   exports: [
     TitleComponent,
@@ -81,7 +83,8 @@ import { FitImage } from './pipes/fit-image';
     DevPipe,
     AppInfoPipe,
     FitLanguage,
-    FitImage
+    FitImage,
+    Ceil
   ]
 })
 export class DstoreModule {}
