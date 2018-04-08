@@ -13,7 +13,6 @@ export class AppPagingComponent implements OnInit {
   @Input()
   set count(count: number) {
     this._count = count;
-    this.getPages();
   }
   get count(): number {
     return this._count;
@@ -22,32 +21,47 @@ export class AppPagingComponent implements OnInit {
   page: number;
   pages: number[];
 
+  pageSize = pagingSize;
+  pageListObs: Observable<number[]>;
+
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    Observable.combineLatest(
-      this.route.paramMap,
-      this.route.queryParamMap
-    ).subscribe(this.getPages.bind(this));
+    this.pageListObs = this.route.params
+      .map(params => +params['page'])
+      .map(page => {
+        this.page = page;
+        return _.chain(1)
+          .range(this.count + 1)
+          .chunk(this.pageSize)
+          .find((ps: number[]) => ps.includes(page))
+          .value();
+      })
+      .shareReplay();
+    // Observable.combineLatest(
+    //   this.route.paramMap,
+    //   this.route.queryParamMap
+    // ).subscribe(() => this._count > 1 && this.getPages.bind(this));
   }
 
-  getPages() {
-    const page = +this.route.snapshot.params['page'];
-    let pages = _.chain(1)
-      .range(this.count + 1)
-      .chunk(pagingSize)
-      .filter((chunk: number[]) => chunk.includes(page))
-      .last()
-      .value();
-    if (pages.length < pagingSize && pages.includes(this.count)) {
-      pages = _.chain(this.count - pagingSize + 1)
-        .range(this.count + 1)
-        .filter(n => n > 0)
-        .value();
-    }
-    this.page = page;
-    this.pages = pages;
-  }
+  // getPages() {
+  //   console.log(this._count);
+  //   const page = +this.route.snapshot.params['page'];
+  //   let pages = _.chain(1)
+  //     .range(this.count + 1)
+  //     .chunk(pagingSize)
+  //     .filter((chunk: number[]) => chunk.includes(page))
+  //     .last()
+  //     .value();
+  //   if (pages.length < pagingSize && pages.includes(this.count)) {
+  //     pages = _.chain(this.count - pagingSize + 1)
+  //       .range(this.count + 1)
+  //       .filter(n => n > 0)
+  //       .value();
+  //   }
+  //   this.page = page;
+  //   this.pages = pages;
+  // }
 
   goto(page: number) {
     this.router.navigate(['..', page], {
