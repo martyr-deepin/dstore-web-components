@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/share';
 
@@ -72,7 +73,7 @@ export class AppService {
         }
         return Observable.of(result);
       })
-      .mergeMap(result => {
+      .mergeMap((result: Result) => {
         return this.categoryServer.getList().map(categories => {
           if (this.lastModified === result.lastModified) {
             return this.apps;
