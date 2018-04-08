@@ -1,4 +1,4 @@
-<dstore-title title="热门专题"></dstore-title>
+<dstore-title [title]="title|fitLanguage"></dstore-title>
 
 <div class="topicList">
   <div class="topicItem" *ngFor="let item of section.items">

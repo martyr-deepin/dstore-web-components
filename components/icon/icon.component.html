@@ -1,4 +1,4 @@
-<dstore-title [title]="title"></dstore-title>
+<dstore-title [title]="title|fitLanguage"></dstore-title>
 
 <div class="iconList">
   <div class="iconItem" *ngFor="let app of apps" [hidden]="!app.name">

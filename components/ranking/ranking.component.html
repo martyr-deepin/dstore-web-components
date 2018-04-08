@@ -1,4 +1,4 @@
-<dstore-title [title]="title"></dstore-title>
+<dstore-title [title]="title|fitLanguage"></dstore-title>
 <div class="rankingList">
   <div class="ranking" *ngFor="let app of ranking|async|slice:0:count;index as $index">
     <div class="icon">

@@ -1,4 +1,4 @@
-<dstore-title [title]="title"></dstore-title>
+<dstore-title [title]="title|fitLanguage"></dstore-title>
 <div class="phraseList">
   <div class="phraseItem" *ngFor="let phrase of phraseList">
     <img [src]="metadataServer + (phrase.name|appInfo|async)?.icon" class="icon">

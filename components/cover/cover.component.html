@@ -1,4 +1,4 @@
-<dstore-title [title]="title"></dstore-title>
+<dstore-title [title]="title|fitLanguage"></dstore-title>
 <div class="coverList">
   <div class="cover" *ngFor="let app of apps" [hidden]="!app.name">
     <img [src]="metadataServer + (app.name|appInfo|async)?.localInfo.images.cover">
