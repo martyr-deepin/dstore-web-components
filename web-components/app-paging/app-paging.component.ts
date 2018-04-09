@@ -38,7 +38,6 @@ export class AppPagingComponent implements OnInit {
           .range(this.count + 1)
           .chunk(this.pageSize)
           .map((ps: number[]) => {
-            console.log(ps);
             if (ps.length < this.pageSize && ps.includes(this.count)) {
               return _.range(
                 this.count > this.pageSize ? this.count - this.pageSize : 1,
