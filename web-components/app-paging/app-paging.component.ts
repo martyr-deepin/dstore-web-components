@@ -33,13 +33,23 @@ export class AppPagingComponent implements OnInit {
     return this.route.paramMap
       .map(params => +params.get('page'))
       .map(page => {
-        console.log('test');
         this.page = page;
-        return _.chain(1)
+        const pageList = _.chain(1)
           .range(this.count + 1)
           .chunk(this.pageSize)
+          .map((ps: number[]) => {
+            console.log(ps);
+            if (ps.length < this.pageSize && ps.includes(this.count)) {
+              return _.range(
+                this.count > this.pageSize ? this.count - this.pageSize : 1,
+                this.count + 1
+              );
+            }
+            return ps;
+          })
           .find((ps: number[]) => ps.includes(page))
           .value();
+        return pageList;
       })
       .shareReplay();
   }
