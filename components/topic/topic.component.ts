@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class TopicComponent implements OnInit {
   @Input() section: Section;
+  @Input() title: string;
 
   server = environment.server;
 
