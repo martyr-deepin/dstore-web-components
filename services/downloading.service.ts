@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 
 import { App, appSearch } from './app';
 import { AppService } from './app.service';
-import { CategoryService } from './category.service';
+import { CategoryService } from '../../dstore/services/category.service';
 import { environment } from '../environments/environment';
 
 export class AppDownloading {

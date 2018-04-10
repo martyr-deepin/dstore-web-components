@@ -29,6 +29,10 @@ export class CategoryService {
   getList() {
     return this.categoryObservable;
   }
+
+  getArray() {
+    return this.categoryObservable.map(categories => Object.values(categories));
+  }
 }
 
 export class Category {

@@ -27,6 +27,7 @@ import { ImageUpdateComponent } from './web-components/image-update/image-update
 import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
 import { DevPipe } from './pipes/dev';
 import { AppInfoPipe } from './pipes/app-info';
+import { AppSearchPipe } from './pipes/app-search';
 import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
 import { Ceil } from './pipes/ceil';
@@ -62,6 +63,7 @@ import { Ceil } from './pipes/ceil';
     ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,
+    AppSearchPipe,
     FitLanguage,
     FitImage,
     Ceil
@@ -82,6 +84,7 @@ import { Ceil } from './pipes/ceil';
     ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,
+    AppSearchPipe,
     FitLanguage,
     FitImage,
     Ceil

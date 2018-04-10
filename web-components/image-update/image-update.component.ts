@@ -37,13 +37,13 @@ export class ImageUpdateComponent implements OnInit {
     }
   }
 
-  @Input() multiple = true;
+  @Input() multiple = false;
   @Input() types: string[] = [];
   @Input() maxFileSize = 12e6;
   @Input() width: number;
   @Input() height: number;
   @Input() limitImgSize = false;
-  @Input() uploadType = ImageType.Cover;
+  @Input() uploadType = ImageType.Icon;
   @Input() title = '';
   @Output() upload = new EventEmitter<string>();
 
@@ -152,7 +152,6 @@ export class ImageUpdateComponent implements OnInit {
       })
       // 预览图片
       .subscribe(dataURL => {
-        console.log('dataURL');
         this.imgSrc = this.domSanitizer.bypassSecurityTrustUrl(dataURL);
       });
   }
