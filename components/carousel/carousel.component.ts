@@ -22,4 +22,8 @@ export class CarouselComponent implements OnInit {
   constructor(private appService: AppService) {}
 
   ngOnInit() {}
+
+  get _carouselList() {
+    return this.carouselList.filter(carouse => carouse.images.length);
+  }
 }

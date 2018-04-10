@@ -6,9 +6,11 @@ import { environment } from '../../../environments/environment';
 })
 export class FitImage implements PipeTransform {
   transform(value: string[]): string {
-    if (value && value[0]) {
-      return value[0];
+    const ratio = Math.ceil(devicePixelRatio);
+    if (ratio === 1) {
+      return value[0] || value[1] || '';
+    } else {
+      return value[1] || value[0] || '';
     }
-    return '';
   }
 }
