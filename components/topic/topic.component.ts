@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Section } from '../../services/section';
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'dstore-topic',

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 
 import { AppService } from '../../services/app.service';
 

@@ -21,7 +21,7 @@ import 'rxjs/add/operator/mergeMap';
 
 import { ImageError, ImageErrorString } from '../../services/errno';
 import { MaterializeService } from '../../services/materialize.service';
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 import { ImageType } from '../../services/app';
 
 @Component({

@@ -9,7 +9,7 @@ import 'rxjs/add/operator/share';
 
 import * as _ from 'lodash';
 
-import { environment } from '../environments/environment';
+import { environment } from 'environments/environment';
 
 import { CategoryService } from './category.service';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
 import { SectionApp } from '../../services/section';

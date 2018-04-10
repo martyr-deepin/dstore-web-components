@@ -1,7 +1,7 @@
 // 轮播图
 import { Component, OnInit, Input } from '@angular/core';
 
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 
 import { AppService } from '../../services/app.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
 import { SectionPhrase } from '../../services/section';

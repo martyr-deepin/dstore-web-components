@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/observable/timer';
 
-import { environment } from '../environments/environment';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class CategoryService {
