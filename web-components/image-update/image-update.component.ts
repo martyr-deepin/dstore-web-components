@@ -135,7 +135,7 @@ export class ImageUpdateComponent implements OnInit {
               formData.append('type', this.uploadType.toString());
               formData.append('file', file);
               return this.http
-                .post(`${this.server}api/upload`, formData)
+                .post(`${this.server}/api/upload`, formData)
                 .map((result: { path: string }) => {
                   this.upload.emit(result.path);
                   this.materializeService.toastSuccess('图片上传成功');
