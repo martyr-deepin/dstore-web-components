@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { environment } from 'environments/environment';
-
+import { BaseService } from '../../services/base.service';
 import { App } from '../../services/app';
 import { DownloadingService } from '../../services/downloading.service';
 
@@ -13,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./ranking.component.scss']
 })
 export class RankingComponent implements OnInit {
-  metadataServer = environment.metadataServer;
+  metadataServer: string;
 
   @Input() title: string;
   @Input()
@@ -26,7 +25,12 @@ export class RankingComponent implements OnInit {
 
   ranking: Observable<App[]>;
 
-  constructor(private downloadingService: DownloadingService) {}
+  constructor(
+    private downloadingService: DownloadingService,
+    private baseService: BaseService
+  ) {
+    this.metadataServer = baseService.serverHosts.metadataServer;
+  }
 
   ngOnInit() {}
 }

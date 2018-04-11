@@ -5,17 +5,19 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/observable/timer';
 
-import { environment } from 'environments/environment';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class CategoryService {
-  metadataServer = environment.metadataServer;
+  metadataServer: string;
 
   categoryObservable: Observable<{ [key: string]: Category }>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private baseServer: BaseService) {
+    this.metadataServer = baseServer.serverHosts.metadataServer;
+
     this.categoryObservable = this.http
-      .get(`${this.metadataServer}api/category`)
+      .get(`${this.metadataServer}/api/category`)
       .map((categories: Category[]) => {
         const localCategory = _.groupBy(categories, c => c.Locale);
         return _.keyBy(

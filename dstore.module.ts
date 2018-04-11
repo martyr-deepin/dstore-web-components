@@ -9,6 +9,7 @@ import { AppService } from './services/app.service';
 import { CategoryService } from './services/category.service';
 import { DownloadingService } from './services/downloading.service';
 import { MaterializeService } from './services/materialize.service';
+import { BaseService } from './services/base.service';
 
 import { TitleComponent } from './components/title/title.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
@@ -42,6 +43,7 @@ import { Ceil } from './pipes/ceil';
     ReactiveFormsModule
   ],
   providers: [
+    BaseService,
     AppService,
     CategoryService,
     DownloadingService,

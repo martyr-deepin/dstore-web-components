@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+
+import { BaseService } from '../../services/base.service';
 import { Section } from '../../services/section';
-import { environment } from 'environments/environment';
 
 @Component({
   selector: 'dstore-topic',
@@ -11,9 +12,11 @@ export class TopicComponent implements OnInit {
   @Input() section: Section;
   @Input() title: string;
 
-  server = environment.server;
+  operationServer: string;
 
-  constructor() {}
+  constructor(private baseService: BaseService) {
+    this.operationServer = baseService.serverHosts.operationServer;
+  }
 
   ngOnInit() {}
 }

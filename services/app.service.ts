@@ -9,7 +9,7 @@ import 'rxjs/add/operator/share';
 
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
+import { BaseService } from './base.service';
 
 import { CategoryService } from './category.service';
 
@@ -24,13 +24,18 @@ interface Result {
 
 @Injectable()
 export class AppService {
-  metadataService = environment.metadataServer;
-  apiURL = `${this.metadataService}api/app`;
+  metadataService: string;
+  apiURL: string;
 
   constructor(
     private http: HttpClient,
-    private categoryServer: CategoryService
-  ) {}
+    private categoryServer: CategoryService,
+    private baseServer: BaseService
+  ) {
+    console.log(baseServer.serverHosts);
+    this.metadataService = baseServer.serverHosts.metadataServer;
+    this.apiURL = `${this.metadataService}/api/app`;
+  }
 
   apps: App[];
   lastModified: string;

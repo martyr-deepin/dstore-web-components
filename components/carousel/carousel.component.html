@@ -1,6 +1,7 @@
 <div class="carouselList">
   <ng-container *ngFor="let items of _carouselList; index as i; first as isFirst; last as isLast">
     <img [attr.index]="i" [class.select]='selectIndex==i' [class.next]='i==selectIndex+1 || (selectIndex==_carouselList.length-1 && isFirst)'
-      [class.previous]='i==selectIndex-1 || (selectIndex==0 && isLast)' [src]="server+'images/'+(items.images|fitImage)" (click)="selectIndex=i">
+      [class.previous]='i==selectIndex-1 || (selectIndex==0 && isLast)' [src]="operationServer +'/images/'+(items.images|fitImage)"
+      (click)="selectIndex=i">
   </ng-container>
 </div>

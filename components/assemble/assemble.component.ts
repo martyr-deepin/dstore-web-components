@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
+import { BaseService } from '../../services/base.service';
 
 import { AppService } from '../../services/app.service';
 
@@ -14,11 +14,13 @@ import { SectionAssemble } from '../../services/section';
   styleUrls: ['./assemble.component.scss']
 })
 export class AssembleComponent implements OnInit {
-  metadataServer = environment.metadataServer;
-  @Input() title: string = '';
+  metadataServer: string;
+  @Input() title = '';
   @Input() assembleList: SectionAssemble[] = [];
 
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService, private baseServer: BaseService) {
+    this.metadataServer = baseServer.serverHosts.metadataServer;
+  }
 
   ngOnInit() {}
 }

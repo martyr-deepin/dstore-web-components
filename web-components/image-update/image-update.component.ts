@@ -20,8 +20,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import { ImageError, ImageErrorString } from '../../services/errno';
+import { BaseService } from '../../services/base.service';
 import { MaterializeService } from '../../services/materialize.service';
-import { environment } from 'environments/environment';
 import { ImageType } from '../../services/app';
 
 @Component({
@@ -49,15 +49,18 @@ export class ImageUpdateComponent implements OnInit {
 
   @ViewChild('imageInput') imageInput;
 
-  server = environment.server;
+  server: string;
   imgSrc: string | SafeUrl = '';
 
   constructor(
     private el: ElementRef,
     private domSanitizer: DomSanitizer,
     private http: HttpClient,
-    private materializeService: MaterializeService
-  ) {}
+    private materializeService: MaterializeService,
+    private baseService: BaseService
+  ) {
+    this.server = baseService.serverHosts.operationServer;
+  }
 
   ngOnInit() {
     if (!this.width) {

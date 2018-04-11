@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { environment } from 'environments/environment';
+import { BaseService } from '../../services/base.service';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
 import { SectionApp } from '../../services/section';
@@ -11,11 +11,16 @@ import { SectionApp } from '../../services/section';
   styleUrls: ['./icon.component.scss']
 })
 export class iconComponent implements OnInit {
-  metadataServer = environment.metadataServer;
-  @Input() title: string = '';
+  metadataServer: string;
+  @Input() title = '';
   @Input() apps: SectionApp[] = [];
 
-  constructor(private appService: AppService) {}
+  constructor(
+    private appService: AppService,
+    private baseService: BaseService
+  ) {
+    this.metadataServer = this.baseService.serverHosts.metadataServer;
+  }
 
   ngOnInit() {}
 }

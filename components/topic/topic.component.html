@@ -1,8 +1,8 @@
-<dstore-title title="热门专题1212"></dstore-title>
+<dstore-title title="热门专题"></dstore-title>
 
 <div class="topicList">
   <div class="topicItem" *ngFor="let item of section.items">
-    <img [src]="server+'images/'+item.cover">
+    <img [src]="operationServer+'/images/'+item.cover">
     <div class="title">{{item.name[0]}}</div>
   </div>
 </div>

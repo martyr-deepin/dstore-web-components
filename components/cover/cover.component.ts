@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
-
+import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
@@ -17,9 +16,11 @@ export class CoverComponent implements OnInit {
   @Input() title = '';
   @Input() apps: SectionApp[] = [];
 
-  metadataServer = environment.metadataServer;
+  metadataServer: string;
 
-  constructor() {}
+  constructor(private baseService: BaseService) {
+    this.metadataServer = baseService.serverHosts.metadataServer;
+  }
 
   ngOnInit() {}
 }

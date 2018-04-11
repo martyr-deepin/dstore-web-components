@@ -2,7 +2,7 @@
 <div class="rankingList">
   <div class="ranking" *ngFor="let app of ranking|async|slice:0:count;index as $index">
     <div class="icon">
-      <img [src]="metadataServer+app.icon">
+      <img [src]="metadataServer+'/'+app.icon">
     </div>
     <div class="content">
       <div class="ranked">
