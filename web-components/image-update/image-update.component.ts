@@ -33,7 +33,7 @@ export class ImageUpdateComponent implements OnInit {
   @Input()
   set src(src: string) {
     if (src && !this.imgSrc) {
-      this.imgSrc = `${this.server}images/${src}`;
+      this.imgSrc = `${this.server}/images/${src}`;
     }
   }
 
