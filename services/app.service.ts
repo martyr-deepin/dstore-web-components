@@ -70,13 +70,15 @@ export class AppService {
       .retry(3)
       .map(body => <Result>JSON.parse(body, appReviver))
       .mergeMap(result => {
-        console.log('checkError', this.lastModified);
         if (result.error && result.error.code === ErrorCode.CodeForceSync) {
           this.apps = [];
           return this.http
             .get(this.apiURL, { responseType: 'text' })
             .map(body => <Result>JSON.parse(body))
             .retry(3);
+        }
+        if (result.apps == null) {
+          result.apps = [];
         }
         return Observable.of(result);
       })
