@@ -10,7 +10,7 @@ export class BaseService {
     if (this.isNative) {
     } else {
       return {
-        operationServer: environment.operationServer || environment['server'],
+        operationServer: environment.operationServer,
         metadataServer: environment.metadataServer
       };
     }
