@@ -32,6 +32,7 @@ import { AppSearchPipe } from './pipes/app-search';
 import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
 import { Ceil } from './pipes/ceil';
+import { ProgressComponent } from './web-components/progress/progress.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { Ceil } from './pipes/ceil';
     AppSearchPipe,
     FitLanguage,
     FitImage,
-    Ceil
+    Ceil,
+    ProgressComponent
   ],
   exports: [
     TitleComponent,
@@ -83,6 +85,7 @@ import { Ceil } from './pipes/ceil';
     AppSearchComponent,
     AssembleComponent,
     ImageUpdateComponent,
+    ProgressComponent,
     ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,
