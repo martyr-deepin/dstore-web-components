@@ -11,6 +11,10 @@
       margin: 0.3rem;
     }
     .appItem {
+      .cover {
+        width: 226px;
+        height: 140px;
+      }
       &:last-child {
         .info {
           border: 0;
@@ -41,8 +45,7 @@
         margin-bottom: 0.3rem;
         border-bottom: 1px solid rgba(0, 0, 0, 0.3);
         .slogan {
-          min-height: 1rem;
-          max-height: 3rem;
+          height: 3rem;
           color: gray;
           font-size: 13px;
         }
