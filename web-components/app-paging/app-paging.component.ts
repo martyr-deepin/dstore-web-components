@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/concat';
 
 @Component({
   selector: 'app-paging',
@@ -11,23 +9,30 @@ import 'rxjs/add/observable/concat';
   styleUrls: ['./app-paging.component.scss']
 })
 export class AppPagingComponent implements OnInit {
+  // 元素个数
   @Input()
   set count(count: number) {
     this._count = count;
     this.pageListObs = this.getPageList();
   }
   get count(): number {
-    return this._count;
+    return Math.ceil(this._count / this.pageSize);
   }
+  // 页个数
   _count: number;
+  // 分页大小
+  @Input() pageSize = 10;
+  // 分页列表长度
+  @Input() pageListSize = 7;
 
   page = 1;
-  pageSize = pagingSize;
   pageListObs: Observable<number[]>;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.pageListObs = this.getPageList();
+  }
 
   getPageList(): Observable<number[]> {
     return this.route.paramMap
@@ -36,11 +41,13 @@ export class AppPagingComponent implements OnInit {
         this.page = page;
         const pageList = _.chain(1)
           .range(this.count + 1)
-          .chunk(this.pageSize)
+          .chunk(this.pageListSize)
           .map((ps: number[]) => {
             if (ps.length < this.pageSize && ps.includes(this.count)) {
               return _.range(
-                this.count > this.pageSize ? this.count - this.pageSize : 1,
+                this.count > this.pageListSize
+                  ? this.count - this.pageListSize
+                  : 1,
                 this.count + 1
               );
             }
@@ -60,6 +67,3 @@ export class AppPagingComponent implements OnInit {
     });
   }
 }
-
-export const defaultPageSize = 10;
-export const pagingSize = 7;
