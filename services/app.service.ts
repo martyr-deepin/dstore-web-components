@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/do';
 
 import * as _ from 'lodash';
 
@@ -71,6 +72,7 @@ export class AppService {
       .mergeMap(result => {
         console.log('checkError', this.lastModified);
         if (result.error && result.error.code === ErrorCode.CodeForceSync) {
+          this.apps = [];
           return this.http
             .get(this.apiURL, { responseType: 'text' })
             .map(body => <Result>JSON.parse(body))
@@ -86,7 +88,7 @@ export class AppService {
           this.lastModified = result.lastModified;
           this.cacheObservable = this._getAppList();
           this.apps = _.chain(result.apps)
-            .concat(this.apps)
+            .unionBy(this.apps, 'name')
             .compact()
             .orderBy(
               [(app: App) => app.updateTime, (app: App) => app.name],
@@ -117,11 +119,13 @@ export class AppService {
 
   // 根据应用名获取应用
   getAppByName(appName: string): Observable<App> {
-    return this.getAppList().map(apps =>
-      _.chain(apps)
-        .find(app => app.name === appName)
-        .cloneDeep()
-        .value()
-    );
+    return this.getAppList()
+      .map(apps =>
+        _.chain(apps)
+          .find(app => app.name === appName)
+          .cloneDeep()
+          .value()
+      )
+      .do(app => console.log('getAppByName:', app));
   }
 }
