@@ -8,6 +8,10 @@ export class BaseService {
 
   get serverHosts() {
     if (this.isNative) {
+      return {
+        operationServer: environment.operationServer,
+        metadataServer: environment.metadataServer
+      };
     } else {
       return {
         operationServer: environment.operationServer,
