@@ -33,6 +33,7 @@ import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
 import { Ceil } from './pipes/ceil';
 import { ProgressComponent } from './web-components/progress/progress.component';
+import { StarComponent } from './components/star/star.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { ProgressComponent } from './web-components/progress/progress.component'
     FitLanguage,
     FitImage,
     Ceil,
-    ProgressComponent
+    ProgressComponent,
+    StarComponent
   ],
   exports: [
     TitleComponent,
@@ -86,6 +88,7 @@ import { ProgressComponent } from './web-components/progress/progress.component'
     AssembleComponent,
     ImageUpdateComponent,
     ProgressComponent,
+    StarComponent,
     ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,

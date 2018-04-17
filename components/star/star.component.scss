@@ -1,0 +1,30 @@
+.score {
+  position: relative;
+  font-size: 15px;
+  margin: 0 0.5rem;
+  &::before {
+    content: '★★★★★';
+    color: lightgray;
+    font-weight: bold;
+  }
+  .rate {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    &::before {
+      content: '★★★★★';
+      color: darkgoldenrod;
+      font-weight: bold;
+    }
+  }
+  .scoreList {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    div {
+      width: 0.5em;
+      height: 1.5em;
+    }
+  }
+}
