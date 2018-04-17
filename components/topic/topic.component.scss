@@ -1,7 +1,8 @@
 .topicList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  margin: 0 1px;
   .topicItem {
     margin-top: 1rem;
     width: 15rem;

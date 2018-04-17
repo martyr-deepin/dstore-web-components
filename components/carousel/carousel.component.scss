@@ -1,4 +1,5 @@
 .carouselList {
+  user-select: none;
   display: block;
   position: relative;
   height: 180px;
@@ -6,7 +7,6 @@
   transform-style: preserve-3d;
   img {
     position: absolute;
-    // width: 70%;
     left: 0;
     right: 0;
     margin: auto;
@@ -23,5 +23,23 @@
       transform: translateX(10%) translateZ(0px) scaleY(0.9);
     }
     background-color: white;
+  }
+  .indicationList {
+    display: flex;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%) translateZ(1000px);
+    .indicationItem {
+      width: 8px;
+      height: 8px;
+      margin: 0 3px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      &.select {
+        background-color: #01bdff;
+      }
+    }
   }
 }

@@ -1,8 +1,12 @@
 // 轮播图
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/take';
+
+import * as _ from 'lodash';
 
 import { BaseService } from '../../services/base.service';
-
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
@@ -16,6 +20,7 @@ import { SectionCarousel } from '../../services/section';
 export class CarouselComponent implements OnInit {
   @Input() carouselList: SectionCarousel[];
 
+  interval: Subscription;
   operationServer: string;
   selectIndex = 0;
 
@@ -23,9 +28,32 @@ export class CarouselComponent implements OnInit {
     this.operationServer = baseServer.serverHosts.operationServer;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.interval = this.start();
+  }
+
+  start() {
+    return Observable.timer(2500, 2500).subscribe(() => {
+      this.selectIndex++;
+      if (this.selectIndex >= this._carouselList.length) {
+        this.selectIndex = 0;
+      }
+    });
+  }
 
   get _carouselList() {
     return this.carouselList.filter(carouse => carouse.images.length);
+  }
+  goto(index: number) {
+    const r = _.range(this.selectIndex, index);
+    r.push(index);
+    this.interval.unsubscribe();
+    Observable.timer(0, 250)
+      .take(r.length)
+      .subscribe(
+        i => (this.selectIndex = r[i]),
+        null,
+        () => (this.interval = this.start())
+      );
   }
 }
