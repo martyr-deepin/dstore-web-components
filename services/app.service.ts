@@ -77,12 +77,12 @@ export class AppService {
             .map(body => <Result>JSON.parse(body))
             .retry(3);
         }
-        if (result.apps == null) {
-          result.apps = [];
-        }
         return Observable.of(result);
       })
       .mergeMap((result: Result) => {
+        if (result.apps == null) {
+          result.apps = [];
+        }
         return this.categoryServer.getList().map(categories => {
           if (this.lastModified === result.lastModified) {
             return this.apps;
