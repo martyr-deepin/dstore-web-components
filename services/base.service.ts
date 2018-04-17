@@ -9,8 +9,8 @@ export class BaseService {
   get serverHosts() {
     if (this.isNative) {
       return {
-        operationServer: environment.operationServer,
-        metadataServer: environment.metadataServer
+        operationServer: window['dstore']['operationServer'],
+        metadataServer: window['dstore']['metadataServer']
       };
     } else {
       return {
@@ -20,7 +20,7 @@ export class BaseService {
     }
   }
   get isNative() {
-    return window.hasOwnProperty('channel');
+    return window.hasOwnProperty('dstore') && window['dstore']['channel'];
   }
 }
 
