@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class StarComponent implements OnInit {
   @Input() rate = 0;
+  @Input() readonly = true;
 
   rateHover: number;
 
