@@ -9,10 +9,12 @@
     position: absolute;
     left: 0;
     right: 0;
+    height: 100%;
     margin: auto;
     transition: transform 500ms;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     transform: scaleX(0.6) scaleY(0.6);
+    background-color: white;
     &.previous {
       transform: translateX(-10%) translateZ(0px) scaleY(0.9);
     }
@@ -22,7 +24,6 @@
     &.next {
       transform: translateX(10%) translateZ(0px) scaleY(0.9);
     }
-    background-color: white;
   }
   .indicationList {
     display: flex;

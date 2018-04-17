@@ -10,7 +10,7 @@ import { SectionApp } from '../../services/section';
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss']
 })
-export class iconComponent implements OnInit {
+export class IconComponent implements OnInit {
   metadataServer: string;
   @Input() title = '';
   @Input() apps: SectionApp[] = [];

@@ -2,7 +2,7 @@
   <ng-container *ngFor="let items of _carouselList; index as i; first as isFirst; last as isLast">
     <img [attr.index]="i" [class.select]='selectIndex==i' [class.next]='i==selectIndex+1 || (selectIndex==_carouselList.length-1 && isFirst)'
       [class.previous]='i==selectIndex-1 || (selectIndex==0 && isLast)' [src]="operationServer +'/images/'+(items.images|fitImage)"
-      (click)="goto(i)">
+      (click)="selectIndex=i;reStart()">
   </ng-container>
   <div class="indicationList">
     <div class="indicationItem" *ngFor="let items of _carouselList;index as $index" [class.select]='selectIndex==$index' (click)="goto($index)"></div>

@@ -29,11 +29,14 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.interval = this.start();
+    this.reStart();
   }
 
-  start() {
-    return Observable.timer(2500, 2500).subscribe(() => {
+  reStart() {
+    if (this.interval) {
+      this.interval.unsubscribe();
+    }
+    this.interval = Observable.timer(2500, 2500).subscribe(() => {
       this.selectIndex++;
       if (this.selectIndex >= this._carouselList.length) {
         this.selectIndex = 0;
@@ -50,10 +53,6 @@ export class CarouselComponent implements OnInit {
     this.interval.unsubscribe();
     Observable.timer(0, 250)
       .take(r.length)
-      .subscribe(
-        i => (this.selectIndex = r[i]),
-        null,
-        () => (this.interval = this.start())
-      );
+      .subscribe(i => (this.selectIndex = r[i]), null, () => this.reStart());
   }
 }

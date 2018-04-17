@@ -17,7 +17,7 @@ import { CoverComponent } from './components/cover/cover.component';
 import { RankingComponent } from './components/ranking/ranking.component';
 import { PhraseComponent } from './components/phrase/phrase.component';
 import { TopicComponent } from './components/topic/topic.component';
-import { iconComponent } from './components/icon/icon.component';
+import { IconComponent } from './components/icon/icon.component';
 import { AssembleComponent } from './components/assemble/assemble.component';
 
 import { AppNavComponent } from './web-components/app-nav/app-nav.component';
@@ -58,7 +58,7 @@ import { StarComponent } from './components/star/star.component';
     RankingComponent,
     PhraseComponent,
     TopicComponent,
-    iconComponent,
+    IconComponent,
     AppNavComponent,
     AppPagingComponent,
     AppSearchComponent,
@@ -81,7 +81,7 @@ import { StarComponent } from './components/star/star.component';
     RankingComponent,
     PhraseComponent,
     TopicComponent,
-    iconComponent,
+    IconComponent,
     AppNavComponent,
     AppPagingComponent,
     AppSearchComponent,
