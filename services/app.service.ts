@@ -11,11 +11,11 @@ import 'rxjs/add/operator/do';
 import * as _ from 'lodash';
 
 import { BaseService } from './base.service';
-
 import { CategoryService } from './category.service';
 
 import { App, appReviver } from './app';
 import { Error, ErrorCode } from './errno';
+import { Locale } from '../utils/locale';
 
 interface Result {
   lastModified: string;
@@ -52,12 +52,6 @@ export class AppService {
       this.cacheObservable = this._getAppList();
     }
     return this.cacheObservable;
-  }
-
-  getAppListDict(): Observable<{ [key: string]: App }> {
-    return this.getAppList()
-      .map(apps => _.keyBy(apps, 'name'))
-      .share();
   }
 
   // 获取应用列表-共享缓存
@@ -97,10 +91,16 @@ export class AppService {
               ['desc', 'desc']
             )
             .each(app => {
-              app.localInfo =
-                app.locale['zh_CN'] && app.locale['zh_CN'].description.name
-                  ? app.locale['zh_CN']
-                  : app.locale['en_US'];
+              if (
+                _.get(app.locale, `${Locale.getUnixLocale()}.description.name`)
+              ) {
+                app.localInfo = app.locale[Locale.getUnixLocale()];
+              } else {
+                app.localInfo = _.chain(app.locale)
+                  .toArray()
+                  .find(local => local.description.name !== '')
+                  .value();
+              }
               app.localCategory =
                 categories[app.category].LocalName || app.category;
             })

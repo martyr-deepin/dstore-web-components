@@ -6,6 +6,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/observable/timer';
 
 import { BaseService } from './base.service';
+import { Locale } from '../utils/locale';
 
 @Injectable()
 export class CategoryService {
@@ -21,7 +22,8 @@ export class CategoryService {
       .map((categories: Category[]) => {
         const localCategory = _.groupBy(categories, c => c.Locale);
         return _.keyBy(
-          localCategory['zh_CN'] || localCategory['en_US'],
+          localCategory[Locale.getUnixLocale()] ||
+            _.first(_.toArray(localCategory)),
           c => c.Name
         );
       })

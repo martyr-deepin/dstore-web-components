@@ -1,7 +1,6 @@
 .score {
   position: relative;
   font-size: 15px;
-  margin: 0 0.5rem;
   &::before {
     content: '★★★★★';
     color: lightgray;
