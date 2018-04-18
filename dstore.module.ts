@@ -24,6 +24,9 @@ import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
 import { AppSearchComponent } from './web-components/app-search/app-search.component';
 import { ImageUpdateComponent } from './web-components/image-update/image-update.component';
+import { ProgressComponent } from './web-components/progress/progress.component';
+import { StarComponent } from './widget/star/star.component';
+import { IndicationComponent } from './widget/indication/indication.component';
 
 import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
 import { DevPipe } from './pipes/dev';
@@ -32,9 +35,7 @@ import { AppSearchPipe } from './pipes/app-search';
 import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
 import { Ceil } from './pipes/ceil';
-import { ProgressComponent } from './web-components/progress/progress.component';
-import { StarComponent } from './widget/star/star.component';
-import { IndicationComponent } from './widget/indication/indication.component';
+import { SizeHuman } from './pipes/size-human';
 
 @NgModule({
   imports: [
@@ -43,14 +44,14 @@ import { IndicationComponent } from './widget/indication/indication.component';
     HttpModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     BaseService,
     AppService,
     CategoryService,
     DownloadingService,
-    MaterializeService
+    MaterializeService,
   ],
   declarations: [
     TitleComponent,
@@ -72,9 +73,10 @@ import { IndicationComponent } from './widget/indication/indication.component';
     FitLanguage,
     FitImage,
     Ceil,
+    SizeHuman,
     ProgressComponent,
     StarComponent,
-    IndicationComponent
+    IndicationComponent,
   ],
   exports: [
     TitleComponent,
@@ -98,7 +100,8 @@ import { IndicationComponent } from './widget/indication/indication.component';
     AppSearchPipe,
     FitLanguage,
     FitImage,
-    Ceil
-  ]
+    Ceil,
+    SizeHuman,
+  ],
 })
 export class DstoreModule {}
