@@ -31,7 +31,7 @@ export class AppService {
   constructor(
     private http: HttpClient,
     private categoryServer: CategoryService,
-    private baseServer: BaseService
+    private baseServer: BaseService,
   ) {
     console.log(baseServer.serverHosts);
     this.metadataService = baseServer.serverHosts.metadataServer;
@@ -59,7 +59,7 @@ export class AppService {
     return this.http
       .get(this.apiURL, {
         responseType: 'text',
-        params: this.lastModified ? { since: this.lastModified } : null
+        params: this.lastModified ? { since: this.lastModified } : null,
       })
       .retry(3)
       .map(body => <Result>JSON.parse(body, appReviver))
@@ -88,7 +88,7 @@ export class AppService {
             .compact()
             .orderBy(
               [(app: App) => app.updateTime, (app: App) => app.name],
-              ['desc', 'desc']
+              ['desc', 'desc'],
             )
             .each(app => {
               if (
@@ -126,8 +126,9 @@ export class AppService {
         _.chain(apps)
           .find(app => app.name === appName)
           .cloneDeep()
-          .value()
+          .value(),
       )
-      .do(app => console.log('getAppByName:', app));
+      .do(app => console.log('getAppByName:', app))
+      .shareReplay();
   }
 }

@@ -25,4 +25,24 @@
       transform: translateX(10%) translateZ(0px) scaleY(0.9);
     }
   }
+  .indicationList {
+    width: 100%;
+    transform: translateZ(2px);
+    position: absolute;
+    bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .indicationItem {
+      width: 8px;
+      height: 8px;
+      margin: 0 3px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      &.select {
+        background-color: #01bdff;
+      }
+    }
+  }
 }
