@@ -5,7 +5,7 @@ import {
   ElementRef,
   Output,
   Input,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -27,7 +27,7 @@ import { ImageType } from '../../services/app';
 @Component({
   selector: 'app-image-update',
   templateUrl: './image-update.component.html',
-  styleUrls: ['./image-update.component.scss']
+  styleUrls: ['./image-update.component.scss'],
 })
 export class ImageUpdateComponent implements OnInit {
   @Input()
@@ -57,9 +57,8 @@ export class ImageUpdateComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private http: HttpClient,
     private materializeService: MaterializeService,
-    private baseService: BaseService
   ) {
-    this.server = baseService.serverHosts.operationServer;
+    this.server = BaseService.serverHosts.operationServer;
   }
 
   ngOnInit() {
@@ -95,12 +94,12 @@ export class ImageUpdateComponent implements OnInit {
           Observable.merge(
             Observable.fromEvent(r, 'load'),
             Observable.fromEvent(r, 'error').flatMap(err =>
-              Observable.throw(ImageError.Unknown)
-            )
+              Observable.throw(ImageError.Unknown),
+            ),
           )
             .map(
               (event: ProgressEvent) =>
-                (<FileReader>event.currentTarget).result as string
+                (<FileReader>event.currentTarget).result as string,
             )
             // 从文件创建图片资源
             .mergeMap(result => {
@@ -109,8 +108,8 @@ export class ImageUpdateComponent implements OnInit {
               return Observable.merge(
                 Observable.fromEvent(img, 'load'),
                 Observable.fromEvent(img, 'error').flatMap(err =>
-                  Observable.throw(ImageError.File)
-                )
+                  Observable.throw(ImageError.File),
+                ),
               ).map((event: Event) => event.target as HTMLImageElement);
             })
             .map(img => {

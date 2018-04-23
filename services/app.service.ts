@@ -31,10 +31,8 @@ export class AppService {
   constructor(
     private http: HttpClient,
     private categoryServer: CategoryService,
-    private baseServer: BaseService,
   ) {
-    console.log(baseServer.serverHosts);
-    this.metadataService = baseServer.serverHosts.metadataServer;
+    this.metadataService = BaseService.serverHosts.metadataServer;
     this.apiURL = `${this.metadataService}/api/app`;
   }
 

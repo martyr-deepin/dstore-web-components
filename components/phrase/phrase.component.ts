@@ -15,7 +15,7 @@ interface AppPhrase {
 @Component({
   selector: 'dstore-phrase',
   templateUrl: './phrase.component.html',
-  styleUrls: ['./phrase.component.scss']
+  styleUrls: ['./phrase.component.scss'],
 })
 export class PhraseComponent implements OnInit {
   metadataServer: string;
@@ -23,8 +23,8 @@ export class PhraseComponent implements OnInit {
   @Input() title = '';
   @Input() phraseList: SectionPhrase[];
 
-  constructor(private baseService: BaseService) {
-    this.metadataServer = baseService.serverHosts.metadataServer;
+  constructor() {
+    this.metadataServer = BaseService.serverHosts.metadataServer;
   }
 
   ngOnInit() {}

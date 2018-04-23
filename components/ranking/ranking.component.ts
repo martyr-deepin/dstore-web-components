@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'dstore-ranking',
   templateUrl: './ranking.component.html',
-  styleUrls: ['./ranking.component.scss']
+  styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit {
   metadataServer: string;
@@ -25,11 +25,8 @@ export class RankingComponent implements OnInit {
 
   ranking: Observable<App[]>;
 
-  constructor(
-    private downloadingService: DownloadingService,
-    private baseService: BaseService
-  ) {
-    this.metadataServer = baseService.serverHosts.metadataServer;
+  constructor(private downloadingService: DownloadingService) {
+    this.metadataServer = BaseService.serverHosts.metadataServer;
   }
 
   ngOnInit() {}

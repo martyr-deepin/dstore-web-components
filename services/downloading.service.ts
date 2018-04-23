@@ -19,14 +19,10 @@ export class AppDownloading {
 export class DownloadingService {
   operationServer: string;
 
-  constructor(
-    private http: HttpClient,
-    private appService: AppService,
-    private baseServer: BaseService
-  ) {}
+  constructor(private http: HttpClient, private appService: AppService) {}
 
   getList(search?: string) {
-    this.operationServer = this.baseServer.serverHosts.operationServer;
+    this.operationServer = BaseService.serverHosts.operationServer;
 
     return this.appService.getAppList().mergeMap(apps =>
       this.http
@@ -41,12 +37,12 @@ export class DownloadingService {
             })
             .orderBy(
               [(app: App) => app.downloadCount, (app: App) => app.name],
-              ['desc', 'desc']
+              ['desc', 'desc'],
             )
             .each((app, key) => (app.downloadRanking = key + 1))
             .filter(app => !search || appSearch(app, search))
             .value();
-        })
+        }),
     );
   }
 }

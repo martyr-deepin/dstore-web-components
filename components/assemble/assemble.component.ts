@@ -11,15 +11,15 @@ import { SectionAssemble } from '../../services/section';
 @Component({
   selector: 'dstore-assemble',
   templateUrl: './assemble.component.html',
-  styleUrls: ['./assemble.component.scss']
+  styleUrls: ['./assemble.component.scss'],
 })
 export class AssembleComponent implements OnInit {
   metadataServer: string;
   @Input() title = '';
   @Input() assembleList: SectionAssemble[] = [];
 
-  constructor(private appService: AppService, private baseServer: BaseService) {
-    this.metadataServer = baseServer.serverHosts.metadataServer;
+  constructor(private appService: AppService) {
+    this.metadataServer = BaseService.serverHosts.metadataServer;
   }
 
   ngOnInit() {}

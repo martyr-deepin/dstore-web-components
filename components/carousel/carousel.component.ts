@@ -27,8 +27,8 @@ export class CarouselComponent implements OnInit {
   operationServer: string;
   selectIndex = 0;
 
-  constructor(private appService: AppService, private baseServer: BaseService) {
-    this.operationServer = baseServer.serverHosts.operationServer;
+  constructor(private appService: AppService) {
+    this.operationServer = BaseService.serverHosts.operationServer;
   }
 
   next$: Observable<void>;

@@ -6,7 +6,7 @@ import { Section } from '../../services/section';
 @Component({
   selector: 'dstore-topic',
   templateUrl: './topic.component.html',
-  styleUrls: ['./topic.component.scss']
+  styleUrls: ['./topic.component.scss'],
 })
 export class TopicComponent implements OnInit {
   @Input() section: Section;
@@ -14,8 +14,8 @@ export class TopicComponent implements OnInit {
 
   operationServer: string;
 
-  constructor(private baseService: BaseService) {
-    this.operationServer = baseService.serverHosts.operationServer;
+  constructor() {
+    this.operationServer = BaseService.serverHosts.operationServer;
   }
 
   ngOnInit() {}

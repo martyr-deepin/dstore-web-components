@@ -14,8 +14,8 @@ export class CategoryService {
 
   categoryObservable: Observable<{ [key: string]: Category }>;
 
-  constructor(private http: HttpClient, private baseServer: BaseService) {
-    this.metadataServer = baseServer.serverHosts.metadataServer;
+  constructor(private http: HttpClient) {
+    this.metadataServer = BaseService.serverHosts.metadataServer;
 
     this.categoryObservable = this.http
       .get(`${this.metadataServer}/api/category`)
@@ -24,7 +24,7 @@ export class CategoryService {
         return _.keyBy(
           localCategory[Locale.getUnixLocale()] ||
             _.first(_.toArray(localCategory)),
-          c => c.Name
+          c => c.Name,
         );
       })
       .shareReplay(1);

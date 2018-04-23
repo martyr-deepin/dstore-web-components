@@ -10,7 +10,7 @@ import { SectionApp } from '../../services/section';
 @Component({
   selector: 'dstore-cover',
   templateUrl: './cover.component.html',
-  styleUrls: ['./cover.component.scss']
+  styleUrls: ['./cover.component.scss'],
 })
 export class CoverComponent implements OnInit {
   @Input() title = '';
@@ -18,8 +18,8 @@ export class CoverComponent implements OnInit {
 
   metadataServer: string;
 
-  constructor(private baseService: BaseService) {
-    this.metadataServer = baseService.serverHosts.metadataServer;
+  constructor() {
+    this.metadataServer = BaseService.serverHosts.metadataServer;
   }
 
   ngOnInit() {}
