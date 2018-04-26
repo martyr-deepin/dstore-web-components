@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/observable/onErrorResumeNext';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/share';
@@ -17,113 +18,100 @@ import { App, appReviver } from './app';
 import { Error, ErrorCode } from './errno';
 import { Locale } from '../utils/locale';
 
-interface Result {
-  lastModified: string;
-  apps: App[];
-  error: Error;
-}
-
 @Injectable()
 export class AppService {
-  metadataService: string;
-  apiURL: string;
+  private metadataService = BaseService.serverHosts.metadataServer;
+  private apiURL = `${this.metadataService}/api/app`;
 
   constructor(
     private http: HttpClient,
     private categoryServer: CategoryService,
-  ) {
-    this.metadataService = BaseService.serverHosts.metadataServer;
-    this.apiURL = `${this.metadataService}/api/app`;
+  ) {}
+
+  private appsMap = new Map<string, App>();
+  private lastModified: string;
+  // 一秒的缓冲节流的_getAppMap
+  _getAppMapCache = _.throttle(this._getAppMap, 1000);
+  // 获取应用列表，应用名为键
+  _getAppMap(): Observable<Map<string, App>> {
+    return this.getAppListResult()
+      .mergeMap(result =>
+        this.categoryServer.getList().map(categories => {
+          result.apps.forEach(app => {
+            // set localInfo
+            if (
+              _.get(app.locale, `${Locale.getUnixLocale()}.description.name`)
+            ) {
+              app.localInfo = app.locale[Locale.getUnixLocale()];
+            } else {
+              app.localInfo = _.chain(app.locale)
+                .toArray()
+                .find(local => local.description.name !== '')
+                .value();
+            }
+            // set localCategory
+            app.localCategory =
+              categories[app.category].LocalName || app.category;
+            // 增量覆盖
+            this.appsMap.set(app.name, app);
+          });
+          this.lastModified = result.lastModified;
+          return this.appsMap;
+        }),
+      )
+      .shareReplay();
   }
 
-  apps: App[];
-  lastModified: string;
-  cacheObservable: Observable<App[]>;
+  // 获取全部应用列表
+  getAppList(): Observable<App[]> {
+    return this._getAppMapCache()
+      .map(m => Array.from(m.values()))
+      .do(apps => console.log(apps));
+  }
 
+  // 根据应用名列表获取应用列表
+  getAppListByNames(appNames: string[]): Observable<App[]> {
+    return this._getAppMapCache().map(m =>
+      appNames.map(appName => m.get(appName)),
+    );
+  }
+
+  // 根据应用名获取应用
+  getAppByName(name: string): Observable<App> {
+    return this._getAppMapCache()
+      .map(m => _.cloneDeep(m.get(name)))
+      .do(app => console.log(`getAppByName:(${name}):`, app));
+  }
+
+  // 设置Api网址
   setApiURL(apiURL: string) {
     this.apiURL = apiURL;
   }
 
-  // 获取应用列表
-  getAppList(): Observable<App[]> {
-    if (!this.cacheObservable) {
-      this.cacheObservable = this._getAppList();
-    }
-    return this.cacheObservable;
-  }
-
-  // 获取应用列表-共享缓存
-  _getAppList(): Observable<App[]> {
+  private getAppListResult(): Observable<Result> {
     return this.http
       .get(this.apiURL, {
         responseType: 'text',
         params: this.lastModified ? { since: this.lastModified } : null,
       })
-      .retry(3)
       .map(body => <Result>JSON.parse(body, appReviver))
       .mergeMap(result => {
+        // 强制刷新列表
         if (result.error && result.error.code === ErrorCode.CodeForceSync) {
-          this.apps = [];
+          // 清空增量缓存
+          this.appsMap.clear();
           return this.http
             .get(this.apiURL, { responseType: 'text' })
-            .map(body => <Result>JSON.parse(body))
-            .retry(3);
+            .map(body => <Result>JSON.parse(body, appReviver));
         }
         return Observable.of(result);
       })
-      .mergeMap((result: Result) => {
-        if (result.apps == null) {
-          result.apps = [];
-        }
-        return this.categoryServer.getList().map(categories => {
-          if (this.lastModified === result.lastModified) {
-            return this.apps;
-          }
-          this.lastModified = result.lastModified;
-          this.cacheObservable = this._getAppList();
-          this.apps = _.chain(result.apps)
-            .unionBy(this.apps, 'name')
-            .compact()
-            .orderBy(
-              [(app: App) => app.updateTime, (app: App) => app.name],
-              ['desc', 'desc'],
-            )
-            .each(app => {
-              if (
-                _.get(app.locale, `${Locale.getUnixLocale()}.description.name`)
-              ) {
-                app.localInfo = app.locale[Locale.getUnixLocale()];
-              } else {
-                app.localInfo = _.chain(app.locale)
-                  .toArray()
-                  .find(local => local.description.name !== '')
-                  .value();
-              }
-              app.localCategory =
-                categories[app.category].LocalName || app.category;
-            })
-            .value();
-          return this.apps;
-        });
-      })
-      .share();
+      .retry(3);
   }
+}
 
-  // 根据应用名列表获取应用
-  getAppListByNames(appNames: string[]): Observable<{ [key: string]: App }> {
-    return this.getAppList()
-      .map(apps => apps.filter(app => appNames.includes(app.name)))
-      .map(apps => <{ [key: string]: App }>_.keyBy(apps, app => app.name));
-    // .map(appDict => appNames.map(name => appDict[name]).filter(app => app));
-  }
-
-  // 根据应用名获取应用
-  getAppByName(name: string): Observable<App> {
-    return this.getAppList().map(apps =>
-      _.chain(apps)
-        .find({ name })
-        .cloneDeep()
-        .value(),
-    );
-  }
+interface Result {
+  lastModified: string;
+  apps: App[];
+  error: Error;
 }
