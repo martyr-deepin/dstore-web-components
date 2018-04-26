@@ -1,6 +1,6 @@
 <dstore-title [title]="title|fitLanguage"></dstore-title>
 <div class="rankingList">
-  <div class="ranking" *ngFor="let app of ranking|async|slice:0:count;index as $index">
+  <div class="ranking" *ngFor="let app of ranking|async|slice:0:count;index as $index" [routerLink]="app.name">
     <div class="icon">
       <img [src]="metadataServer+'/'+app.icon">
     </div>

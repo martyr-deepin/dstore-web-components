@@ -1,11 +1,13 @@
 <dstore-title [title]="title"></dstore-title>
 <div class="phraseList">
   <div class="phraseItem" *ngFor="let phrase of phraseList">
-    <img [src]="metadataServer +'/'+ (phrase.name|appInfo|async)?.icon" class="icon">
-    <div class="info">
-      <span class="truncate">{{(phrase.name|appInfo|async)?.localInfo.description.name}}</span>
-      <span class="phrase">{{phrase|fitLanguage}}</span>
-    </div>
+    <ng-container *ngIf="phrase.name|appInfo|async as appInfo">
+      <img [src]="metadataServer +'/'+ appInfo.icon" class="icon">
+      <div class="info">
+        <span class="truncate">{{appInfo.localInfo.description.name}}</span>
+        <span class="phrase">{{phrase|fitLanguage}}</span>
+      </div>
+    </ng-container>
   </div>
   <div class="phraseItem"></div>
   <div class="phraseItem"></div>

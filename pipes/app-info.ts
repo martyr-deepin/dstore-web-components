@@ -9,16 +9,11 @@ import { AppService } from '../services/app.service';
 
 @Pipe({
   name: 'appInfo',
-  pure: true,
 })
 export class AppInfoPipe implements PipeTransform {
-  cacheGetApp: (appName: string) => Observable<App>;
-  constructor(private appService: AppService) {
-    this.cacheGetApp = _.memoize(
-      this.appService.getAppByName.bind(this.appService),
-    );
-  }
-  transform(appName: string): Observable<App> {
-    return this.cacheGetApp(appName);
-  }
+  constructor(private appService: AppService) {}
+
+  transform = _.memoize(name =>
+    this.appService.getAppByName(name).shareReplay(),
+  );
 }

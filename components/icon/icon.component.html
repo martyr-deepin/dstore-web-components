@@ -1,12 +1,14 @@
 <dstore-title [title]="title"></dstore-title>
 
 <div class="iconList">
-  <div class="iconItem" *ngFor="let app of apps" [hidden]="!app.name">
-    <img [src]="metadataServer+'/'+(app.name|appInfo|async)?.icon" class="icon">
-    <div class="info">
-      <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
-      <span class="category">{{(app.name|appInfo|async)?.localCategory}}</span>
-    </div>
+  <div class="iconItem" *ngFor="let app of apps" [routerLink]="app.name">
+    <ng-container *ngIf="app.name|appInfo|async as appInfo">
+      <img [src]="metadataServer+'/'+appInfo.icon" class="icon">
+      <div class="info">
+        <span class="truncate">{{appInfo.localInfo.description.name}}</span>
+        <span class="category">{{appInfo.localCategory}}</span>
+      </div>
+    </ng-container>
   </div>
   <div class="iconItem"></div>
   <div class="iconItem"></div>

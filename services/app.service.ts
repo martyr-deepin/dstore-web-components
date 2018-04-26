@@ -118,15 +118,12 @@ export class AppService {
   }
 
   // 根据应用名获取应用
-  getAppByName(appName: string): Observable<App> {
-    return this.getAppList()
-      .map(apps =>
-        _.chain(apps)
-          .find(app => app.name === appName)
-          .cloneDeep()
-          .value(),
-      )
-      .do(app => console.log('getAppByName:', app))
-      .shareReplay();
+  getAppByName(name: string): Observable<App> {
+    return this.getAppList().map(apps =>
+      _.chain(apps)
+        .find({ name })
+        .cloneDeep()
+        .value(),
+    );
   }
 }

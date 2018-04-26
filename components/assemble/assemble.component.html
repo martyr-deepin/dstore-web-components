@@ -5,21 +5,23 @@
     <div class="title">
       {{assemble.name[0]}}
     </div>
-    <div *ngFor="let app of assemble.apps;first as isFirst" class="appItem" [class.first]="isFirst">
-      <ng-container *ngIf="!isFirst;else Cover">
-        <img [src]="metadataServer+'/'+(app.name|appInfo|async)?.icon" class="icon">
-        <div class="info">
-          <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
-          <span class="slogan">{{(app.name|appInfo|async)?.localInfo.description.slogan}}</span>
-        </div>
+    <div *ngFor="let app of assemble.apps;first as isFirst" class="appItem" [class.first]="isFirst" [routerLink]="app.name">
+      <ng-container *ngIf="app.name|appInfo|async as app">
+        <ng-container *ngIf="!isFirst;else Cover">
+          <img [src]="metadataServer+'/'+app.icon" class="icon">
+          <div class="info">
+            <span class="truncate">{{app.localInfo.description.name}}</span>
+            <span class="slogan">{{app.localInfo.description.slogan}}</span>
+          </div>
+        </ng-container>
+        <ng-template #Cover>
+          <img [src]="metadataServer+'/'+app.localInfo.images.cover" class="cover">
+          <div class="info">
+            <span class="truncate">{{app.localInfo.description.name}}</span>
+            <span class="slogan">{{app.localInfo.description.slogan}}</span>
+          </div>
+        </ng-template>
       </ng-container>
-      <ng-template #Cover>
-        <img [src]="metadataServer+'/'+(app.name|appInfo|async)?.localInfo.images.cover" class="cover">
-        <div class="info">
-          <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
-          <span class="slogan">{{(app.name|appInfo|async)?.localInfo.description.slogan}}</span>
-        </div>
-      </ng-template>
     </div>
   </div>
   <div *ngFor="let i of [1,2,3]" class="assemble" [style.height]='0'></div>

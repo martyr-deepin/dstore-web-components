@@ -1,14 +1,16 @@
 <dstore-title [title]="title"></dstore-title>
 <div class="coverList">
-  <div class="cover" *ngFor="let app of apps" [hidden]="!app.name">
-    <img [src]="metadataServer +'/'+ (app.name|appInfo|async)?.localInfo.images.cover">
-    <span class="truncate">{{(app.name|appInfo|async)?.localInfo.description.name}}</span>
-    <div class="info">
-      <span class="category">{{(app.name|appInfo|async)?.localCategory}}</span>
-      <div class="score">
-        <div [style.width.rem]="3.4"></div>
+  <div class="cover" *ngFor="let app of apps" [routerLink]="app.name">
+    <ng-container *ngIf="app.name|appInfo|async as appInfo">
+      <img [src]="metadataServer +'/'+ appInfo.localInfo.images.cover">
+      <span class="truncate">{{appInfo.localInfo.description.name}}</span>
+      <div class="info">
+        <span class="category">{{appInfo.localCategory}}</span>
+        <div class="score">
+          <div [style.width.rem]="3.4"></div>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
   <!--Placeholder-->
   <div class="cover"></div>

@@ -1,5 +1,6 @@
 // 轮播图
 import { Component, OnInit, Input } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { animationFrame } from 'rxjs/scheduler/animationFrame';
 import 'rxjs/add/operator/take';
@@ -27,27 +28,31 @@ export class CarouselComponent implements OnInit {
   operationServer: string;
   selectIndex = 0;
 
-  constructor(private appService: AppService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private appService: AppService,
+  ) {
     this.operationServer = BaseService.serverHosts.operationServer;
   }
 
   next$: Observable<void>;
-  goto: (index: number) => void;
+  goto = _.throttle(this._goto, 5000);
 
   ngOnInit() {
-    this.goto = _.throttle(index => {
-      if (index >= this._carouselList.length) {
-        index = 0;
-      }
-      this.selectIndex = index;
-    }, 5000);
+    this.next$ = Observable.timer(3000, 3000).map(() => {
+      console.log('next');
+      this.goto(this.selectIndex + 1, '');
+    });
+  }
 
-    this.next$ = Observable.timer(3000, 3000)
-      .map(i => {
-        console.log('next');
-      })
-      .do(() => {
-        this.goto(this.selectIndex + 1);
-      });
+  _goto(index: number, name: string) {
+    if (this.selectIndex === index && name !== '') {
+      this.router.navigate([name], { relativeTo: this.route });
+    }
+    if (index >= this._carouselList.length) {
+      index = 0;
+    }
+    this.selectIndex = index;
   }
 }
