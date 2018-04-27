@@ -36,7 +36,7 @@ export class AppPagingComponent implements OnInit {
 
   getPageList(): Observable<number[]> {
     return this.route.paramMap
-      .map(params => +params.get('page'))
+      .map(params => parseInt(params.get('page'), 10))
       .map(page => {
         this.page = page;
         const pageList = _.chain(1)

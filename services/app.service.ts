@@ -59,21 +59,17 @@ export class AppService {
         this.lastModified = result.lastModified;
         return this.appsMap;
       })
-      .share();
+      .shareReplay();
   }
 
   // 获取全部应用列表
   getAppList(): Observable<App[]> {
-    return this._getAppMapCache()
-      .map(m => Array.from(m.values()))
-      .do(apps => console.log(apps));
+    return this._getAppMapCache().map(m => Array.from(m.values()));
   }
 
   // 根据应用名列表获取应用列表
   getAppListByNames(appNames: string[]): Observable<App[]> {
-    return this._getAppMapCache().map(m =>
-      appNames.map(appName => m.get(appName)),
-    );
+    return this._getAppMapCache().map(m => appNames.map(m.get));
   }
 
   // 根据应用名获取应用

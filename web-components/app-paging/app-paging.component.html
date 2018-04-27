@@ -1,4 +1,4 @@
-<ul class="pagination" *ngIf="(pageListObs|async)?.length>1">
+<ul class="pagination" *ngIf="pageListObs|async as $pageList">
   <li class="range-field">
     <input type="range" min="1" [max]="count" [value]="page" (change)="goto($event.target.value)" />
   </li>
@@ -10,18 +10,18 @@
     </a>
   </li>
 
-  <ng-container *ngIf="!(pageListObs|async)?.includes(1)">
+  <ng-container *ngIf="!$pageList.includes(1)">
     <li>
       <a [routerLink]="['../',1]" queryParamsHandling="merge">1</a>
     </li>
     <li>...</li>
   </ng-container>
 
-  <li class="waves-effect" *ngFor="let p of pageListObs|async" routerLinkActive="active">
+  <li class="waves-effect" *ngFor="let p of $pageList" routerLinkActive="active">
     <a [routerLink]="['../',p]" queryParamsHandling="merge">{{p}}</a>
   </li>
 
-  <ng-container *ngIf="!(pageListObs|async)?.includes(this.count)">
+  <ng-container *ngIf="!$pageList.includes(this.count)">
     <li>...</li>
     <li>
       <a [routerLink]="['../',this.count]" queryParamsHandling="merge">{{this.count}}</a>
