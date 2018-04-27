@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { animationFrame } from 'rxjs/scheduler/animationFrame';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/observable/timer';
 
 import * as _ from 'lodash';
 

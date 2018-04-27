@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-paging',
   templateUrl: './app-paging.component.html',
-  styleUrls: ['./app-paging.component.scss']
+  styleUrls: ['./app-paging.component.scss'],
 })
 export class AppPagingComponent implements OnInit {
   // 元素个数
@@ -48,7 +48,7 @@ export class AppPagingComponent implements OnInit {
                 this.count > this.pageListSize
                   ? this.count - this.pageListSize
                   : 1,
-                this.count + 1
+                this.count + 1,
               );
             }
             return ps;
@@ -57,13 +57,13 @@ export class AppPagingComponent implements OnInit {
           .value();
         return pageList;
       })
-      .shareReplay();
+      .share();
   }
 
   goto(page: number) {
     this.router.navigate(['..', page], {
       relativeTo: this.route,
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 }

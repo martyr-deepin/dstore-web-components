@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/onErrorResumeNext';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/do';
@@ -34,32 +35,31 @@ export class AppService {
   _getAppMapCache = _.throttle(this._getAppMap, 1000);
   // 获取应用列表，应用名为键
   _getAppMap(): Observable<Map<string, App>> {
-    return this.getAppListResult()
-      .mergeMap(result =>
-        this.categoryServer.getList().map(categories => {
-          result.apps.forEach(app => {
-            // set localInfo
-            if (
-              _.get(app.locale, `${Locale.getUnixLocale()}.description.name`)
-            ) {
-              app.localInfo = app.locale[Locale.getUnixLocale()];
-            } else {
-              app.localInfo = _.chain(app.locale)
-                .toArray()
-                .find(local => local.description.name !== '')
-                .value();
-            }
-            // set localCategory
-            app.localCategory =
-              categories[app.category].LocalName || app.category;
-            // 增量覆盖
-            this.appsMap.set(app.name, app);
-          });
-          this.lastModified = result.lastModified;
-          return this.appsMap;
-        }),
-      )
-      .shareReplay();
+    return Observable.forkJoin(
+      this.getAppListResult(),
+      this.categoryServer.getList(),
+    )
+      .map(([result, categories]) => {
+        result.apps.forEach(app => {
+          // set localInfo
+          if (_.get(app.locale, `${Locale.getUnixLocale()}.description.name`)) {
+            app.localInfo = app.locale[Locale.getUnixLocale()];
+          } else {
+            app.localInfo = _.chain(app.locale)
+              .toArray()
+              .find(local => local.description.name !== '')
+              .value();
+          }
+          // set localCategory
+          app.localCategory =
+            categories[app.category].LocalName || app.category;
+          // 增量覆盖
+          this.appsMap.set(app.name, app);
+        });
+        this.lastModified = result.lastModified;
+        return this.appsMap;
+      })
+      .share();
   }
 
   // 获取全部应用列表

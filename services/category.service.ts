@@ -3,22 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/observable/timer';
-
 import { BaseService } from './base.service';
 import { Locale } from '../utils/locale';
 
 @Injectable()
 export class CategoryService {
-  metadataServer: string;
+  metadataServer = BaseService.serverHosts.metadataServer;
 
-  categoryObservable: Observable<{ [key: string]: Category }>;
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-    this.metadataServer = BaseService.serverHosts.metadataServer;
-
-    this.categoryObservable = this.http
+  getList = _.throttle(this._getList, 60 * 1000);
+  private _getList(): Observable<{ [key: string]: Category }> {
+    return this.http
       .get(`${this.metadataServer}/api/category`)
+      .retry(3)
       .map((categories: Category[]) => {
         const localCategory = _.groupBy(categories, c => c.Locale);
         return _.keyBy(
@@ -27,15 +25,7 @@ export class CategoryService {
           c => c.Name,
         );
       })
-      .shareReplay(1);
-  }
-
-  getList() {
-    return this.categoryObservable;
-  }
-
-  getArray() {
-    return this.categoryObservable.map(categories => Object.values(categories));
+      .shareReplay();
   }
 }
 
