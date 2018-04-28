@@ -24,10 +24,7 @@ export class AppService {
   private metadataService = BaseService.serverHosts.metadataServer;
   private apiURL = `${this.metadataService}/api/app`;
 
-  constructor(
-    private http: HttpClient,
-    private categoryServer: CategoryService,
-  ) {}
+  constructor(private http: HttpClient, private categoryServer: CategoryService) {}
 
   private appsMap = new Map<string, App>();
   private lastModified: string;
@@ -35,11 +32,11 @@ export class AppService {
   _getAppMapCache = _.throttle(this._getAppMap, 1000);
   // 获取应用列表，应用名为键
   _getAppMap(): Observable<Map<string, App>> {
-    return Observable.forkJoin(
-      this.getAppListResult(),
-      this.categoryServer.getList(),
-    )
+    return Observable.forkJoin(this.getAppListResult(), this.categoryServer.getList())
       .map(([result, categories]) => {
+        if (!result.apps) {
+          result.apps = [];
+        }
         result.apps.forEach(app => {
           // set localInfo
           if (_.get(app.locale, `${Locale.getUnixLocale()}.description.name`)) {
@@ -51,8 +48,7 @@ export class AppService {
               .value();
           }
           // set localCategory
-          app.localCategory =
-            categories[app.category].LocalName || app.category;
+          app.localCategory = categories[app.category].LocalName || app.category;
           // 增量覆盖
           this.appsMap.set(app.name, app);
         });
