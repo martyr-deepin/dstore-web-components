@@ -6,6 +6,9 @@ import { environment } from '../../../environments/environment';
 })
 export class SizeHuman implements PipeTransform {
   transform(value: number): string {
+    if (!Number.isInteger(value)) {
+      value = 0;
+    }
     if (value < 1024) {
       return value + 'b';
     }
