@@ -10,7 +10,6 @@ import {
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { EventTargetLike } from 'rxjs/observable/FromEventObservable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/from';
@@ -93,14 +92,9 @@ export class ImageUpdateComponent implements OnInit {
         return (
           Observable.merge(
             Observable.fromEvent(r, 'load'),
-            Observable.fromEvent(r, 'error').flatMap(err =>
-              Observable.throw(ImageError.Unknown),
-            ),
+            Observable.fromEvent(r, 'error').flatMap(err => Observable.throw(ImageError.Unknown)),
           )
-            .map(
-              (event: ProgressEvent) =>
-                (<FileReader>event.currentTarget).result as string,
-            )
+            .map((event: ProgressEvent) => (<FileReader>event.currentTarget).result as string)
             // 从文件创建图片资源
             .mergeMap(result => {
               const img = new Image();
@@ -123,9 +117,7 @@ export class ImageUpdateComponent implements OnInit {
               const canvas = document.createElement('canvas');
               canvas.width = this.width;
               canvas.height = canvas.width * img.height / img.width;
-              canvas
-                .getContext('2d')
-                .drawImage(img, 0, 0, canvas.width, canvas.height);
+              canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
               return canvas.toDataURL();
             })
             .mergeMap(dataURL => {
