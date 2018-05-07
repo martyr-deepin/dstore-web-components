@@ -1,7 +1,8 @@
 <dstore-title title="热门专题"></dstore-title>
 
 <div class="topicList">
-  <div class="topicItem" *ngFor="let item of section.items;index as $index" [routerLink]="['/topic',$index]">
+  <div class="topicItem" *ngFor="let item of section.items;index as $index"
+       [routerLink]="['/topic',sectionIndex,$index]">
     <img [src]="operationServer+'/images/'+item.cover">
     <div class="title">{{item.name[0]}}</div>
   </div>

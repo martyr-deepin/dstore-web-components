@@ -9,6 +9,7 @@ import { Section } from '../../services/section';
   styleUrls: ['./topic.component.scss'],
 })
 export class TopicComponent implements OnInit {
+  @Input() sectionIndex: number;
   @Input() section: Section;
   @Input() title: string;
 
