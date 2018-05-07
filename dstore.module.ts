@@ -28,6 +28,8 @@ import { StarComponent } from './widget/star/star.component';
 import { IndicationComponent } from './widget/indication/indication.component';
 
 import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
+import { HoverDirective } from './directive/hover.directive';
+
 import { DevPipe } from './pipes/dev';
 import { AppInfoPipe } from './pipes/app-info';
 import { AppSearchPipe } from './pipes/app-search';
@@ -45,12 +47,7 @@ import { SizeHuman } from './pipes/size-human';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [
-    AppService,
-    CategoryService,
-    DownloadingService,
-    MaterializeService,
-  ],
+  providers: [AppService, CategoryService, DownloadingService, MaterializeService],
   declarations: [
     TitleComponent,
     CarouselComponent,
@@ -75,6 +72,7 @@ import { SizeHuman } from './pipes/size-human';
     ProgressComponent,
     StarComponent,
     IndicationComponent,
+    HoverDirective,
   ],
   exports: [
     TitleComponent,
@@ -92,6 +90,7 @@ import { SizeHuman } from './pipes/size-human';
     ProgressComponent,
     StarComponent,
     IndicationComponent,
+    HoverDirective,
     ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,
