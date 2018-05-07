@@ -1,10 +1,11 @@
 .score {
   position: relative;
-  font-size: 15px;
+  letter-spacing: 2px;
   &::before {
     content: '★★★★★';
-    color: lightgray;
+    color: #d8d8d8;
     font-weight: bold;
+    text-shadow: 0 0 1px #979797;
   }
   .rate {
     position: absolute;
@@ -12,8 +13,9 @@
     top: 0;
     &::before {
       content: '★★★★★';
-      color: darkgoldenrod;
+      color: #ff8a09;
       font-weight: bold;
+      text-shadow: 0 0 1px #979797;
     }
   }
   .scoreList {

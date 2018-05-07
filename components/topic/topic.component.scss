@@ -4,9 +4,9 @@
   justify-content: space-between;
   margin: 0 1px;
   .topicItem {
+    width: 226px;
+    height: 140px;
     margin-top: 1rem;
-    width: 15rem;
-    height: 10rem;
     position: relative;
     display: flex;
     justify-content: center;
@@ -14,6 +14,7 @@
     img {
       position: absolute;
       width: 100%;
+      height: 100%;
       top: 0;
       z-index: -1;
       border-radius: 10px;
