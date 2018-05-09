@@ -27,15 +27,12 @@ import { ProgressComponent } from './web-components/progress/progress.component'
 import { StarComponent } from './widget/star/star.component';
 import { IndicationComponent } from './widget/indication/indication.component';
 
-import { ConvertToNumberDirective } from './directive/convert-to-number.directive';
 import { HoverDirective } from './directive/hover.directive';
 
 import { DevPipe } from './pipes/dev';
 import { AppInfoPipe } from './pipes/app-info';
-import { AppSearchPipe } from './pipes/app-search';
 import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
-import { Ceil } from './pipes/ceil';
 import { SizeHuman } from './pipes/size-human';
 
 @NgModule({
@@ -61,13 +58,10 @@ import { SizeHuman } from './pipes/size-human';
     AppSearchComponent,
     AssembleComponent,
     ImageUpdateComponent,
-    ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,
-    AppSearchPipe,
     FitLanguage,
     FitImage,
-    Ceil,
     SizeHuman,
     ProgressComponent,
     StarComponent,
@@ -91,13 +85,10 @@ import { SizeHuman } from './pipes/size-human';
     StarComponent,
     IndicationComponent,
     HoverDirective,
-    ConvertToNumberDirective,
     DevPipe,
     AppInfoPipe,
-    AppSearchPipe,
     FitLanguage,
     FitImage,
-    Ceil,
     SizeHuman,
   ],
 })
