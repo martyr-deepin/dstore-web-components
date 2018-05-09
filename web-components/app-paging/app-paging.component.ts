@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-paging',
@@ -35,9 +36,9 @@ export class AppPagingComponent implements OnInit {
   }
 
   getPageList(): Observable<number[]> {
-    return this.route.paramMap
-      .map(params => parseInt(params.get('page'), 10))
-      .map(page => {
+    return this.route.paramMap.pipe(
+      map(params => parseInt(params.get('page'), 10)),
+      map(page => {
         this.page = page;
         const pageList = _.chain(1)
           .range(this.count + 1)
@@ -45,9 +46,7 @@ export class AppPagingComponent implements OnInit {
           .map((ps: number[]) => {
             if (ps.length < this.pageSize && ps.includes(this.count)) {
               return _.range(
-                this.count > this.pageListSize
-                  ? this.count - this.pageListSize
-                  : 1,
+                this.count > this.pageListSize ? this.count - this.pageListSize : 1,
                 this.count + 1,
               );
             }
@@ -56,8 +55,9 @@ export class AppPagingComponent implements OnInit {
           .find((ps: number[]) => ps.includes(page))
           .value();
         return pageList;
-      })
-      .share();
+      }),
+      shareReplay(),
+    );
   }
 
   goto(page: number) {

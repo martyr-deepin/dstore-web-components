@@ -1,14 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/onErrorResumeNext';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/retry';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/do';
+import { Observable, Subject, forkJoin, empty } from 'rxjs';
+import { retry, shareReplay, map, tap, flatMap, scan } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
@@ -32,8 +26,9 @@ export class AppService {
   _getAppMapCache = _.throttle(this._getAppMap, 1000);
   // 获取应用列表，应用名为键
   _getAppMap(): Observable<Map<string, App>> {
-    return Observable.forkJoin(this.getAppListResult(), this.categoryServer.getList())
-      .map(([result, categories]) => {
+    return forkJoin(this.getAppListResult(), this.categoryServer.getList()).pipe(
+      map(([result, categories]) => {
+        console.log('forkJoin');
         if (!result.apps) {
           result.apps = [];
         }
@@ -54,8 +49,9 @@ export class AppService {
         });
         this.lastModified = result.lastModified;
         return this.appsMap;
-      })
-      .shareReplay();
+      }),
+      shareReplay(),
+    );
   }
 
   // 获取全部应用列表
@@ -70,9 +66,10 @@ export class AppService {
 
   // 根据应用名获取应用
   getAppByName(name: string): Observable<App> {
-    return this._getAppMapCache()
-      .map(m => _.cloneDeep(m.get(name)))
-      .do(app => console.log(`getAppByName:(${name}):`, app));
+    return this._getAppMapCache().pipe(
+      map(m => _.cloneDeep(m.get(name))),
+      tap(app => console.log(`getAppByName:(${name}):`, app)),
+    );
   }
 
   // 设置Api网址
@@ -81,24 +78,27 @@ export class AppService {
   }
 
   private getAppListResult(): Observable<Result> {
-    return this.http
-      .get(this.apiURL, {
-        responseType: 'text',
-        params: this.lastModified ? { since: this.lastModified } : null,
-      })
-      .map(body => <Result>JSON.parse(body, appReviver))
-      .mergeMap(result => {
-        // 强制刷新列表
+    return new Observable<Result>(obs =>
+      this.http
+        .get(this.apiURL, {
+          responseType: 'text',
+          params: this.lastModified ? { since: this.lastModified } : null,
+        })
+        .subscribe(
+          body => obs.next(JSON.parse(body, appReviver) as Result),
+          obs.error.bind(obs),
+          obs.complete.bind(obs),
+        ),
+    ).pipe(
+      tap(result => {
         if (result.error && result.error.code === ErrorCode.CodeForceSync) {
-          // 清空增量缓存
+          this.lastModified = null;
           this.appsMap.clear();
-          return this.http
-            .get(this.apiURL, { responseType: 'text' })
-            .map(body => <Result>JSON.parse(body, appReviver));
+          throw result.error.code;
         }
-        return Observable.of(result);
-      })
-      .retry(3);
+      }),
+      retry(3),
+    );
   }
 }
 
