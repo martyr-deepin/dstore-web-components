@@ -2,10 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
-import * as _ from 'lodash';
+import { memoize } from 'lodash';
 
-import { environment } from '../../../environments/environment';
-import { App } from '../services/app';
 import { AppService } from '../services/app.service';
 
 @Pipe({
@@ -14,5 +12,5 @@ import { AppService } from '../services/app.service';
 export class AppInfoPipe implements PipeTransform {
   constructor(private appService: AppService) {}
 
-  transform = _.memoize(name => this.appService.getAppByName(name).pipe(shareReplay()));
+  transform = memoize(name => this.appService.getAppByName(name).pipe(shareReplay()));
 }

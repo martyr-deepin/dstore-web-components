@@ -31,9 +31,11 @@ import { HoverDirective } from './directive/hover.directive';
 
 import { DevPipe } from './pipes/dev';
 import { AppInfoPipe } from './pipes/app-info';
+import { AppSearchPipe } from './pipes/app-search';
 import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
 import { SizeHuman } from './pipes/size-human';
+import { ChunkPipe } from './pipes/chunk.pipe';
 
 @NgModule({
   imports: [
@@ -60,6 +62,7 @@ import { SizeHuman } from './pipes/size-human';
     ImageUpdateComponent,
     DevPipe,
     AppInfoPipe,
+    AppSearchPipe,
     FitLanguage,
     FitImage,
     SizeHuman,
@@ -67,6 +70,7 @@ import { SizeHuman } from './pipes/size-human';
     StarComponent,
     IndicationComponent,
     HoverDirective,
+    ChunkPipe,
   ],
   exports: [
     TitleComponent,
@@ -87,9 +91,11 @@ import { SizeHuman } from './pipes/size-human';
     HoverDirective,
     DevPipe,
     AppInfoPipe,
+    AppSearchPipe,
     FitLanguage,
     FitImage,
     SizeHuman,
+    ChunkPipe,
   ],
 })
 export class DstoreModule {}

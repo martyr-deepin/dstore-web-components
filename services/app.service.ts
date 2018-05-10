@@ -28,7 +28,6 @@ export class AppService {
   _getAppMap(): Observable<Map<string, App>> {
     return forkJoin(this.getAppListResult(), this.categoryServer.getList()).pipe(
       map(([result, categories]) => {
-        console.log('forkJoin');
         if (!result.apps) {
           result.apps = [];
         }
