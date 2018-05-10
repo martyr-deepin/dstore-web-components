@@ -10,6 +10,10 @@ import {
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/from';
