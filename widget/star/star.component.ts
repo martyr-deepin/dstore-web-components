@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'dstore-star',
   templateUrl: './star.component.html',
-  styleUrls: ['./star.component.scss']
+  styleUrls: ['./star.component.scss'],
 })
 export class StarComponent implements OnInit {
   @Input() rate = 0;
