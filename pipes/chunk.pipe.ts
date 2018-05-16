@@ -7,6 +7,6 @@ import { chunk } from 'lodash';
 })
 export class ChunkPipe implements PipeTransform {
   transform<T>(value: Array<T>, size?: number): Array<Array<T>> {
-    return chunk(value, size);
+    return chunk(value, size) || [];
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'dstore-star',
@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class StarComponent implements OnInit {
   @Input() rate = 0;
+  @Output() rateChange = new EventEmitter<number>();
   @Input() readonly = true;
 
   rateHover: number;

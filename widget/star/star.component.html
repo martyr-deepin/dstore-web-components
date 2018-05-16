@@ -2,10 +2,11 @@
      (mouseleave)="rateHover=null">
   <div class="rate"
        [style.width.em]="rateHover || rate"></div>
-  <div class="scoreList">
+  <div class="scoreList"
+       *ngIf="!readonly">
     <div *ngFor="let i of scoreList"
-         (mouseenter)="!readonly && rateHover=i"
-         (click)="!readonly && rate=i">
+         (mouseenter)="rateHover=i"
+         (click)="rateChange.emit(i)">
     </div>
   </div>
 </div>
