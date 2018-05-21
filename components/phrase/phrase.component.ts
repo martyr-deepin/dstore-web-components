@@ -5,7 +5,7 @@ import { BaseService } from '../../services/base.service';
 import { App } from '../../services/app';
 import { AppService } from '../../services/app.service';
 import { SectionPhrase, Section } from '../../services/section';
-import { BaseRequestOptions } from '@angular/http';
+import { AppFilterFunc, Allowed } from '../appFilter';
 
 interface AppPhrase {
   app: App;
@@ -18,14 +18,17 @@ interface AppPhrase {
   styleUrls: ['./phrase.component.scss'],
 })
 export class PhraseComponent implements OnInit {
-  metadataServer: string;
+  constructor() {}
 
+  metadataServer = BaseService.serverHosts.metadataServer;
   @Input() section: Section;
   @Input() phraseList: SectionPhrase[];
+  @Input() appFilter: AppFilterFunc = Allowed;
 
-  constructor() {
-    this.metadataServer = BaseService.serverHosts.metadataServer;
+  get getMore() {
+    if (this.section.more) {
+      return ['./apps', { apps: this.phraseList.map(phrase => phrase.name) }];
+    }
   }
-
   ngOnInit() {}
 }

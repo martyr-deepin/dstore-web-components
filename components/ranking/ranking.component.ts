@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
 import { Section } from '../../services/section';
+import { AppFilterFunc, Allowed } from '../appFilter';
 
 @Component({
   selector: 'dstore-ranking',
@@ -20,13 +21,15 @@ export class RankingComponent implements OnInit {
   metadataServer = BaseService.serverHosts.metadataServer;
   @Input() section: Section;
   apps$: Observable<App[]>;
+  @Input() appFilter: AppFilterFunc = Allowed;
   ngOnInit() {
     const category = this.section.ranking.category;
-    this.apps$ = this.downloadingService
-      .getList()
-      .pipe(
-        map(apps => apps.filter(app => (!category ? app : app.category === category))),
-        map(apps => apps.slice(0, this.section.ranking.count)),
-      );
+    this.apps$ = this.downloadingService.getList().pipe(
+      map(apps => {
+        apps = apps.filter(app => this.appFilter(app.name));
+        return !category ? apps : apps.filter(app => app.category === category);
+      }),
+      map(apps => apps.slice(0, this.section.ranking.count)),
+    );
   }
 }

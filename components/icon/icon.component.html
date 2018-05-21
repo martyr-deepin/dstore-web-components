@@ -1,16 +1,29 @@
 <dstore-title [title]="section.title|fitLanguage"
-              [more]="section.more"></dstore-title>
+              [more]="more"></dstore-title>
 
 <div class="iconList">
-  <div class="iconItem"
-       *ngFor="let $index of (section.rowSpan*section.colSpan)|range">
-    <ng-container *ngIf="apps[$index]?.name|appInfo|async as appInfo">
-      <img [src]="metadataServer+'/'+appInfo.icon"
-           class="icon">
-      <div class="info">
-        <span class="truncate">{{appInfo.localInfo.description.name}}</span>
-        <span class="subtitle">{{appInfo.localCategory}}</span>
+  <ng-container *ngFor="let $index of (section.rowSpan*section.colSpan)|range">
+    <ng-container *ngIf="apps[$index] && apps[$index].show && appFilter(apps[$index].name);else $empty">
+      <div class="iconItem"
+           *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty"
+           [routerLink]="$app.name">
+        <img [src]="metadataServer+'/'+$app.icon"
+             class="icon">
+        <div class="info">
+          <span class="truncate">{{$app.localInfo.description.name}}</span>
+          <span class="subtitle">{{$app.localCategory}}</span>
+        </div>
       </div>
     </ng-container>
-  </div>
+  </ng-container>
 </div>
+
+<ng-template #$empty>
+  <div class="iconItem empty">
+    <img class="icon">
+    <div class="info">
+      <span class="truncate"></span>
+      <span class="subtitle"></span>
+    </div>
+  </div>
+</ng-template>

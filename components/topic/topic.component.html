@@ -1,9 +1,10 @@
-<dstore-title title="热门专题"
+<dstore-title [title]="section.title|fitLanguage"
               [more]="section.more"></dstore-title>
 <div class="topicList">
   <ng-container *ngFor="let $index of section.rowSpan*section.colSpan|range">
     <div class="topicItem"
-         *ngIf="topicList[$index] as $topic;else $empty">
+         *ngIf="topicList[$index] as $topic;else $empty"
+         [routerLink]="['/topic',sectionIndex,$index]">
       <img [src]="server+'/images/'+$topic.cover">
       <div class="title">{{$topic.name|fitLanguage}}</div>
     </div>

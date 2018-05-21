@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UrlTree, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'dstore-title',
@@ -7,9 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TitleComponent implements OnInit {
   @Input() title: string;
-  @Input() more: boolean;
+  @Input() more: any;
 
-  constructor() {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {}
 }

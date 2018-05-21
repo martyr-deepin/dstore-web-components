@@ -11,7 +11,7 @@ import { Section, SectionTopic } from '../../services/section';
 export class TopicComponent implements OnInit {
   constructor() {}
   server = BaseService.serverHosts.operationServer;
-  @Input() title: string;
+  @Input() sectionIndex: number;
   @Input() section: Section;
   @Input() topicList: SectionTopic[];
 

@@ -13,6 +13,7 @@ import { AppService } from '../../services/app.service';
 import { App } from '../../services/app';
 import { SectionCarousel } from '../../services/section';
 import { Scheduler } from 'rxjs/Scheduler';
+import { AppFilterFunc, Allowed } from '../appFilter';
 
 @Component({
   selector: 'dstore-carousel',
@@ -20,19 +21,21 @@ import { Scheduler } from 'rxjs/Scheduler';
   styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselComponent implements OnInit {
-  @Input() carouselList: SectionCarousel[];
-  get _carouselList() {
-    return this.carouselList.filter(carouse => carouse.images.length > 0 && carouse.show);
-  }
-  operationServer = BaseService.serverHosts.operationServer;
-  selectIndex = 0;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private appService: AppService,
   ) {}
 
+  operationServer = BaseService.serverHosts.operationServer;
+  selectIndex = 0;
+  @Input() carouselList: SectionCarousel[];
+  @Input() appFilter: AppFilterFunc = Allowed;
+  get _carouselList() {
+    return this.carouselList.filter(
+      carouse => carouse.images.length > 0 && carouse.show && this.appFilter(carouse.name),
+    );
+  }
   next$: Observable<void>;
   goto = _.throttle(this._goto, 5000);
 

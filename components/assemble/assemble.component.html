@@ -7,66 +7,38 @@
       {{$assemble.name|fitLanguage}}
     </div>
     <ng-container *ngFor="let $index of section.rowSpan|range;first as $first">
-      <ng-container *ngIf="$assemble.apps[$index].name|appInfo|async as $app">
-        <div class="item iconItem"
-             *ngIf="!$first;else $Cover">
-          <img [src]="server+'/'+$app.icon"
-               class="icon">
-          <div class="info">
-            <span class="name">{{$app.localInfo.description.name}}</span>
-            <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
-          </div>
-        </div>
-        <ng-template #$Cover>
-          <div class="item coverItem">
-            <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)"
-                 class="cover">
+      <ng-container *ngIf="$assemble.apps[$index] && $assemble.apps[$index].show && appFilter($assemble.apps[$index].name)">
+        <ng-container *ngIf="$assemble.apps[$index].name|appInfo|async as $app">
+          <div class="item"
+               [routerLink]="$app.name">
+            <img [src]="server+'/'+$app.icon"
+                 [attr.style]="getCoverStyle([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
             <div class="info">
               <span class="name">{{$app.localInfo.description.name}}</span>
               <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
             </div>
           </div>
-        </ng-template>
-      </ng-container>
-    </ng-container>
-    <!-- <ng-container *ngIf="!isFirst;else Cover">
-        <img [src]="server+'/'+app.icon"
-             class="icon">
-        <div class="info">
-          <span class="truncate">{{app.localInfo.description.name}}</span>
-          <span class="slogan">{{app.localInfo.description.slogan}}</span>
-        </div>
-      </ng-container>
-      <ng-template #Cover>
-        <img [src]="server+'/'+app.localInfo.images.cover"
-             class="cover">
-        <div class="info">
-          <span class="truncate">{{app.localInfo.description.name}}</span>
-          <span class="slogan">{{app.localInfo.description.slogan}}</span>
-        </div>
-      </ng-template> -->
-    <!--  <div class="title">
-      {{assemble.name[0]}}
-    </div>
-    <div *ngFor="let app of assemble.apps;first as isFirst" class="appItem" [class.first]="isFirst" [routerLink]="app.name">
-      <ng-container *ngIf="app.name|appInfo|async as app">
-        <ng-container *ngIf="!isFirst;else Cover">
-          <img [src]="metadataServer+'/'+app.icon" class="icon">
-          <div class="info">
-            <span class="truncate">{{app.localInfo.description.name}}</span>
-            <span class="slogan">{{app.localInfo.description.slogan}}</span>
-          </div>
         </ng-container>
-        <ng-template #Cover>
-          <img [src]="metadataServer+'/'+app.localInfo.images.cover" class="cover">
+      </ng-container>
+      <!-- <ng-template #$empty>
+        <div class="item iconItem"
+             *ngIf="!$first;else $Cover">
+          <img class="icon">
           <div class="info">
-            <span class="truncate">{{app.localInfo.description.name}}</span>
-            <span class="slogan">{{app.localInfo.description.slogan}}</span>
+            <span class="name"></span>
+            <span class="subtitle"></span>
+          </div>
+        </div>
+        <ng-template #$Cover>
+          <div class="item coverItem">
+            <img class="cover">
+            <div class="info">
+              <span class="name">&nbsp;</span>
+              <span class="subtitle">&nbsp;</span>
+            </div>
           </div>
         </ng-template>
-      </ng-container>
-    </div>
-  </div>
-  <div *ngFor="let i of [1,2,3]" class="assemble" [style.height]='0'></div> -->
+      </ng-template> -->
+    </ng-container>
   </div>
 </div>

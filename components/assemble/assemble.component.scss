@@ -15,21 +15,30 @@
       font-weight: 500;
       padding: 5px 10px;
     }
-    .iconItem {
-      height: 73px;
+    .item {
       display: flex;
       align-items: center;
-    }
-    .coverItem {
-      .info {
-        padding: 6px 10px;
-        .name {
-          padding: 0;
+      &:nth-child(2) {
+        display: block;
+        img {
+          content: var(--cover);
+          @extend .cover;
         }
       }
-    }
-    .cover {
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), inset 0 2px 0 0 rgba(255, 255, 255, 0.1);
+      &:not(:nth-child(2)) {
+        height: 73px;
+        img {
+          @extend .icon;
+        }
+        .name {
+          padding-top: 1rem;
+        }
+      }
+      &:last-child {
+        .info {
+          border: 0;
+        }
+      }
     }
     .info {
       display: flex;
@@ -38,15 +47,6 @@
       padding: 0 6px;
       height: 100%;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      .name {
-        padding-top: 1rem;
-      }
-    }
-
-    .item:last-child {
-      .info {
-        border: 0;
-      }
     }
   }
 }

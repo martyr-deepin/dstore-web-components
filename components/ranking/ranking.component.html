@@ -1,19 +1,27 @@
 <dstore-title [title]="section.title|fitLanguage"
-              [more]="section.more"></dstore-title>
+              [more]="'/ranking'"></dstore-title>
 
-<div class="rankingList">
-  <div class="ranking"
-       *ngFor="let app of apps$|async;index as $index"
-       [routerLink]="app.name">
-    <img class="icon"
-         [src]="metadataServer+'/'+app.icon">
-    <div class="info">
-      <span class="truncate">
-        <span class="no">{{$index+1}}.</span>
-        {{app.localInfo.description.name}}
-      </span>
-      <span class="subtitle"
-            [class.textIndent]="$index+1>=10">{{app.localCategory}}</span>
+<div class="rankingList"
+     *ngIf="apps$|async as $apps">
+  <ng-container *ngFor="let $index of this.section.ranking.count|range">
+    <div class="ranking"
+         *ngIf="$apps[$index] as app;else $empty"
+         [routerLink]="app.name">
+      <img class="icon"
+           [src]="metadataServer+'/'+app.icon">
+      <div class="info">
+        <span class="truncate">
+          <span class="no">{{$index+1}}.</span>
+          {{app.localInfo.description.name}}
+        </span>
+        <span class="subtitle"
+              [class.textIndent]="$index+1>=10">{{app.localCategory}}</span>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </div>
+<ng-template #$empty>
+  <div class="ranking empty">
+    <img class="icon">
+  </div>
+</ng-template>
