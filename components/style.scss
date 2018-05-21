@@ -12,7 +12,7 @@
   height: 140px;
   position: relative;
   &::before {
-    content: url('/assets/icons/defaultCover.png');
+    content: url('/assets/images/default_cover.png');
     position: absolute;
   }
 }

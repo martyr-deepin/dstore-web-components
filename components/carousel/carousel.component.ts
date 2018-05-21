@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { animationFrame } from 'rxjs/scheduler/animationFrame';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/observable/timer';
+import { Observable, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
@@ -12,7 +10,6 @@ import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
 import { SectionCarousel } from '../../services/section';
-import { Scheduler } from 'rxjs/Scheduler';
 import { AppFilterFunc, Allowed } from '../appFilter';
 
 @Component({
@@ -40,10 +37,12 @@ export class CarouselComponent implements OnInit {
   goto = _.throttle(this._goto, 5000);
 
   ngOnInit() {
-    this.next$ = Observable.timer(3000, 3000).map(() => {
-      console.log('next');
-      this.goto(this.selectIndex + 1, '');
-    });
+    this.next$ = timer(3000, 3000).pipe(
+      map(() => {
+        console.log('next');
+        this.goto(this.selectIndex + 1, '');
+      }),
+    );
   }
 
   _goto(index: number, name: string) {
