@@ -5,22 +5,20 @@
 
 <div class="list">
   <ng-container *ngFor="let $index of section.rowSpan*section.colSpan|range">
-    <ng-container *ngIf="apps[$index] && apps[$index].show && appFilter(apps[$index].name);else $empty">
-      <div class="item"
-           *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty"
-           [routerLink]="$app.name">
-        <img class="cover"
-             [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
-        <div class="info">
-          <div class="base">
-            <span>{{$app.localInfo.description.name}}</span>
-            <span class="subtitle">{{$app.localCategory}}</span>
-          </div>
-          <dstore-star class="star"
-                       [rate]="$app.rate"></dstore-star>
+    <div class="item"
+         *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty"
+         [routerLink]="$app.name">
+      <img class="cover"
+           [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+      <div class="info">
+        <div class="base">
+          <span>{{$app.localInfo.description.name}}</span>
+          <span class="subtitle">{{$app.localCategory}}</span>
         </div>
+        <dstore-star class="star"
+                     [rate]="$app.rate"></dstore-star>
       </div>
-    </ng-container>
+    </div>
 
     <ng-template #$empty>
       <div class="item empty">

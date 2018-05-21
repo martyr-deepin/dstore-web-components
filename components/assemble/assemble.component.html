@@ -7,38 +7,17 @@
       {{$assemble.name|fitLanguage}}
     </div>
     <ng-container *ngFor="let $index of section.rowSpan|range;first as $first">
-      <ng-container *ngIf="$assemble.apps[$index] && $assemble.apps[$index].show && appFilter($assemble.apps[$index].name)">
-        <ng-container *ngIf="$assemble.apps[$index].name|appInfo|async as $app">
-          <div class="item"
-               [routerLink]="$app.name">
-            <img [src]="server+'/'+$app.icon"
-                 [attr.style]="getCoverStyle([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
-            <div class="info">
-              <span class="name">{{$app.localInfo.description.name}}</span>
-              <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
-      <!-- <ng-template #$empty>
-        <div class="item iconItem"
-             *ngIf="!$first;else $Cover">
-          <img class="icon">
+      <ng-container *ngIf="filter($assemble.apps)[$index].name|appInfo|async as $app">
+        <div class="item"
+             [routerLink]="$app.name">
+          <img [src]="server+'/'+$app.icon"
+               [attr.style]="getCoverStyle([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
           <div class="info">
-            <span class="name"></span>
-            <span class="subtitle"></span>
+            <span class="name">{{$app.localInfo.description.name}}</span>
+            <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
           </div>
         </div>
-        <ng-template #$Cover>
-          <div class="item coverItem">
-            <img class="cover">
-            <div class="info">
-              <span class="name">&nbsp;</span>
-              <span class="subtitle">&nbsp;</span>
-            </div>
-          </div>
-        </ng-template>
-      </ng-template> -->
+      </ng-container>
     </ng-container>
   </div>
 </div>

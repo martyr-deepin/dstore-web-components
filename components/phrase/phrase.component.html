@@ -2,18 +2,16 @@
               [more]="getMore"></dstore-title>
 <div class="list">
   <ng-container *ngFor="let $index of (section.colSpan*section.rowSpan)|range">
-    <ng-container *ngIf="phraseList[$index] && phraseList[$index].show && appFilter(phraseList[$index].name);else $empty">
-      <div class="item"
-           *ngIf="phraseList[$index]?.name|appInfo|async as $app"
-           [routerLink]="$app.name">
-        <img class="icon"
-             [src]="metadataServer +'/'+ $app.icon">
-        <div class="info">
-          <span class="name">{{$app.localInfo.description.name}}</span>
-          <span class="subtitle">{{phraseList[$index].phrases|fitLanguage}}</span>
-        </div>
+    <div class="item"
+         *ngIf="phraseList[$index]?.name|appInfo|async as $app;else $empty"
+         [routerLink]="$app.name">
+      <img class="icon"
+           [src]="metadataServer +'/'+ $app.icon">
+      <div class="info">
+        <span class="name">{{$app.localInfo.description.name}}</span>
+        <span class="subtitle">{{phraseList[$index].phrases|fitLanguage}}</span>
       </div>
-    </ng-container>
+    </div>
   </ng-container>
 </div>
 

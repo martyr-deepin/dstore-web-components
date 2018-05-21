@@ -6,7 +6,7 @@ import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { SectionAssemble, Section } from '../../services/section';
+import { SectionAssemble, Section, SectionApp } from '../../services/section';
 import { AppFilterFunc, Allowed } from '../appFilter';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -22,6 +22,10 @@ export class AssembleComponent implements OnInit {
   @Input() appFilter: AppFilterFunc = Allowed;
 
   constructor(private appService: AppService, private sanitizer: DomSanitizer) {}
+
+  filter(apps: SectionApp[]) {
+    return apps.filter(app => app.show && this.appFilter(app.name));
+  }
 
   getCoverStyle(cover: string) {
     return this.sanitizer.bypassSecurityTrustStyle(`--cover: url("${cover}")`);

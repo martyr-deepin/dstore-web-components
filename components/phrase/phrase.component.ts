@@ -22,7 +22,14 @@ export class PhraseComponent implements OnInit {
 
   metadataServer = BaseService.serverHosts.metadataServer;
   @Input() section: Section;
-  @Input() phraseList: SectionPhrase[];
+  private _phraseList: SectionPhrase[] = [];
+  @Input()
+  set phraseList(apps: SectionPhrase[]) {
+    this._phraseList = apps;
+  }
+  get phraseList() {
+    return this._phraseList.filter(app => app.show && this.appFilter(app.name));
+  }
   @Input() appFilter: AppFilterFunc = Allowed;
 
   get getMore() {

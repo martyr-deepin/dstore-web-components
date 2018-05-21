@@ -15,7 +15,14 @@ export class IconComponent implements OnInit {
   constructor(private appService: AppService) {}
   metadataServer = BaseService.serverHosts.metadataServer;
   @Input() section: Section;
-  @Input() apps: SectionApp[] = [];
+  private _apps: SectionApp[] = [];
+  @Input()
+  set apps(apps: SectionApp[]) {
+    this._apps = apps;
+  }
+  get apps() {
+    return this._apps.filter(app => app.show && this.appFilter(app.name));
+  }
   @Input() appFilter: AppFilterFunc = Allowed;
 
   get more() {
