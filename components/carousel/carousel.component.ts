@@ -1,4 +1,3 @@
-// 轮播图
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -23,19 +22,16 @@ import { Scheduler } from 'rxjs/Scheduler';
 export class CarouselComponent implements OnInit {
   @Input() carouselList: SectionCarousel[];
   get _carouselList() {
-    return this.carouselList.filter(carouse => carouse.images.length);
+    return this.carouselList.filter(carouse => carouse.images.length > 0 && carouse.show);
   }
-
-  operationServer: string;
+  operationServer = BaseService.serverHosts.operationServer;
   selectIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private appService: AppService,
-  ) {
-    this.operationServer = BaseService.serverHosts.operationServer;
-  }
+  ) {}
 
   next$: Observable<void>;
   goto = _.throttle(this._goto, 5000);
@@ -48,12 +44,39 @@ export class CarouselComponent implements OnInit {
   }
 
   _goto(index: number, name: string) {
-    if (this.selectIndex === index && name !== '') {
-      this.router.navigate([name], { relativeTo: this.route });
-    }
     if (index >= this._carouselList.length) {
       index = 0;
     }
     this.selectIndex = index;
+  }
+
+  click(index: number, name: string) {
+    if (this.selectIndex === index && name !== '') {
+      this.router.navigate([name], { relativeTo: this.route });
+      return;
+    }
+    this.goto(index, name);
+    this.goto.flush();
+  }
+
+  getClass(index: number): string {
+    switch (index) {
+      case this.selectIndex:
+        return 'current';
+      case this.selectIndex + 1:
+        return 'next';
+      case this.selectIndex - 1:
+        return 'last';
+      case 0:
+        if (this.selectIndex === this._carouselList.length - 1) {
+          return 'next';
+        }
+        break;
+      case this._carouselList.length - 1:
+        if (this.selectIndex === 0) {
+          return 'last';
+        }
+        break;
+    }
   }
 }

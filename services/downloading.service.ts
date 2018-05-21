@@ -1,5 +1,3 @@
-/*  下载量服务提供  */
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { flatMap, map } from 'rxjs/operators';

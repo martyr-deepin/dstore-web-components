@@ -1,15 +1,15 @@
-<dstore-title [title]="title"></dstore-title>
-<div class="phraseList">
-  <div class="phraseItem" *ngFor="let phrase of phraseList">
-    <ng-container *ngIf="phrase.name|appInfo|async as appInfo">
-      <img [src]="metadataServer +'/'+ appInfo.icon" class="icon">
+<dstore-title [title]="section.title|fitLanguage"
+              [more]="section.more"></dstore-title>
+<div class="list">
+  <ng-container *ngFor="let $index of (section.colSpan*section.rowSpan)|range">
+    <div class="item"
+         *ngIf="phraseList[$index]?.name|appInfo|async as appInfo">
+      <img class="icon"
+           [src]="metadataServer +'/'+ appInfo.icon">
       <div class="info">
-        <span class="truncate">{{appInfo.localInfo.description.name}}</span>
-        <span class="phrase">{{phrase|fitLanguage}}</span>
+        <span class="name">{{appInfo.localInfo.description.name}}</span>
+        <span class="subtitle">{{phraseList[$index].phrases|fitLanguage}}</span>
       </div>
-    </ng-container>
-  </div>
-  <div class="phraseItem"></div>
-  <div class="phraseItem"></div>
-  <div class="phraseItem"></div>
+    </div>
+  </ng-container>
 </div>

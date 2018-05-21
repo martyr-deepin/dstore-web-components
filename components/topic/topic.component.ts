@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { BaseService } from '../../services/base.service';
-import { Section } from '../../services/section';
+import { Section, SectionTopic } from '../../services/section';
 
 @Component({
   selector: 'dstore-topic',
@@ -9,15 +9,11 @@ import { Section } from '../../services/section';
   styleUrls: ['./topic.component.scss'],
 })
 export class TopicComponent implements OnInit {
-  @Input() sectionIndex: number;
-  @Input() section: Section;
+  constructor() {}
+  server = BaseService.serverHosts.operationServer;
   @Input() title: string;
-
-  operationServer: string;
-
-  constructor() {
-    this.operationServer = BaseService.serverHosts.operationServer;
-  }
+  @Input() section: Section;
+  @Input() topicList: SectionTopic[];
 
   ngOnInit() {}
 }

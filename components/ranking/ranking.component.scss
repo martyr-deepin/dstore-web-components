@@ -1,36 +1,30 @@
+@import '../style';
+
+:host {
+  margin: 0 1rem;
+}
 .rankingList {
   display: flex;
   flex-direction: column;
   .ranking {
     display: flex;
-    margin-top: 0.5rem;
-    .icon {
-      margin-left: 1rem;
-      img {
-        width: 48px;
-      }
-    }
-    .content {
+    margin-bottom: 16px;
+    .info {
       display: flex;
-      width: 80%;
+      flex-direction: column;
+      width: 100%;
       margin-left: 1rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      .ranked {
-        font-weight: bold;
+      border-bottom: solid 1px rgba(0, 0, 0, 0.15);
+      .no {
+        margin-right: 8px;
       }
-      .info {
-        margin-left: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        // max-width: 20rem;
+      .subtitle {
+        text-indent: calc(8px + 1rem);
       }
     }
   }
 }
 
-.category {
-  margin: 0.5rem 0;
-  color: gray;
-  font-size: 13px;
+.textIndent {
+  text-indent: calc(8px + 1.5rem) !important;
 }

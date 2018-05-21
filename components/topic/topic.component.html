@@ -1,10 +1,15 @@
-<dstore-title title="热门专题"></dstore-title>
-
+<dstore-title title="热门专题"
+              [more]="section.more"></dstore-title>
 <div class="topicList">
-  <div class="topicItem" *ngFor="let item of section.items;index as $index"
-       [routerLink]="['/topic',sectionIndex,$index]">
-    <img [src]="operationServer+'/images/'+item.cover">
-    <div class="title">{{item.name[0]}}</div>
-  </div>
-  <div [style.width.px]="226" *ngFor="let t of [1,2,3,4,5]"></div>
+  <ng-container *ngFor="let $index of section.rowSpan*section.colSpan|range">
+    <div class="topicItem"
+         *ngIf="topicList[$index] as $topic;else $empty">
+      <img [src]="server+'/images/'+$topic.cover">
+      <div class="title">{{$topic.name|fitLanguage}}</div>
+    </div>
+    <ng-template #$empty>
+      <div class="topicItem">
+      </div>
+    </ng-template>
+  </ng-container>
 </div>

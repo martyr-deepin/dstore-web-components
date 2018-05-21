@@ -6,7 +6,7 @@ import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { SectionAssemble } from '../../services/section';
+import { SectionAssemble, Section } from '../../services/section';
 
 @Component({
   selector: 'dstore-assemble',
@@ -14,13 +14,11 @@ import { SectionAssemble } from '../../services/section';
   styleUrls: ['./assemble.component.scss'],
 })
 export class AssembleComponent implements OnInit {
-  metadataServer: string;
-  @Input() title = '';
+  server = BaseService.serverHosts.metadataServer;
+  @Input() section: Section;
   @Input() assembleList: SectionAssemble[] = [];
 
-  constructor(private appService: AppService) {
-    this.metadataServer = BaseService.serverHosts.metadataServer;
-  }
+  constructor(private appService: AppService) {}
 
   ngOnInit() {}
 }

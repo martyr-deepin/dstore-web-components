@@ -1,55 +1,51 @@
+@import '../style';
 .assembleList {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 1px;
   .assemble {
-    margin-top: 1rem;
-    width: 226px;
-    border-radius: 5px;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    border: solid 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    width: 224px;
     .title {
-      margin: 0.2rem 1rem;
+      font-weight: 500;
+      padding: 5px 10px;
     }
-    .appItem {
+    .iconItem {
+      height: 73px;
       display: flex;
-      margin-top: 0.5rem;
-      .cover {
-        width: 226px;
-        height: 140px;
-      }
-      &:last-child {
-        .info {
-          border: 0;
-        }
-      }
-      &.first {
-        flex-direction: column;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        .info {
-          border: 0;
-          margin-left: 1rem;
-          .slogan {
-            height: 1.5rem;
-          }
-        }
-      }
-      .icon {
-        width: 48px;
-        height: 48px;
-      }
+      align-items: center;
+    }
+    .coverItem {
       .info {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        margin: 0.3rem 0;
-        width: 100%;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        .slogan {
-          height: 2.5rem;
-          color: gray;
-          font-size: 12px;
+        padding: 6px 10px;
+        .name {
+          padding: 0;
         }
+      }
+    }
+    .cover {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), inset 0 2px 0 0 rgba(255, 255, 255, 0.1);
+    }
+    .info {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 0 6px;
+      height: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      .name {
+        padding-top: 1rem;
+      }
+    }
+
+    .item:last-child {
+      .info {
+        border: 0;
       }
     }
   }

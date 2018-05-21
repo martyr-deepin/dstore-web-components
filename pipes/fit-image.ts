@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from '../../../environments/environment';
-// 在数组里选择合适的值，用于选择普通图片和高清图片
+// select image based on ratio
 @Pipe({
   name: 'fitImage',
 })

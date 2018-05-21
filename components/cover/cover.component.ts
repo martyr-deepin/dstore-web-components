@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
 import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { SectionApp } from '../../services/section';
+import { SectionApp, Section } from '../../services/section';
 
 @Component({
   selector: 'dstore-cover',
@@ -13,14 +14,9 @@ import { SectionApp } from '../../services/section';
   styleUrls: ['./cover.component.scss'],
 })
 export class CoverComponent implements OnInit {
-  @Input() title = '';
+  constructor() {}
   @Input() apps: SectionApp[] = [];
-
-  metadataServer: string;
-
-  constructor() {
-    this.metadataServer = BaseService.serverHosts.metadataServer;
-  }
-
+  @Input() section: Section;
+  server = BaseService.serverHosts.metadataServer;
   ngOnInit() {}
 }

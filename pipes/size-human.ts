@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from '../../../environments/environment';
-// Math.ceil管道版本
+// size of file human readable
 @Pipe({
   name: 'sizeHuman',
 })

@@ -5,6 +5,9 @@ import { App } from '../../services/app';
 import { DownloadingService } from '../../services/downloading.service';
 
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+
+import { Section } from '../../services/section';
 
 @Component({
   selector: 'dstore-ranking',
@@ -12,22 +15,18 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit {
-  metadataServer: string;
+  constructor(private downloadingService: DownloadingService) {}
 
-  @Input() title: string;
-  @Input()
-  set category(category: string) {
-    this.ranking = this.downloadingService
+  metadataServer = BaseService.serverHosts.metadataServer;
+  @Input() section: Section;
+  apps$: Observable<App[]>;
+  ngOnInit() {
+    const category = this.section.ranking.category;
+    this.apps$ = this.downloadingService
       .getList()
-      .map(apps => apps.filter(app => !category || app.category === category));
+      .pipe(
+        map(apps => apps.filter(app => (!category ? app : app.category === category))),
+        map(apps => apps.slice(0, this.section.ranking.count)),
+      );
   }
-  @Input() count: number;
-
-  ranking: Observable<App[]>;
-
-  constructor(private downloadingService: DownloadingService) {
-    this.metadataServer = BaseService.serverHosts.metadataServer;
-  }
-
-  ngOnInit() {}
 }

@@ -1,5 +1,7 @@
 <div class="title">
-  <strong>{{title}}</strong>
-  <a i18n class="more" href="">More</a>
+  {{title}}
+  <a class="more"
+     href=""
+     *ngIf="more"
+     i18n>More</a>
 </div>
-<div class="hr"></div>

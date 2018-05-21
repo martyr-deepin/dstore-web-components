@@ -36,6 +36,7 @@ import { FitLanguage } from './pipes/fit-lang';
 import { FitImage } from './pipes/fit-image';
 import { SizeHuman } from './pipes/size-human';
 import { ChunkPipe } from './pipes/chunk.pipe';
+import { RangePipe } from './pipes/range.pipe';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { ChunkPipe } from './pipes/chunk.pipe';
     IndicationComponent,
     HoverDirective,
     ChunkPipe,
+    RangePipe,
   ],
   exports: [
     TitleComponent,
@@ -96,6 +98,7 @@ import { ChunkPipe } from './pipes/chunk.pipe';
     FitImage,
     SizeHuman,
     ChunkPipe,
+    RangePipe,
   ],
 })
 export class DstoreModule {}

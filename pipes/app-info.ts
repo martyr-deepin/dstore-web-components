@@ -12,5 +12,7 @@ import { AppService } from '../services/app.service';
 export class AppInfoPipe implements PipeTransform {
   constructor(private appService: AppService) {}
 
-  transform = memoize(name => this.appService.getAppByName(name).pipe(shareReplay()));
+  transform = memoize(
+    name => (!name ? undefined : this.appService.getAppByName(name).pipe(shareReplay())),
+  );
 }

@@ -1,25 +1,17 @@
-.phraseList {
+.list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  .phraseItem {
-    width: 12rem;
-    margin-top: 1rem;
+  .item {
     display: flex;
-    .icon {
-      width: 48px;
-      height: 48px;
-    }
+    width: 226px;
+    padding: 5px 0;
+    margin-bottom: 10px;
     .info {
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
-      margin-left: 0.5rem;
-      width: 80%;
-      .phrase {
-        color: gray;
-        font-size: 13px;
-      }
+      margin-left: 10px;
+      justify-content: center;
     }
   }
 }
