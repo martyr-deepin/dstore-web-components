@@ -2,7 +2,6 @@
 
   <ng-container *ngFor="let items of _carouselList; index as $index">
     <img [src]="operationServer +'/images/'+(items.images|fitImage)"
-         [title]="items.name"
          [ngClass]="getClass($index)"
          (click)="click($index,items.name)">
   </ng-container>
