@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject, forkJoin, empty } from 'rxjs';
 import { retry, shareReplay, map, tap, flatMap, scan } from 'rxjs/operators';
 
-import { throttle, filter, compact, chain, get, cloneDeep } from 'lodash';
+import { throttle, filter, compact, chain, get, cloneDeep, defaultsDeep } from 'lodash';
 
 import { BaseService } from './base.service';
 import { CategoryService } from './category.service';
@@ -41,6 +41,8 @@ export class AppService {
               .find(local => local.description.name !== '')
               .value();
           }
+          app.localInfo = defaultsDeep(app.localInfo, ...Object.values(app.locale), new App());
+          console.log(app.localInfo);
           // set localCategory
           app.localCategory = categories[app.category].LocalName || app.category;
           // 增量覆盖

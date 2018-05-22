@@ -37,6 +37,7 @@ import { FitImage } from './pipes/fit-image';
 import { SizeHuman } from './pipes/size-human';
 import { ChunkPipe } from './pipes/chunk.pipe';
 import { RangePipe } from './pipes/range.pipe';
+import { SanitizerPipe } from './pipes/sanitizer.pipe';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { RangePipe } from './pipes/range.pipe';
     HoverDirective,
     ChunkPipe,
     RangePipe,
+    SanitizerPipe,
   ],
   exports: [
     TitleComponent,

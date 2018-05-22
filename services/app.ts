@@ -24,8 +24,8 @@ export class App {
       packageURI: '[""]',
       locale: {
         en_US: new LocalInfo(),
-        zh_CN: new LocalInfo()
-      }
+        zh_CN: new LocalInfo(),
+      },
     };
     return JSON.parse(JSON.stringify(model), appReviver);
   }
@@ -46,10 +46,7 @@ export function appReplacer(k: string, v: any): any {
   v = JSON.parse(JSON.stringify(v));
   switch (k) {
     case 'locale':
-      return _.pickBy(
-        <{ [key: string]: LocalInfo }>v,
-        info => info.description.name
-      );
+      return _.pickBy(<{ [key: string]: LocalInfo }>v, info => info.description.name);
     case 'packageURI':
       return JSON.stringify(v);
     case 'versions':
@@ -60,22 +57,22 @@ export function appReplacer(k: string, v: any): any {
       return <Image[]>[
         {
           type: ImageType.Cover,
-          path: img.cover
+          path: img.cover,
         },
         {
           type: ImageType.CoverHD,
-          path: img.coverHD
+          path: img.coverHD,
         },
         ...img.screenshot.map((imgPath, index) => ({
           type: ImageType.Screenshot,
           path: imgPath,
-          order: index
+          order: index,
         })),
         ...img.screenshotHD.map((imgPath, index) => ({
           type: ImageType.ScreenshotHD,
           path: imgPath,
-          order: index
-        }))
+          order: index,
+        })),
       ].filter(image => image.path);
   }
   return v;
@@ -94,10 +91,15 @@ export function appReviver(k: string, v: any): any {
     case 'locale':
       return {
         zh_CN: v['zh_CN'] || new LocalInfo(),
-        en_US: v['en_US'] || new LocalInfo()
+        en_US: v['en_US'] || new LocalInfo(),
       };
     case 'images':
-      const images = new Images();
+      const images: Images = {
+        cover: undefined,
+        coverHD: undefined,
+        screenshot: [],
+        screenshotHD: [],
+      };
       _.chain(<Image[]>v)
         .groupBy(img => img.type)
         .each((imgs, type) => {
@@ -132,7 +134,7 @@ export function appReviver(k: string, v: any): any {
 export enum ErrCode {
   Unknown,
   NotFound,
-  Existed
+  Existed,
 }
 
 export class Error {
@@ -146,7 +148,7 @@ export enum AppState {
   AppStateInactive,
   AppStateReviewInProcess,
   AppStateReviewDenied,
-  AppStateDie
+  AppStateDie,
 }
 
 export class LocalInfo {
@@ -159,7 +161,7 @@ export class LocalInfo {
       description: new Description(),
       images: new Images(),
       versions: [new Version()],
-      tags: []
+      tags: [],
     };
   }
 }
@@ -172,7 +174,7 @@ class Description {
     return {
       name: '',
       description: '',
-      slogan: ''
+      slogan: '',
     };
   }
 }
@@ -183,7 +185,7 @@ export class Version {
   constructor() {
     return {
       version: '',
-      changeLog: ''
+      changeLog: '',
     };
   }
 }
@@ -194,7 +196,7 @@ export enum ImageType {
   Cover,
   CoverHD,
   Screenshot,
-  ScreenshotHD
+  ScreenshotHD,
 }
 
 class Images {
@@ -207,7 +209,7 @@ class Images {
       cover: '',
       coverHD: '',
       screenshot: [],
-      screenshotHD: []
+      screenshotHD: [],
     };
   }
 }
@@ -218,9 +220,7 @@ interface Image {
 }
 
 export function appSearch(app: App, search: string): boolean {
-  return _.flatMap(app.locale, localInfo =>
-    Object.values(localInfo.description)
-  )
+  return _.flatMap(app.locale, localInfo => Object.values(localInfo.description))
     .concat(app.name)
     .map(v => v.includes(search))
     .includes(true);
@@ -242,7 +242,7 @@ export function appPaging(apps: App[], page: number, size = 10) {
     pageCount: chunkResult.length,
 
     appCount: apps.length,
-    appList: chunkResult[page - 1]
+    appList: chunkResult[page - 1],
   };
 }
 export interface AppPageResult {

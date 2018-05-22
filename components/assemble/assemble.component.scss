@@ -18,17 +18,19 @@
     .item {
       display: flex;
       align-items: center;
+      img {
+        display: none;
+      }
       &:nth-child(2) {
         display: block;
-        img {
-          content: var(--cover);
-          @extend .cover;
+        .cover {
+          display: unset;
         }
       }
       &:not(:nth-child(2)) {
         height: 73px;
-        img {
-          @extend .icon;
+        .icon {
+          display: unset;
         }
         .name {
           padding-top: 1rem;
