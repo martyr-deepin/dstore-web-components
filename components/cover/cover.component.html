@@ -13,7 +13,8 @@
       <div class="info">
         <div class="base">
           <span>{{$app.localInfo.description.name}}</span>
-          <span class="subtitle">{{$app.localCategory}}</span>
+          <span class="subtitle"
+                [routerLink]="['/category',$app.category]">{{$app.localCategory}}</span>
         </div>
         <dstore-star class="star"
                      [rate]="$app.rate"></dstore-star>

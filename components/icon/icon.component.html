@@ -11,7 +11,8 @@
              class="icon">
         <div class="info">
           <span class="truncate">{{$app.localInfo.description.name}}</span>
-          <span class="subtitle">{{$app.localCategory}}</span>
+          <span class="subtitle"
+                [routerLink]="['/category',$app.category]">{{$app.localCategory}}</span>
         </div>
       </div>
     </ng-container>

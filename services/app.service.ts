@@ -42,7 +42,6 @@ export class AppService {
               .value();
           }
           app.localInfo = defaultsDeep(app.localInfo, ...Object.values(app.locale), new App());
-          console.log(app.localInfo);
           // set localCategory
           app.localCategory = categories[app.category].LocalName || app.category;
           // 增量覆盖

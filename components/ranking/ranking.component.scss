@@ -1,8 +1,5 @@
 @import '../style';
 
-:host {
-  margin: 0 1rem;
-}
 .rankingList {
   display: flex;
   flex-direction: column;
@@ -11,15 +8,12 @@
     margin-bottom: 16px;
     .info {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       width: 100%;
       margin-left: 1rem;
       border-bottom: solid 1px rgba(0, 0, 0, 0.15);
       .no {
         margin-right: 8px;
-      }
-      .subtitle {
-        text-indent: calc(8px + 1rem);
       }
     }
   }

@@ -10,12 +10,13 @@
       <img class="icon"
            [src]="metadataServer+'/'+app.icon">
       <div class="info">
-        <span class="truncate">
-          <span class="no">{{$index+1}}.</span>
-          {{app.localInfo.description.name}}
-        </span>
-        <span class="subtitle"
-              [class.textIndent]="$index+1>=10">{{app.localCategory}}</span>
+
+        <span class="no">{{$index+1}}.</span>
+        <div class="base">
+          <div>{{app.localInfo.description.name}}</div>
+          <div class="subtitle"
+               [routerLink]="['/category',app.category]">{{app.localCategory}}</div>
+        </div>
       </div>
     </div>
   </ng-container>
