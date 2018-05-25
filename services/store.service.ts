@@ -1,7 +1,7 @@
 import { Injectable, NgZone, Version } from '@angular/core';
 import { Channel } from '../utils/channel';
 import { Observable, forkJoin, of } from 'rxjs';
-import { flatMap, map, filter, take } from 'rxjs/operators';
+import { flatMap, map, filter, take, switchMap } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { StoreJobInfo } from '../models/store-job-info';
@@ -99,11 +99,33 @@ export class StoreService {
     return this.execWithCallback('storeDaemon.queryVersions', appNameList.toString(), appNameList);
   }
 
-  getInstalledTime(appName: string): Observable<number> {
-    return this.execWithCallback('storeDaemon.queryInstalledTime', appName, [appName]).pipe(
-      map((result: { app: string; time: number }[]) => {
-        return _.get(_.find(result, { app: appName }), 'time');
-      }),
+  getVersionMap(appNameList: string[]): Observable<Map<string, AppVersion>> {
+    return this.execWithCallback(
+      'storeDaemon.queryVersions',
+      appNameList.toString(),
+      appNameList,
+    ).pipe(map((vs: AppVersion[]) => new Map(_.toPairs(_.keyBy(vs, 'name')))));
+  }
+
+  getInstalledTime(appNameList: string[]): Observable<number[]> {
+    return this.execWithCallback(
+      'storeDaemon.queryInstalledTime',
+      appNameList.toString(),
+      appNameList,
+    );
+  }
+  getInstalledTimeMap(appNameList: string[]): Observable<Map<string, number>> {
+    return this.getInstalledTime(appNameList).pipe(
+      map(
+        installedTime =>
+          new Map(
+            _.chain(installedTime)
+              .keyBy('app')
+              .mapValues('time')
+              .entries()
+              .value(),
+          ),
+      ),
     );
   }
 
@@ -149,6 +171,17 @@ export class StoreService {
       flatMap(
         jobs => (jobs.length === 0 ? of([]) : forkJoin(jobs.map(job => this.getJobInfo(job)))),
       ),
+    );
+  }
+  getJobInfoMap(): Observable<Map<string, StoreJobInfo>> {
+    return this.getJobList().pipe(
+      switchMap(
+        jobs =>
+          jobs.length === 0
+            ? of([] as StoreJobInfo[])
+            : forkJoin(jobs.map(job => this.getJobInfo(job))),
+      ),
+      map(jobInfoList => new Map(_.toPairs(_.keyBy(jobInfoList, 'name')))),
     );
   }
 
