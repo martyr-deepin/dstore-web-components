@@ -35,6 +35,7 @@ export class CarouselComponent implements OnInit {
   }
   next$: Observable<void>;
   goto = _.throttle(this._goto, 5000);
+  click = _.throttle(this._click, 500);
 
   ngOnInit() {
     this.next$ = timer(3000, 3000).pipe(
@@ -52,7 +53,8 @@ export class CarouselComponent implements OnInit {
     this.selectIndex = index;
   }
 
-  click(index: number, name: string) {
+  _click(index: number, name: string) {
+    console.log('click');
     if (this.selectIndex === index && name !== '') {
       this.router.navigate([name], { relativeTo: this.route });
       return;
