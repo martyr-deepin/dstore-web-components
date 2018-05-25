@@ -35,7 +35,7 @@ export class CarouselComponent implements OnInit {
   }
   next$: Observable<void>;
   goto = _.throttle(this._goto, 5000);
-  click = _.throttle(this._click, 500);
+  click = _.debounce(this._click, 600, { leading: true });
 
   ngOnInit() {
     this.next$ = timer(3000, 3000).pipe(

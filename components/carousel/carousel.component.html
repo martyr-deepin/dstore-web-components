@@ -3,7 +3,8 @@
   <ng-container *ngFor="let items of _carouselList; index as $index">
     <img [src]="operationServer +'/images/'+(items.images|fitImage)"
          [ngClass]="getClass($index)"
-         (click)="click($index,items.name)">
+         (click)="click($index,items.name)"
+         (dblclick)="null">
   </ng-container>
 
   <div class="indicationList">
