@@ -5,7 +5,7 @@
     <div class="topicItem"
          *ngIf="topicList[$index] as $topic;else $empty"
          [routerLink]="['/topic',sectionIndex,$index]">
-      <img [src]="server+'/images/'+$topic.cover">
+      <img [src]="server+'/images/'+([$topic.cover,$topic.coverHD]|fitImage)">
       <div class="title">{{$topic.name|fitLanguage}}</div>
     </div>
     <ng-template #$empty>

@@ -13,7 +13,14 @@ export class TopicComponent implements OnInit {
   server = BaseService.serverHosts.operationServer;
   @Input() sectionIndex: number;
   @Input() section: Section;
-  @Input() topicList: SectionTopic[];
+  _topicList: SectionTopic[];
+  @Input()
+  set topicList(ts: SectionTopic[]) {
+    this._topicList = ts.filter(t => t.show);
+  }
+  get topicList() {
+    return this._topicList;
+  }
 
   ngOnInit() {}
 }
