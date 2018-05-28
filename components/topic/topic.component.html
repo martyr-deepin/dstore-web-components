@@ -2,11 +2,10 @@
               [more]="section.more"></dstore-title>
 <div class="topicList">
   <ng-container *ngFor="let $index of section.rowSpan*section.colSpan|range">
-    <ng-container></ng-container>
     <div class="topicItem"
          *ngIf="topicList[$index] as $topic;else $empty"
          [routerLink]="['/topic',sectionIndex,$index]">
-      <img [src]="server+'/images/'+([$topic.cover,$topic.coverHD]|fitImage)">
+      <img [src]="server+'/images/'+$topic.cover">
       <div class="title">{{$topic.name|fitLanguage}}</div>
     </div>
     <ng-template #$empty>
