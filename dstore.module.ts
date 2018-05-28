@@ -21,6 +21,7 @@ import { AssembleComponent } from './components/assemble/assemble.component';
 
 import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
+import { DstorePagingComponent } from './web-components/dstore-paging/dstore-paging.component';
 import { AppSearchComponent } from './web-components/app-search/app-search.component';
 import { ImageUpdateComponent } from './web-components/image-update/image-update.component';
 import { ProgressComponent } from './web-components/progress/progress.component';
@@ -75,6 +76,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     ChunkPipe,
     RangePipe,
     SanitizerPipe,
+    DstorePagingComponent,
   ],
   exports: [
     TitleComponent,
@@ -86,6 +88,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     IconComponent,
     AppNavComponent,
     AppPagingComponent,
+    DstorePagingComponent,
     AppSearchComponent,
     AssembleComponent,
     ImageUpdateComponent,

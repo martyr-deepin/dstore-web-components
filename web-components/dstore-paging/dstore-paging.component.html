@@ -1,0 +1,8 @@
+<ul class="pagination"
+    *ngIf="pageList">
+  <li class="waves-effect"
+      *ngFor="let $page of pageList"
+      [class.active]="$page===page">
+    <a (click)="pageChange.emit($page)">{{$page}}</a>
+  </li>
+</ul>
