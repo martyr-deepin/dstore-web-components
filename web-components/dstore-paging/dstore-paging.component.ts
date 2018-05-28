@@ -11,7 +11,7 @@ export class DstorePagingComponent implements OnInit, OnChanges {
   // 总页数
   @Input() length: number;
   // 显示页数
-  @Input() showSize: number;
+  @Input() showSize = 5;
   // 当前页码
   @Input() page = 1;
   // 页码更改
@@ -26,10 +26,20 @@ export class DstorePagingComponent implements OnInit, OnChanges {
     this.ngOnChanges();
   }
   ngOnChanges() {
-    console.log('ngOnChanges');
-    console.log(this.length);
+    if (!this.length) {
+      return [];
+    }
     this.pageList = _.chain(1)
       .range(this.length + 1)
+      .chunk(this.showSize)
+      .find(ps => ps.includes(this.page))
       .value();
+    if (
+      this.pageList.length < this.showSize &&
+      this.length > this.showSize &&
+      this.pageList.includes(this.length)
+    ) {
+      this.pageList = _.range(this.length, this.length - this.showSize).reverse();
+    }
   }
 }
