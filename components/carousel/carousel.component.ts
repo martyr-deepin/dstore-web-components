@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, timer } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, timer, from } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import * as _ from 'lodash';
 
@@ -25,7 +25,7 @@ export class CarouselComponent implements OnInit {
   ) {}
 
   operationServer = BaseService.serverHosts.operationServer;
-  selectIndex = 0;
+  selectIndex = 3;
   @Input() carouselList: SectionCarousel[];
   @Input() appFilter: AppFilterFunc = Allowed;
   get _carouselList() {
@@ -35,31 +35,51 @@ export class CarouselComponent implements OnInit {
   }
   next$: Observable<void>;
   goto = _.throttle(this._goto, 5000);
-  click = _.debounce(this._click, 600, { leading: true });
+  click = _.throttle((index, name) => {
+    setTimeout(() => this._click(index, name), 0);
+  }, 500);
 
   ngOnInit() {
     this.next$ = timer(3000, 3000).pipe(
       map(() => {
         console.log('next');
-        this.goto(this.selectIndex + 1, '');
+        this.goto(this.selectIndex + 1);
       }),
     );
   }
 
-  _goto(index: number, name: string) {
+  _goto(index: number) {
     if (index >= this._carouselList.length) {
       index = 0;
     }
-    this.selectIndex = index;
+    let left: number[], right: number[];
+    if (index > this.selectIndex) {
+      left = _.range(this.selectIndex + 1, index + 1);
+      right = _.range(this.selectIndex - 1, -1).concat(
+        _.range(this._carouselList.length - 1, index - 1),
+      );
+    } else {
+      left = _.range(this.selectIndex - 1, index - 1);
+      right = _.range(this.selectIndex, this._carouselList.length).concat(_.range(index + 1));
+    }
+    const select = left.length > right.length ? right : left;
+    timer(0, 200)
+      .pipe(take(select.length))
+      .subscribe(i => {
+        i = select[i];
+        console.log(i, new Date());
+        this.selectIndex = i;
+      });
+    // this.selectIndex = index;
   }
 
   _click(index: number, name: string) {
-    console.log('click');
+    console.log('_click', new Date());
     if (this.selectIndex === index && name !== '') {
       this.router.navigate([name], { relativeTo: this.route });
       return;
     }
-    this.goto(index, name);
+    this.goto(index);
     this.goto.flush();
   }
 
