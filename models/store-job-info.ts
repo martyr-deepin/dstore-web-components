@@ -1,8 +1,8 @@
 export class StoreJobInfo {
   id = '';
   name = '';
-  status = '';
-  type = '';
+  status: StoreJobStatus;
+  type: StoreJobType;
   speed = 0;
   progress = 0.0;
   description = '';
