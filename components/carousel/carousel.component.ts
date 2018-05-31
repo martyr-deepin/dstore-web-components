@@ -25,7 +25,7 @@ export class CarouselComponent implements OnInit {
   ) {}
 
   operationServer = BaseService.serverHosts.operationServer;
-  selectIndex = 3;
+  selectIndex = 0;
   @Input() carouselList: SectionCarousel[];
   @Input() appFilter: AppFilterFunc = Allowed;
   get _carouselList() {
