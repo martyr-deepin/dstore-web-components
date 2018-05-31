@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 
 import { StoreJobInfo } from '../models/store-job-info';
 import { AppVersion } from '../models/app-version';
+import { InstalledApp } from '../models/installed';
 
 interface SignalObject {
   connect: (any) => {};
@@ -107,7 +108,25 @@ export class StoreService {
     ).pipe(map((vs: AppVersion[]) => new Map(_.toPairs(_.keyBy(vs, 'name')))));
   }
 
-  getInstalledTime(appNameList: string[]): Observable<number[]> {
+  getInstalledApps(): Observable<InstalledApp[]> {
+    return this.execWithCallback<InstalledApp[]>('storeDaemon.installedPackages').pipe(
+      flatMap(
+        apps => this.getInstalledTimes(apps.map(app => app.name)),
+        (apps, times) => {
+          apps.forEach(
+            app =>
+              (app.time = _.chain(times)
+                .find({ app: app.name })
+                .get('time')
+                .value()),
+          );
+          return apps;
+        },
+      ),
+    );
+  }
+
+  getInstalledTimes(appNameList: string[]): Observable<{ app: string; time: number }[]> {
     return this.execWithCallback(
       'storeDaemon.queryInstalledTime',
       appNameList.toString(),
@@ -115,7 +134,7 @@ export class StoreService {
     );
   }
   getInstalledTimeMap(appNameList: string[]): Observable<Map<string, number>> {
-    return this.getInstalledTime(appNameList).pipe(
+    return this.getInstalledTimes(appNameList).pipe(
       map(
         installedTime =>
           new Map(
@@ -166,6 +185,16 @@ export class StoreService {
   getJobList(): Observable<string[]> {
     return this.execWithCallback('storeDaemon.jobList');
   }
+  jobListChange(): Observable<string[]> {
+    return new Observable<string[]>(obs => {
+      const callback = (jobList: string[]) => {
+        obs.next(jobList);
+      };
+      const method = 'storeDaemon.jobListChanged';
+      Channel.registerCallback(method, callback);
+      return () => Channel.unregisterCallback(method, callback);
+    });
+  }
   getJobListInfo(): Observable<StoreJobInfo[]> {
     return this.getJobList().pipe(
       flatMap(
@@ -185,7 +214,7 @@ export class StoreService {
     );
   }
 
-  execWithCallback(method: string, ...args: any[]): Observable<any> {
+  execWithCallback<T>(method: string, ...args: any[]): Observable<T> {
     const obs$ = new Observable<StoreResponse>(obs => {
       return Channel.execWithCallback(
         (storeResp: StoreResponse) => {
