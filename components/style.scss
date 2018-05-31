@@ -21,4 +21,8 @@
 .empty {
   order: 1;
   opacity: 0;
+  cursor: default !important;
+  * {
+    cursor: default !important;
+  }
 }
