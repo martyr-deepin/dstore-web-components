@@ -97,7 +97,11 @@ export class StoreService {
   }
 
   getVersion(appNameList: string[]): Observable<AppVersion[]> {
-    return this.execWithCallback('storeDaemon.queryVersions', appNameList.toString(), appNameList);
+    return this.execWithCallback<AppVersion[]>(
+      'storeDaemon.queryVersions',
+      appNameList.toString(),
+      appNameList,
+    ).pipe(map(versionList => versionList.filter(v => v.remoteVersion)));
   }
 
   getVersionMap(appNameList: string[]): Observable<Map<string, AppVersion>> {
