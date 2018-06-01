@@ -12,8 +12,9 @@
              [routerLink]="$app.name">
           <img class="icon"
                [src]="server+'/'+$app.icon">
-          <img class="cover"
-               [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+          <div class="cover">
+            <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+          </div>
           <div class="info">
             <span class="name">{{$app.localInfo.description.name}}</span>
             <span class="subtitle">{{$app.localInfo.description.slogan}}</span>

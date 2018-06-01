@@ -2,6 +2,7 @@
   font-size: 10px;
   color: #787878;
   cursor: pointer;
+  word-wrap: break-word;
 }
 .icon {
   width: 48px;
@@ -9,12 +10,32 @@
 }
 
 .cover {
+  border-radius: 4px;
+  margin-bottom: 5px;
   width: 226px;
   height: 140px;
   position: relative;
-  &::before {
-    content: url('/assets/images/default_cover.png');
+  overflow: hidden;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  img {
     position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    &::before {
+      content: url('/assets/images/default_cover.png');
+      position: absolute;
+    }
+  }
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   }
 }
 

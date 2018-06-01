@@ -8,8 +8,9 @@
     <div class="item"
          *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty"
          [routerLink]="$app.name">
-      <img class="cover"
-           [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+      <div class="cover">
+        <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+      </div>
       <div class="info">
         <div class="base">
           <span>{{$app.localInfo.description.name}}</span>
