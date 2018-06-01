@@ -1,14 +1,16 @@
-export class StoreJobInfo {
-  id = '';
-  name = '';
+export interface StoreJobInfo {
+  id: string;
+  job: string;
+  name: string;
   status: StoreJobStatus;
   type: StoreJobType;
-  speed = 0;
-  progress = 0.0;
-  description = '';
-  downloadSize = 0;
-  packages: string[] = [];
-  cancelable = false;
+  speed: number;
+  progress: number;
+  description: string;
+  downloadSize: number;
+  createTime: number;
+  packages: string;
+  cancelable: boolean;
 }
 export enum StoreJobType {
   download = 'download',

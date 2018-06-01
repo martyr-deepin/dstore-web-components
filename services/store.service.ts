@@ -149,12 +149,10 @@ export class StoreService {
   }
 
   getJobInfo(jobPath: string): Observable<StoreJobInfo> {
-    return this.execWithCallback('storeDaemon.getJobInfo', jobPath).pipe(
-      map((jobInfo: StoreJobInfo) => {
-        jobInfo.id = jobPath;
-        return jobInfo;
-      }),
-    );
+    return this.execWithCallback('storeDaemon.getJobInfo', jobPath);
+  }
+  getJobsInfo(jobs: string[]): Observable<StoreJobInfo[]> {
+    return this.execWithCallback('storeDaemon.getJobsInfo', jobs.join(','), jobs);
   }
 
   getJobByName(name: string): Observable<StoreJobInfo> {
