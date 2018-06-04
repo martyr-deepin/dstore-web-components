@@ -1,15 +1,36 @@
 import { result, get } from 'lodash';
+import { Observable } from 'rxjs';
 
 const DstoreObjectPath = 'dstore.channel.objects'.split('.');
 export class DstoreObject {
   static openURL(url: string): void {
     console.log('openURL', url);
-    console.log([...DstoreObjectPath, 'settings', 'openUrl']);
     get(window, [...DstoreObjectPath, 'settings', 'openUrl'])(url);
   }
+
   static getServers(): Promise<Servers> {
     return new Promise<Servers>((resolve, reject) => {
       get(window, [...DstoreObjectPath, 'settings', 'getServers'])((s: Servers) => resolve(s));
+    });
+  }
+
+  static clearArchives(): Observable<void> {
+    return new Observable<void>(obs => {
+      const clearArchives: Signal = get(window, [
+        ...DstoreObjectPath,
+        'storeDaemon',
+        'clearArchives',
+      ]);
+      if (!clearArchives) {
+        obs.error(new Error('do not get'));
+      }
+      const callBack = () => {
+        obs.next();
+      };
+      clearArchives.connect(callBack);
+      return () => {
+        clearArchives.disconnect(callBack);
+      };
     });
   }
 }
@@ -17,3 +38,8 @@ interface Servers {
   metadataServer: string;
   operationServer: string;
 }
+interface Signal {
+  connect: (CallBack) => {};
+  disconnect: (CallBack) => {};
+}
+type CallBack = (result?: any[]) => {};
