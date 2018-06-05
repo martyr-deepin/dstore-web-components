@@ -3,13 +3,16 @@
 <div class="list">
   <ng-container *ngFor="let $index of (section.colSpan*section.rowSpan)|range">
     <div class="item"
-         *ngIf="phraseList[$index]?.name|appInfo|async as $app;else $empty"
-         [routerLink]="$app.name">
-      <img class="icon"
-           [src]="metadataServer +'/'+ $app.icon">
+         *ngIf="phraseList[$index]?.name|appInfo|async as $app;else $empty">
+      <div [routerLink]="$app.name">
+        <img class="icon"
+             [src]="metadataServer +'/'+ $app.icon">
+      </div>
       <div class="info">
-        <span class="name">{{$app.localInfo.description.name}}</span>
-        <span class="subtitle">{{phraseList[$index].phrases|fitLanguage}}</span>
+        <span class="name appTitle"
+              [routerLink]="$app.name">{{$app.localInfo.description.name}}</span>
+        <span class="subtitle"
+              [routerLink]="$app.name">{{phraseList[$index].phrases|fitLanguage}}</span>
       </div>
     </div>
   </ng-container>

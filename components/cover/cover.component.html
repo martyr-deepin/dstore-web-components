@@ -6,14 +6,15 @@
 <div class="list">
   <ng-container *ngFor="let $index of section.rowSpan*section.colSpan|range">
     <div class="item"
-         *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty"
-         [routerLink]="$app.name">
-      <div class="cover">
+         *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty">
+      <div class="cover"
+           [routerLink]="$app.name">
         <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
       </div>
       <div class="info">
         <div class="base">
-          <span>{{$app.localInfo.description.name}}</span>
+          <span class="appTitle"
+                [routerLink]="$app.name">{{$app.localInfo.description.name}}</span>
           <span class="subtitle"
                 [routerLink]="['/category',$app.category]">{{$app.localCategory}}</span>
         </div>
