@@ -22,6 +22,7 @@ export enum StoreJobStatus {
   running = 'running',
   ready = 'ready',
   failed = 'failed',
+  end = 'end',
 }
 export enum AppJobStatus {
   undefined,
