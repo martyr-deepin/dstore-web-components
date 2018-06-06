@@ -7,7 +7,7 @@
   img {
     position: absolute;
     margin: auto;
-    transition: transform 500ms;
+    transition: transform 500ms ease-out;
     left: 0;
     right: 0;
     height: 100%;

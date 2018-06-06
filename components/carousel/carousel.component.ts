@@ -55,22 +55,21 @@ export class CarouselComponent implements OnInit {
     let left: number[], right: number[];
     if (index > this.selectIndex) {
       left = _.range(this.selectIndex + 1, index + 1);
-      right = _.range(this.selectIndex - 1, -1).concat(
-        _.range(this._carouselList.length - 1, index - 1),
-      );
+      right = _
+        .range(this.selectIndex - 1, -1)
+        .concat(_.range(this._carouselList.length - 1, index - 1));
     } else {
       left = _.range(this.selectIndex - 1, index - 1);
-      right = _.range(this.selectIndex, this._carouselList.length).concat(_.range(index + 1));
+      right = _.range(this.selectIndex + 1, this._carouselList.length).concat(_.range(index + 1));
     }
     const select = left.length > right.length ? right : left;
-    timer(0, 200)
+    timer(0, 150)
       .pipe(take(select.length))
       .subscribe(i => {
         i = select[i];
         console.log(i, new Date());
         this.selectIndex = i;
       });
-    // this.selectIndex = index;
   }
 
   _click(index: number, name: string) {
