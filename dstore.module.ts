@@ -39,6 +39,7 @@ import { SizeHuman } from './pipes/size-human';
 import { ChunkPipe } from './pipes/chunk.pipe';
 import { RangePipe } from './pipes/range.pipe';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
+import { DeepinInfoPipe } from './pipes/deepin-info.pipe';
 
 @NgModule({
   imports: [
@@ -77,6 +78,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     RangePipe,
     SanitizerPipe,
     DstorePagingComponent,
+    DeepinInfoPipe,
   ],
   exports: [
     TitleComponent,
@@ -104,6 +106,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
     SizeHuman,
     ChunkPipe,
     RangePipe,
+    DeepinInfoPipe,
   ],
 })
 export class DstoreModule {}
