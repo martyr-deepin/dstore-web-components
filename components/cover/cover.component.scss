@@ -5,13 +5,21 @@
   height: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
+  .item {
+    &:hover {
+      cursor: pointer;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    padding: 5px;
+    margin-bottom: 25px;
+  }
 }
 .info {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   height: 40px;
-  margin-bottom: 30px;
   .base {
     display: flex;
     flex-direction: column;

@@ -5,9 +5,14 @@
   justify-content: space-between;
   .iconItem {
     width: 226px;
-    padding-bottom: 5px;
+    padding: 5px;
     margin-bottom: 10px;
     display: flex;
+    &:hover {
+      cursor: pointer;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
     .info {
       display: flex;
       flex-direction: column;

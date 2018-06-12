@@ -5,8 +5,8 @@
   <ng-container *ngFor="let $index of (section.rowSpan*section.colSpan)|range">
     <ng-container *ngIf="apps[$index] && apps[$index].show && appFilter(apps[$index].name);else $empty">
       <div class="iconItem"
-           *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty"
-           [routerLink]="$app.name">
+           [routerLink]="$app.name"
+           *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty">
         <img [src]="metadataServer+'/'+$app.icon"
              class="icon">
         <div class="info">

@@ -6,8 +6,13 @@
   .item {
     display: flex;
     width: 226px;
-    padding: 5px 0;
+    padding: 5px;
     margin-bottom: 10px;
+    &:hover {
+      cursor: pointer;
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
     .info {
       flex-grow: 1;
       width: calc(226px - 48px);

@@ -5,16 +5,15 @@
      *ngIf="apps$|async as $apps">
   <ng-container *ngFor="let $index of this.section.ranking.count|range">
     <div class="ranking"
+         [routerLink]="app.name"
          *ngIf="$apps[$index] as app;else $empty">
       <img class="icon"
-           [src]="metadataServer+'/'+app.icon"
-           [routerLink]="app.name">
+           [src]="metadataServer+'/'+app.icon">
       <div class="info">
 
         <span class="no">{{$index+1}}.</span>
         <div class="base">
-          <div class="appTitle"
-               [routerLink]="app.name">{{app.localInfo.description.name}}</div>
+          <div class="appTitle">{{app.localInfo.description.name}}</div>
           <div class="subtitle"
                [routerLink]="['/category',app.category]">{{app.localCategory}}</div>
         </div>

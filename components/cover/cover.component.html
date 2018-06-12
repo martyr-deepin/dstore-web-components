@@ -6,15 +6,14 @@
 <div class="list">
   <ng-container *ngFor="let $index of section.rowSpan*section.colSpan|range">
     <div class="item"
+         [routerLink]="$app.name"
          *ngIf="apps[$index]?.name|appInfo|async as $app;else $empty">
-      <div class="cover"
-           [routerLink]="$app.name">
+      <div class="cover">
         <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
       </div>
       <div class="info">
         <div class="base">
-          <span class="appTitle"
-                [routerLink]="$app.name">{{$app.localInfo.description.name}}</span>
+          <span class="appTitle">{{$app.localInfo.description.name}}</span>
           <span class="subtitle"
                 [routerLink]="['/category',$app.category]">{{$app.localCategory}}</span>
         </div>
@@ -32,18 +31,4 @@
       </div>
     </ng-template>
   </ng-container>
-
-  <!-- <div class="item"
-       *ngFor="let app of apps"
-       [routerLink]="app.name">
-    <ng-container *ngIf="app.name|appInfo|async as appInfo">
-      <img class="cover"
-           [src]="metadataServer +'/'+ appInfo.localInfo.images.cover">
-       <span class="truncate">{{appInfo.localInfo.description.name}}</span>
-      <div class="info">
-        <span class="category">{{appInfo.localCategory}}</span>
-        <dstore-star [rate]="3.4"></dstore-star>
-      </div> 
-    </ng-container>
-  </div> -->
 </div>

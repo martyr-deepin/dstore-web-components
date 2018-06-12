@@ -8,18 +8,16 @@
     </div>
     <ng-container *ngFor="let $index of section.rowSpan|range;first as $first">
       <ng-container *ngIf="$assemble.apps[$index]?.name|appInfo|async as $app">
-        <div class="item">
+        <div class="item"
+             [routerLink]="$app.name">
           <img class="icon"
                [src]="server+'/'+$app.icon">
-          <div class="cover"
-               [routerLink]="$app.name">
+          <div class="cover">
             <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
           </div>
           <div class="info">
-            <span class="name appTitle"
-                  [routerLink]="$app.name">{{$app.localInfo.description.name}}</span>
-            <span class="subtitle"
-                  [routerLink]="$app.name">{{$app.localInfo.description.slogan}}</span>
+            <span class="name appTitle">{{$app.localInfo.description.name}}</span>
+            <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
           </div>
         </div>
       </ng-container>
