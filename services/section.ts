@@ -7,6 +7,15 @@ export enum SectionType {
   Assemble,
   Topic,
 }
+export const SectionTypeString = {
+  [SectionType.Carousel]: '轮播图',
+  [SectionType.Cover]: '大图展示',
+  [SectionType.Icon]: '小图标展示',
+  [SectionType.Phrase]: '装机必备',
+  [SectionType.Ranking]: '排行展示',
+  [SectionType.Assemble]: '大小图组合竖排展示',
+  [SectionType.Topic]: '专题展示',
+};
 
 export class Section {
   type: SectionType = SectionType.Carousel;
