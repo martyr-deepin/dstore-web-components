@@ -95,10 +95,12 @@ export class AppService {
       tap(app => console.log(`getAppByName:(${name}):`, app)),
     );
   }
+
   // 根据应用名列表获取应用列表
   getAppListByNames(appNames: string[]): Observable<App[]> {
-    return this._getAppMapCache().pipe(map(m => appNames.map(m.get.bind(m))));
+    return this._getAppMapCache().pipe(map(m => appNames.map(appName => m.get(appName))));
   }
+
   getAppMapByNames(appNames: string[]): Observable<Map<string, App>> {
     return this._getAppMapCache().pipe(
       map(m => {

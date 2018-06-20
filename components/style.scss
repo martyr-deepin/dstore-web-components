@@ -8,6 +8,10 @@
   cursor: pointer;
   word-wrap: break-word;
   align-self: left;
+
+  @media (max-width: 1024px) {
+    font-size: 11px;
+  }
 }
 .icon {
   width: 48px;
