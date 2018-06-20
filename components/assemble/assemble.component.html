@@ -1,26 +1,30 @@
 <dstore-title [title]="section.title|fitLanguage"></dstore-title>
 
-<div class="assembleList">
-  <div class="assemble"
-       *ngFor="let $assemble of assembleList">
-    <div class="title">
-      {{$assemble.name|fitLanguage}}
-    </div>
-    <ng-container *ngFor="let $index of section.rowSpan|range;first as $first">
-      <ng-container *ngIf="$assemble.apps[$index]?.name|appInfo|async as $app">
-        <div class="item"
-             [routerLink]="$app.name">
-          <img class="icon"
-               [src]="server+'/'+$app.icon">
-          <div class="cover">
-            <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+<div class="assembleList"
+     *ngIf="categoryList">
+  <ng-container *ngFor="let $assemble of assembleList">
+    <div class="assemble"
+         *ngIf="categoryList[$assemble.category]">
+      <div class="title"
+           [routerLink]="['/category',$assemble.category]">
+        {{categoryList[$assemble.category].LocalName}}
+      </div>
+      <ng-container *ngFor="let $index of section.rowSpan|range;first as $first">
+        <ng-container *ngIf="$assemble.apps[$index]?.name|appInfo|async as $app">
+          <div class="item"
+               [routerLink]="$app.name">
+            <img class="icon"
+                 [src]="server+'/'+$app.icon">
+            <div class="cover">
+              <img [src]="server+'/'+([$app.localInfo.images.cover,$app.localInfo.images.coverHD]|fitImage)">
+            </div>
+            <div class="info">
+              <span class="name appTitle">{{$app.localInfo.description.name}}</span>
+              <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
+            </div>
           </div>
-          <div class="info">
-            <span class="name appTitle">{{$app.localInfo.description.name}}</span>
-            <span class="subtitle">{{$app.localInfo.description.slogan}}</span>
-          </div>
-        </div>
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
 </div>

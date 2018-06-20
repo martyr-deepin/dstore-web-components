@@ -9,6 +9,7 @@ import { App } from '../../services/app';
 import { SectionAssemble, Section, SectionApp } from '../../services/section';
 import { AppFilterFunc, Allowed } from '../appFilter';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CategoryService, Category } from '../../services/category.service';
 
 @Component({
   selector: 'dstore-assemble',
@@ -21,15 +22,20 @@ export class AssembleComponent implements OnInit {
   @Input() assembleList: SectionAssemble[] = [];
   @Input() appFilter: AppFilterFunc = Allowed;
 
-  constructor(private appService: AppService, private sanitizer: DomSanitizer) {}
+  constructor(
+    private appService: AppService,
+    private sanitizer: DomSanitizer,
+    private category: CategoryService,
+  ) {}
+  categoryList: { [key: string]: Category };
 
   filter(apps: SectionApp[]) {
     return apps.filter(app => app.show && this.appFilter(app.name));
   }
 
-  getCoverStyle(cover: string) {
-    return this.sanitizer.bypassSecurityTrustStyle(`--cover: url("${cover}")`);
+  ngOnInit() {
+    this.category.getList().subscribe(cs => {
+      this.categoryList = cs;
+    });
   }
-
-  ngOnInit() {}
 }

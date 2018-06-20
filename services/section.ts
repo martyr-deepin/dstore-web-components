@@ -5,7 +5,7 @@ export enum SectionType {
   Phrase,
   Ranking,
   Assemble,
-  Topic
+  Topic,
 }
 
 export class Section {
@@ -49,7 +49,7 @@ export class SectionTopic {
 }
 
 export class SectionAssemble {
-  name: string[] = ['', ''];
+  category = '';
   show = true;
   apps: SectionApp[] = [];
 }
@@ -61,7 +61,7 @@ export function sectionAddItem(section: Section) {
     [SectionType.Icon]: new SectionApp(),
     [SectionType.Phrase]: new SectionPhrase(),
     [SectionType.Assemble]: new SectionAssemble(),
-    [SectionType.Topic]: new SectionTopic()
+    [SectionType.Topic]: new SectionTopic(),
   };
   if (newSectionItem[section.type]) {
     section.items = [...section.items, newSectionItem[section.type]];
