@@ -12,6 +12,7 @@ export class App {
   homePage: string;
   icon: string;
   packageURI: string[];
+  extra: { [key: string]: any };
   locale: { [key: string]: LocalInfo };
   constructor() {
     const model = {
@@ -21,7 +22,8 @@ export class App {
       category: '',
       homePage: '',
       icon: '',
-      packageURI: '[""]',
+      packageURI: '',
+      extra: '',
       locale: {
         en_US: new LocalInfo(),
         zh_CN: new LocalInfo(),
@@ -48,6 +50,8 @@ export function appReplacer(k: string, v: any): any {
     case 'locale':
       return _.pickBy(<{ [key: string]: LocalInfo }>v, info => info.description.name);
     case 'packageURI':
+      return JSON.stringify(v);
+    case 'extra':
       return JSON.stringify(v);
     case 'versions':
       return (<Version[]>v).filter(vv => vv.version);
@@ -87,7 +91,9 @@ export function appReviver(k: string, v: any): any {
     case 'versions':
       return v || [{ version: '', changeLog: '' }];
     case 'packageURI':
-      return v ? JSON.parse(v) : [];
+      return v ? JSON.parse(v) : [''];
+    case 'extra':
+      return v ? JSON.parse(v) : { open: 'desktop' };
     case 'locale':
       return {
         zh_CN: v['zh_CN'] || new LocalInfo(),
@@ -111,13 +117,15 @@ export function appReviver(k: string, v: any): any {
               images.coverHD = _.first(imgs).path;
               break;
             case ImageType.Screenshot:
-              images.screenshot = _.chain(imgs)
+              images.screenshot = _
+                .chain(imgs)
                 .sortBy('order')
                 .map('path')
                 .value();
               break;
             case ImageType.ScreenshotHD:
-              images.screenshotHD = _.chain(imgs)
+              images.screenshotHD = _
+                .chain(imgs)
                 .sortBy('order')
                 .map('path')
                 .value();
@@ -220,7 +228,8 @@ interface Image {
 }
 
 export function appSearch(app: App, search: string): boolean {
-  return _.flatMap(app.locale, localInfo => Object.values(localInfo.description))
+  return _
+    .flatMap(app.locale, localInfo => Object.values(localInfo.description))
     .concat(app.name)
     .map(v => v.includes(search))
     .includes(true);
