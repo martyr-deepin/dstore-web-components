@@ -38,8 +38,15 @@ export class SectionApp {
   show = true;
 }
 
-export class SectionCarousel extends SectionApp {
-  images: string[] = [];
+export enum CarouselType {
+  App,
+  Topic = 1,
+}
+export class SectionCarousel {
+  type = CarouselType.App;
+  link = '';
+  images = [];
+  show = true;
 }
 
 export class SectionPhrase extends SectionApp {
@@ -63,7 +70,7 @@ export class SectionAssemble {
   apps: SectionApp[] = [];
 }
 
-export function sectionAddItem(section: Section) {
+export function sectionAddItem(section: Section, ...arge: any[]) {
   const newSectionItem = {
     [SectionType.Carousel]: new SectionCarousel(),
     [SectionType.Cover]: new SectionApp(),

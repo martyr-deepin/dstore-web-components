@@ -9,7 +9,7 @@ import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
 
 import { App } from '../../services/app';
-import { SectionCarousel } from '../../services/section';
+import { SectionCarousel, CarouselType } from '../../services/section';
 import { AppFilterFunc, Allowed } from '../appFilter';
 
 @Component({
@@ -29,9 +29,9 @@ export class CarouselComponent implements OnInit {
   @Input() carouselList: SectionCarousel[];
   @Input() appFilter: AppFilterFunc = Allowed;
   get _carouselList() {
-    return this.carouselList.filter(
-      carouse => carouse.images.length > 0 && carouse.show && this.appFilter(carouse.name),
-    );
+    return this.carouselList
+      .filter(carousel => carousel.images.length > 0 && carousel.show)
+      .filter(carousel => carousel.type !== CarouselType.App || this.appFilter(carousel.link));
   }
   next$: Observable<void>;
   goto = _.throttle(this._goto, 5000);
