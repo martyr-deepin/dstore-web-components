@@ -16,7 +16,7 @@ export class DeepinInfoPipe implements PipeTransform {
     (value: string): Observable<DeepinInfo> => {
       return this.http
         .get<{ user: DeepinInfo }>(
-          BaseService.serverHosts.metadataServer + '/api/deepin_user/' + value,
+          BaseService.serverHosts.operationServer + '/api/deepin_id/' + value,
         )
         .pipe(
           map(resp => resp.user),
