@@ -20,8 +20,8 @@ export class AppService {
 
   constructor(private http: HttpClient, private categoryServer: CategoryService) {}
 
-  private appsMap = new Map<string, App>();
-  private lastModified: string;
+  private appsMap = new Map(JSON.parse(localStorage.getItem('apps_raw')) as [string, App][]);
+  private lastModified: string = localStorage.getItem('lastModified');
   // 一秒的缓冲节流的_getAppMap
   private _getAppMapCache = throttle(this._getAppMap, 1000);
   // 获取应用列表，应用名为键
@@ -47,7 +47,9 @@ export class AppService {
           // 增量覆盖
           this.appsMap.set(app.name, app);
         });
+        localStorage.setItem('lastModified', this.lastModified);
         this.lastModified = result.lastModified;
+        localStorage.setItem('apps_raw', JSON.stringify(Array.from(this.appsMap.entries())));
         return this.appsMap;
       }),
       shareReplay(),
