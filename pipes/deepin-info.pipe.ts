@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { BaseService } from '../services/base.service';
-import { DeepinInfo } from '../services/deepin-info.model';
 
 @Pipe({
   name: 'deepinInfo',
@@ -24,4 +23,13 @@ export class DeepinInfoPipe implements PipeTransform {
         );
     },
   );
+}
+
+export interface DeepinInfo {
+  uid: number;
+  username: string;
+  scope: string;
+  profile_image: string;
+  website: string;
+  signature: string;
 }
