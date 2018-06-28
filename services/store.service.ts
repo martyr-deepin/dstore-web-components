@@ -41,9 +41,9 @@ export class StoreService {
    * @param {string} appName
    * @returns {Observable<string>} path to job
    */
-  installPackage(appName: string): Observable<string> {
+  installPackage(appName: string, localName: string): Observable<string> {
     console.log('StoreService.installPackage()');
-    return this.execWithCallback('storeDaemon.installPackage', appName);
+    return this.execWithCallback('storeDaemon.installPackage', appName, localName);
   }
 
   /**
@@ -51,14 +51,14 @@ export class StoreService {
    * @param {string} appName
    * @returns {Observable<string>}
    */
-  updatePackage(appName: string): Observable<string> {
+  updatePackage(appName: string, localName: string): Observable<string> {
     console.log('updatePackage: ', appName);
-    return this.execWithCallback('storeDaemon.updatePackage', appName);
+    return this.execWithCallback('storeDaemon.updatePackage', appName, localName);
   }
 
-  removePackage(appName: string): Observable<string> {
+  removePackage(appName: string, localName: string): Observable<string> {
     console.log('removePackage: ', appName);
-    return this.execWithCallback('storeDaemon.removePackage', appName);
+    return this.execWithCallback('storeDaemon.removePackage', appName, localName);
   }
 
   /**
@@ -119,7 +119,8 @@ export class StoreService {
         (apps, times) => {
           apps.forEach(
             app =>
-              (app.time = _.chain(times)
+              (app.time = _
+                .chain(times)
                 .find({ app: app.name })
                 .get('time')
                 .value()),
@@ -142,7 +143,8 @@ export class StoreService {
       map(
         installedTime =>
           new Map(
-            _.chain(installedTime)
+            _
+              .chain(installedTime)
               .keyBy('app')
               .mapValues('time')
               .entries()
