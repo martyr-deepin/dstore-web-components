@@ -47,8 +47,8 @@ export class AppService {
           // 增量覆盖
           this.appsMap.set(app.name, app);
         });
-        localStorage.setItem('lastModified', this.lastModified);
         this.lastModified = result.lastModified;
+        localStorage.setItem('lastModified', this.lastModified);
         localStorage.setItem('apps_raw', JSON.stringify(Array.from(this.appsMap.entries())));
         return this.appsMap;
       }),
@@ -74,6 +74,11 @@ export class AppService {
           this.lastModified = null;
           this.appsMap.clear();
           throw result.error.code;
+        }
+        if (result.deleted) {
+          result.deleted.map(appName => {
+            this.appsMap.delete(appName);
+          });
         }
       }),
       retry(3),
@@ -124,5 +129,6 @@ export class AppService {
 interface Result {
   lastModified: string;
   apps: App[];
+  deleted: string[];
   error: Error;
 }
