@@ -100,6 +100,7 @@ export class AppService {
           return appMap;
         },
       ),
+      shareReplay(),
     );
 
     // return forkJoin(this.getAppListResult(), this.categoryServer.getList()).pipe(
