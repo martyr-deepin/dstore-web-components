@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, timer, from, fromEvent, merge, Subject, Subscription } from 'rxjs';
 import { map, take, startWith, timeInterval, delayWhen, switchMap } from 'rxjs/operators';
 
-import { range, throttle } from 'lodash';
+import { range, throttle, cloneDeep } from 'lodash';
 
 import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
@@ -56,14 +56,26 @@ export class CarouselComponent implements OnInit, OnDestroy {
   @Input() carouselList: SectionCarousel[];
   @Input() appFilter: AppFilterFunc = Allowed;
   get _carouselList() {
-    return this.carouselList
+    const list = this.carouselList
       .filter(carousel => carousel.images.length > 0 && carousel.show)
       .filter(carousel => carousel.type !== CarouselType.App || this.appFilter(carousel.link));
+    if (list.length > 0 && list.length < 4) {
+      if (this.fill) {
+        return list.concat(...this.fill);
+      } else {
+        this.fill = [];
+        while (list.length + this.fill.length < 4) {
+          this.fill.push(...cloneDeep(list));
+        }
+        return list.concat(...this.fill);
+      }
+    }
   }
   selectSub = new Subject<number>();
   selectIndex = 0;
   list: SectionCarousel[];
   left = 0;
+  fill: SectionCarousel[];
 
   align$: Subscription;
   select$: Subscription;
@@ -105,10 +117,17 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   getList(index: number) {
     const cs = this._carouselList;
-    if (index < 0) {
-      index = this._carouselList.length - 1;
+
+    if (cs.length === 0) {
+      this.selectIndex = 0;
+      this.list = [];
+      return;
     }
-    if (index >= this._carouselList.length) {
+
+    if (index < 0) {
+      index = cs.length - 1;
+    }
+    if (index >= cs.length) {
       index = 0;
     }
     this.selectIndex = index;
@@ -126,14 +145,10 @@ export class CarouselComponent implements OnInit, OnDestroy {
         break;
     }
     this.list = list;
+    console.log(this.list, index, cs);
   }
 
   __click(index: number) {
-    this._click(index);
-    this._click.flush();
-  }
-
-  click(index: number) {
     if (index === this.selectIndex) {
       const select = this._carouselList[this.selectIndex];
       if (select.type === CarouselType.App) {
@@ -143,10 +158,17 @@ export class CarouselComponent implements OnInit, OnDestroy {
       }
       return;
     }
+    this._click(index);
+    this._click.flush();
+  }
+
+  click(index: number) {
     this.selectSub.next(index);
   }
 
   select(index: number) {
+    this._click(this.selectIndex);
+    this._click.flush();
     const arr = range(this.selectIndex, index + (this.selectIndex > index ? -1 : 1));
     this.go(arr);
   }
