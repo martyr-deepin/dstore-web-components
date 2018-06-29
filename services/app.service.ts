@@ -20,8 +20,8 @@ export class AppService {
 
   constructor(private http: HttpClient, private categoryServer: CategoryService) {}
 
-  private appsMap = new Map(JSON.parse(localStorage.getItem('apps_raw')) as [string, App][]);
-  private lastModified: string = localStorage.getItem('lastModified');
+  private appsMap = new Map<string, App>();
+  private lastModified: string;
   // 一秒的缓冲节流的_getAppMap
   private _getAppMapCache = throttle(this._getAppMap, 1000);
   // 获取应用列表，应用名为键

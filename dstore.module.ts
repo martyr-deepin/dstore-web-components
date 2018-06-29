@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MaterializeModule } from 'angular2-materialize';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -42,14 +41,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { DeepinInfoPipe } from './pipes/deepin-info.pipe';
 
 @NgModule({
-  imports: [
-    MaterializeModule,
-    BrowserModule,
-    HttpModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [BrowserModule, HttpModule, RouterModule, FormsModule, ReactiveFormsModule],
   providers: [AppService, CategoryService, DownloadingService, MaterializeService],
   declarations: [
     TitleComponent,

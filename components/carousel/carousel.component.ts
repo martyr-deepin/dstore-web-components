@@ -76,9 +76,8 @@ export class CarouselComponent implements OnInit {
   centerAlign() {
     const context = document.querySelector('.context');
     const carousel = document.querySelector('.carouselList');
-    merge(fromEvent(window, 'resize'), timer(0)).subscribe(() => {
+    merge(fromEvent(window, 'resize'), timer(0, 500)).subscribe(() => {
       this.left = -(carousel.clientWidth - context.clientWidth) / 2;
-      console.log('resize', context.clientWidth, carousel.clientWidth);
     });
   }
 
