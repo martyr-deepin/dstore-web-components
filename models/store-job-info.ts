@@ -2,6 +2,7 @@ export interface StoreJobInfo {
   id: string;
   job: string;
   name: string;
+  names: string[];
   status: StoreJobStatus;
   type: StoreJobType;
   speed: number;

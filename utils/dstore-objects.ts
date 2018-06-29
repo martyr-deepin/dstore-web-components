@@ -1,16 +1,24 @@
-import { result, get } from 'lodash';
+import { result, get, noop } from 'lodash';
 import { Observable } from 'rxjs';
 
 const DstoreObjectPath = 'dstore.channel.objects'.split('.');
+
 export class DstoreObject {
   static openURL(url: string): void {
     console.log('openURL', url);
-    get(window, [...DstoreObjectPath, 'settings', 'openUrl'])(url);
+    get(window, [...DstoreObjectPath, 'settings', 'openUrl'], noop)(url);
+  }
+
+  static raiseWindow() {
+    console.log('raiseWindow');
+    result(window, [...DstoreObjectPath, 'settings', 'raiseWindow']);
   }
 
   static getServers(): Promise<Servers> {
     return new Promise<Servers>((resolve, reject) => {
-      get(window, [...DstoreObjectPath, 'settings', 'getServers'])((s: Servers) => resolve(s));
+      get(window, [...DstoreObjectPath, 'settings', 'getServers'], noop)((s: Servers) =>
+        resolve(s),
+      );
     });
   }
 
