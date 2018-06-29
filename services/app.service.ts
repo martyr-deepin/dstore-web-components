@@ -38,7 +38,6 @@ export class AppService {
 
   // 获取应用列表，应用名为键
   private _getAppMap() {
-    console.log(this.appsStoreKey, this.timeStoreKey);
     return forkJoin<AppMap, string>(
       this.store.getItem(this.appsStoreKey),
       this.store.getItem(this.timeStoreKey),
@@ -73,8 +72,10 @@ export class AppService {
           });
         }
         if (appMapChange.deleted) {
-          appMapChange.deleted.forEach(appName => {
-            delete appMap[appName];
+          Object.values(appMap).map(app => {
+            if (appMapChange.deleted.includes(app.id)) {
+              delete appMap[app.name];
+            }
           });
         }
         this.store.clear().then(() => {
@@ -90,10 +91,12 @@ export class AppService {
         (appMap, categories) => {
           Object.values(appMap).forEach(app => {
             // set localInfo
-            app.localInfo =
-              app.locale[Locale.getUnixLocale()] ||
-              Object.values(app.locale).find(local => local.description.name !== '') ||
-              Object.values(app.locale)[0];
+            app.localInfo = app.locale[Locale.getUnixLocale()];
+            if (!get(app.locale, [Locale.getUnixLocale(), 'description', 'name'])) {
+              app.localInfo = Object.values(app.locale).find(
+                local => local.description.name !== '',
+              );
+            }
             app.localInfo = defaultsDeep(app.localInfo, ...Object.values(app.locale), new App());
             app.localCategory = categories[app.category].LocalName || app.category;
           });
@@ -102,38 +105,6 @@ export class AppService {
       ),
       shareReplay(),
     );
-
-    // return forkJoin(this.getAppListResult(), this.categoryServer.getList()).pipe(
-    //   map(([result, categories]) => {
-    //     if (!result.apps) {
-    //       result.apps = [];
-    //     }
-    //     result.apps.forEach(app => {
-    //       // set localInfo
-    //       if (get(app.locale, [Locale.getUnixLocale(), 'description', 'name'])) {
-    //         app.localInfo = app.locale[Locale.getUnixLocale()];
-    //       } else {
-    //         app.localInfo = chain(app.locale)
-    //           .toArray()
-    //           .find(local => local.description.name !== '')
-    //           .value();
-    //       }
-    //       app.localInfo = defaultsDeep(app.localInfo, ...Object.values(app.locale), new App());
-    //       // set localCategory
-    //       app.localCategory = categories[app.category].LocalName || app.category;
-    //       // 增量覆盖
-    //       // this.appsMap.set(app.name, app);
-    //       this.appsMap[app.name] = app;
-    //     });
-    //     this.lastModified = result.lastModified;
-
-    //     this.store.setItem(this.token + 'lastModified', this.lastModified);
-    //     this.store.setItem(this.token + 'apps_raw', this.appsMap);
-
-    //     return this.appsMap;
-    //   }),
-    //   shareReplay(),
-    // );
   }
 
   // 获取全部应用列表
@@ -167,6 +138,6 @@ interface AppMap {
 interface Result {
   lastModified: string;
   apps: App[];
-  deleted: string[];
+  deleted: number[];
   error: Error;
 }
