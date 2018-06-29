@@ -1,28 +1,8 @@
-<!-- <div class="carouselList">
-
-  <ng-container *ngFor="let items of _carouselList; index as $index">
-    <img [src]="operationServer +'/images/'+(items.images|fitImage)"
-         [ngClass]="getClass($index)"
-         (click)="click($index,items.link)"
-         (dblclick)="null">
-  </ng-container>
-
-  <div class="indicationList">
-    <div class="indicationItem"
-         [class.select]='selectIndex==$index'
-         *ngFor="let items of _carouselList;index as $index"
-         (click)="click($index)"></div>
-  </div>
-
-</div>
-
-{{next$|async}} -->
-
 <div class="carouselList"
      [style.left.px]="left">
   <ng-container *ngFor="let items of list; index as $index">
     <img src="{{operationServer}}/images/{{items.images|fitImage}}"
-         (click)="click(selectIndex+$index-1)"
+         (click)="__click(selectIndex+$index-1)"
          [@carousel]="$index">
   </ng-container>
   <div class="indicationList">

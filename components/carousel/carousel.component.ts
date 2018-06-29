@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, timer, from, fromEvent, merge, Subject } from 'rxjs';
-import { map, take, startWith, timeInterval, delayWhen } from 'rxjs/operators';
+import { Observable, timer, from, fromEvent, merge, Subject, Subscription } from 'rxjs';
+import { map, take, startWith, timeInterval, delayWhen, switchMap } from 'rxjs/operators';
 
-import { range } from 'lodash';
+import { range, throttle } from 'lodash';
 
 import { BaseService } from '../../services/base.service';
 import { AppService } from '../../services/app.service';
@@ -46,7 +46,7 @@ const toRight = [style({ transform: 'translateX(-100%)' }), animate(speed)];
     ]),
   ],
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -65,20 +65,42 @@ export class CarouselComponent implements OnInit {
   list: SectionCarousel[];
   left = 0;
 
+  align$: Subscription;
+  select$: Subscription;
+  timer$: Subscription;
+
+  _click = throttle(index => {
+    this.click(index);
+  }, 4000);
+
   ngOnInit() {
-    this.centerAlign();
-    this.selectSub.pipe(startWith(0)).subscribe(i => {
+    this.align$ = this.centerAlign();
+
+    this.select$ = this.selectSub.pipe(startWith(0)).subscribe(i => {
       console.log('sub', i);
       this.getList(i);
     });
+
+    this.timer$ = timer(4000, 4000).subscribe(() => {
+      this._click(this.selectIndex + 1);
+    });
+  }
+  ngOnDestroy() {
+    this.align$.unsubscribe();
+    this.select$.unsubscribe();
   }
 
   centerAlign() {
-    const context = document.querySelector('.context');
-    const carousel = document.querySelector('.carouselList');
-    merge(fromEvent(window, 'resize'), timer(0, 500)).subscribe(() => {
+    return merge(fromEvent(window, 'resize'), timer(0, 1000)).subscribe(() => {
+      console.log('center align');
+      const context = document.querySelector('.context');
+      const carousel = document.querySelector('.carouselList');
       this.left = -(carousel.clientWidth - context.clientWidth) / 2;
     });
+  }
+
+  next() {
+    return timer(0, 4000).subscribe(() => {});
   }
 
   getList(index: number) {
@@ -106,6 +128,11 @@ export class CarouselComponent implements OnInit {
     this.list = list;
   }
 
+  __click(index: number) {
+    this._click(index);
+    this._click.flush();
+  }
+
   click(index: number) {
     if (index === this.selectIndex) {
       const select = this._carouselList[this.selectIndex];
@@ -123,6 +150,7 @@ export class CarouselComponent implements OnInit {
     const arr = range(this.selectIndex, index + (this.selectIndex > index ? -1 : 1));
     this.go(arr);
   }
+
   go(arr: number[]) {
     this.selectSub.next(arr.shift());
     if (arr.length > 0) {
