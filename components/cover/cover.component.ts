@@ -40,7 +40,7 @@ export class CoverComponent implements OnInit, OnDestroy {
   @Input() appFilter: AppFilterFunc = Allowed;
   // data
   moreNav: any[];
-  appList: App[];
+  appList: App[] = [];
   jobs: { [key: string]: StoreJobInfo } = {};
   jobsNames = new Set<string>();
   jobs$: Subscription;
