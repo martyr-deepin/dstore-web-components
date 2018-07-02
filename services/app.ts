@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { AppVersion } from '../../dstore-client.module/models/app-version';
 
 export class App {
   id = 0;
@@ -32,15 +33,12 @@ export class App {
     return JSON.parse(JSON.stringify(model), appReviver);
   }
 
-  active: boolean;
-  downloadCount: number;
-  downloadRanking: number;
   localInfo: LocalInfo;
   localCategory: string;
-  updatingCount: number;
-  updatingVersion: string;
-  lastUpdated: Date;
-  updatingRanking: number;
+  version: AppVersion;
+
+  downloadCount: number;
+  downloadRanking: number;
 }
 
 // 自定义序列号App JSON
