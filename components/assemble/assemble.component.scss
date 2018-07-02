@@ -24,6 +24,16 @@
         background-color: rgba(0, 0, 0, 0.05);
         .info {
           border-bottom: 1px solid transparent;
+          .control {
+            display: block;
+          }
+        }
+      }
+      &.job {
+        .info {
+          .control {
+            display: block;
+          }
         }
       }
       &:nth-child(2) {
@@ -38,7 +48,10 @@
         }
         .info {
           height: 46px;
-          justify-content: center;
+          justify-content: space-between;
+          .base {
+            padding-top: 0.5rem;
+          }
         }
       }
       &:not(:nth-child(2)) {
@@ -46,7 +59,7 @@
         .cover {
           display: none;
         }
-        .name {
+        .base {
           padding-top: 1rem;
         }
       }
@@ -58,10 +71,19 @@
       .info {
         display: flex;
         flex: 1;
-        flex-direction: column;
         padding: 0 6px;
         height: 100%;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        justify-content: space-between;
+        .base {
+          display: flex;
+          flex-direction: column;
+        }
+        .control {
+          display: none;
+          margin-left: 4px;
+          align-self: center;
+        }
       }
     }
   }

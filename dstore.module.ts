@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClientModule } from '../dstore-client.module/client.module';
 
 import { AppService } from './services/app.service';
 import { CategoryService } from './services/category.service';
@@ -39,9 +40,17 @@ import { ChunkPipe } from './pipes/chunk.pipe';
 import { RangePipe } from './pipes/range.pipe';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { DeepinInfoPipe } from './pipes/deepin-info.pipe';
+import { StopDirective } from './directive/stop.directive';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    HttpModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ClientModule,
+  ],
   providers: [AppService, CategoryService, DownloadingService, MaterializeService],
   declarations: [
     TitleComponent,
@@ -71,6 +80,7 @@ import { DeepinInfoPipe } from './pipes/deepin-info.pipe';
     SanitizerPipe,
     DstorePagingComponent,
     DeepinInfoPipe,
+    StopDirective,
   ],
   exports: [
     TitleComponent,

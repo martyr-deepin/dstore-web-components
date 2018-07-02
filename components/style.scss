@@ -1,6 +1,11 @@
 .appTitle {
   cursor: pointer;
-  align-self: left;
+  white-space: nowrap;
+
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  flex-grow: 0;
 }
 .subtitle {
   font-size: 10px;
@@ -27,11 +32,12 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  background-image: url('/assets/images/default_cover.png');
   img {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: 0;
     &::before {
       content: url('/assets/images/default_cover.png');
       position: absolute;

@@ -12,15 +12,39 @@
       cursor: pointer;
       border-radius: 4px;
       background-color: rgba(0, 0, 0, 0.05);
+      .info {
+        .control {
+          display: block;
+        }
+      }
+    }
+    &.job {
+      .info {
+        .control {
+          display: block;
+        }
+      }
     }
     .info {
       flex-grow: 1;
       width: calc(226px - 48px);
       display: flex;
-      flex-direction: column;
       padding-left: 0.8rem;
-      .name {
-        margin-top: 5px;
+      justify-content: space-between;
+      min-width: 0;
+      .base {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex-direction: column;
+        .appTitle {
+          margin-top: 5px;
+        }
+      }
+      .control {
+        display: none;
+        align-self: center;
+        margin-left: 5px;
       }
     }
   }

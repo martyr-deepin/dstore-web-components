@@ -70,6 +70,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
         return list.concat(...this.fill);
       }
     }
+    return list;
   }
   selectSub = new Subject<number>();
   selectIndex = 0;
@@ -89,7 +90,6 @@ export class CarouselComponent implements OnInit, OnDestroy {
     this.align$ = this.centerAlign();
 
     this.select$ = this.selectSub.pipe(startWith(0)).subscribe(i => {
-      console.log('sub', i);
       this.getList(i);
     });
 
@@ -100,19 +100,15 @@ export class CarouselComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.align$.unsubscribe();
     this.select$.unsubscribe();
+    this.timer$.unsubscribe();
   }
 
   centerAlign() {
     return merge(fromEvent(window, 'resize'), timer(0, 1000)).subscribe(() => {
-      console.log('center align');
       const context = document.querySelector('.context');
       const carousel = document.querySelector('.carouselList');
       this.left = -(carousel.clientWidth - context.clientWidth) / 2;
     });
-  }
-
-  next() {
-    return timer(0, 4000).subscribe(() => {});
   }
 
   getList(index: number) {
@@ -145,7 +141,6 @@ export class CarouselComponent implements OnInit, OnDestroy {
         break;
     }
     this.list = list;
-    console.log(this.list, index, cs);
   }
 
   __click(index: number) {
@@ -176,7 +171,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
   go(arr: number[]) {
     this.selectSub.next(arr.shift());
     if (arr.length > 0) {
-      requestAnimationFrame(() => this.go(arr));
+      setTimeout(() => requestAnimationFrame(() => this.go(arr)), 50);
     }
   }
 }

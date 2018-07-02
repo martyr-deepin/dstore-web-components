@@ -1,52 +1,3 @@
-.carouselList1 {
-  user-select: none;
-  display: block;
-  position: relative;
-  transform-style: preserve-3d;
-  height: 200px;
-  img {
-    position: absolute;
-    margin: auto;
-    transition: transform 500ms ease-out;
-    left: 0;
-    right: 0;
-    height: 100%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transform: scaleX(0.6) scaleY(0.6);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), inset 0 2px 0 0 rgba(255, 255, 255, 0.1);
-    border: solid 1px rgba(0, 0, 0, 0.2);
-    &.last {
-      transform: translateX(-10%) translateZ(0px) scaleY(0.9);
-    }
-    &.current {
-      transform: translateX(0) translateZ(1px) scaleY(1);
-    }
-    &.next {
-      transform: translateX(10%) translateZ(0px) scaleY(0.9);
-    }
-  }
-
-  .indicationList {
-    width: 100%;
-    transform: translateZ(2px);
-    position: absolute;
-    bottom: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .indicationItem {
-      width: 8px;
-      height: 8px;
-      margin: 0 3px;
-      background-color: rgba(255, 255, 255, 0.3);
-      border: 1px solid rgba(0, 0, 0, 0.3);
-      border-radius: 50%;
-      &.select {
-        background-color: #01bdff;
-      }
-    }
-  }
-}
 :host {
   height: 180px;
   width: 700px;
@@ -75,7 +26,7 @@
       height: 8px;
       border-radius: 50%;
       background-color: rgba(255, 255, 255, 0.3);
-      border: 1px solid rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
       cursor: pointer;
       &.active {
         background-color: #01bdff;
