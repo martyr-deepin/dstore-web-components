@@ -1,7 +1,7 @@
 import { Injectable, NgZone, Version } from '@angular/core';
 import { Channel } from '../utils/channel';
 import { Observable, forkJoin, of } from 'rxjs';
-import { flatMap, map, filter, take, switchMap } from 'rxjs/operators';
+import { flatMap, map, filter, take, switchMap, shareReplay, share } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { StoreJobInfo } from '../models/store-job-info';
@@ -15,6 +15,9 @@ interface SignalObject {
 
 @Injectable()
 export class StoreService {
+  getJobList = _.throttle(() => this._getJobList().pipe(shareReplay()), 1000);
+  getJobsInfo = _.throttle((jobs: string[]) => this._getJobsInfo(jobs).pipe(shareReplay()), 1000);
+
   constructor(private zone: NgZone) {}
   /**
    * Check connectivity to backend lastore daemon.
@@ -157,7 +160,8 @@ export class StoreService {
   getJobInfo(jobPath: string): Observable<StoreJobInfo> {
     return this.execWithCallback('storeDaemon.getJobInfo', jobPath);
   }
-  getJobsInfo(jobs: string[]): Observable<StoreJobInfo[]> {
+
+  private _getJobsInfo(jobs: string[]): Observable<StoreJobInfo[]> {
     return this.execWithCallback('storeDaemon.getJobsInfo', jobs.join(','), jobs);
   }
 
@@ -186,7 +190,7 @@ export class StoreService {
    * Get all of jobs in backend.
    * @returns {Observable<string[]>}
    */
-  getJobList(): Observable<string[]> {
+  private _getJobList(): Observable<string[]> {
     return this.execWithCallback('storeDaemon.jobList');
   }
   jobListChange(): Observable<string[]> {
