@@ -100,7 +100,9 @@ export class PhraseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.jobs$.unsubscribe();
+    if (this.jobs$) {
+      this.jobs$.unsubscribe();
+    }
   }
 
   installApp(app: App) {

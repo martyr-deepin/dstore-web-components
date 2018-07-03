@@ -93,7 +93,9 @@ export class CoverComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.jobs$.unsubscribe();
+    if (this.jobs$) {
+      this.jobs$.unsubscribe();
+    }
   }
 
   installApp(app: App) {

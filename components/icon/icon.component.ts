@@ -91,7 +91,9 @@ export class IconComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy() {
-    this.jobs$.unsubscribe();
+    if (this.jobs$) {
+      this.jobs$.unsubscribe();
+    }
   }
   installApp(app: App) {
     this.storeService.installPackage(app.name, app.localInfo.description.name).subscribe();
