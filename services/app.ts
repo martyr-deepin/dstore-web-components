@@ -226,10 +226,11 @@ interface Image {
 }
 
 export function appSearch(app: App, search: string): boolean {
+  const s = search.toLocaleLowerCase();
   return _
     .flatMap(app.locale, localInfo => Object.values(localInfo.description))
     .concat(app.name)
-    .map(v => v.includes(search))
+    .map((v: string) => v.toLocaleLowerCase().includes(s))
     .includes(true);
 }
 
