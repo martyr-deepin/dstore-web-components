@@ -59,7 +59,10 @@ export class PhraseComponent implements OnInit, OnDestroy {
       .getApps(this.phraseList.filter(app => app.show).map(app => app.name))
       .subscribe(appList => {
         this.appList = appList;
-        this.moreNav = ['./apps', { apps: appList.map(app => app.name) }];
+        this.moreNav = [
+          './apps',
+          { title: this.section.title, apps: appList.map(app => app.name) },
+        ];
         this.getJobs();
       });
   }
