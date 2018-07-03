@@ -10,6 +10,10 @@ export class BaseService {
     };
   }
 
+  static get domainName() {
+    return this.serverHosts.operationServer.split(/[-\.]/)[2];
+  }
+
   static get isNative(): boolean {
     return has(window, ['dstore', 'channel']);
   }

@@ -107,7 +107,8 @@ export class CarouselComponent implements OnInit, OnDestroy {
     return merge(fromEvent(window, 'resize'), timer(0, 1000)).subscribe(() => {
       const context = document.querySelector('.context');
       const carousel = document.querySelector('.carouselList');
-      this.left = -(carousel.clientWidth - context.clientWidth) / 2;
+
+      this.left = Math.ceil(-(carousel.clientWidth - context.clientWidth) / 2);
     });
   }
 
