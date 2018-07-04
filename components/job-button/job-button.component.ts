@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AppVersion } from '../../models/app-version';
 import { StoreService } from '../../services/store.service';
-import { start } from 'repl';
 
 @Component({
   selector: 'dstore-job-button',
