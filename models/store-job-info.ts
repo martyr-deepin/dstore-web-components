@@ -45,7 +45,7 @@ export interface StoreJobError {
   ErrDetail: string;
 }
 export enum StoreJobErrorType {
-  unknown
+  unknown,
   dpkgInterrupted = 'PkgSystemError::dpkgInterrupted',
   dependenciesBroken = 'PkgSystemError::dependenciesBroken',
 }
