@@ -97,7 +97,11 @@ export class AppService {
                 local => local.description.name !== '',
               );
             }
-            app.localInfo = defaultsDeep(app.localInfo, ...Object.values(app.locale), new App());
+            app.localInfo = defaultsDeep(
+              cloneDeep(app.localInfo),
+              ...Object.values(app.locale),
+              new App().localInfo,
+            );
             app.localCategory = categories[app.category].LocalName || app.category;
           });
           return appMap;
