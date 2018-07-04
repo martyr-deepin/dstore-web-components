@@ -1,0 +1,11 @@
+<ng-container *ngIf="version as $version">
+  <button *ngIf="!$version.localVersion && $version.remoteVersion"
+          (click)="installApp($event)"
+          i18n>Install</button>
+  <button *ngIf="$version.localVersion && !$version.upgradable"
+          (click)="openApp($event)"
+          i18n>Open</button>
+  <button *ngIf="$version.upgradable"
+          (click)="updateApp($event)"
+          i18n>Update</button>
+</ng-container>
