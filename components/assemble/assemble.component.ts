@@ -62,6 +62,10 @@ export class AssembleComponent implements OnInit, OnDestroy {
     this.jobs$.unsubscribe();
   }
 
+  filter(apps: SectionApp[]) {
+    return apps.filter(app => this.appFilter(app.name));
+  }
+
   getJobs() {
     return merge(this.storeService.getJobList(), this.storeService.jobListChange())
       .pipe(
