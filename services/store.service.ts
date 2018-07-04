@@ -157,25 +157,16 @@ export class StoreService {
     );
   }
 
+  fixError(errorType: string): Observable<string> {
+    return this.execWithCallback('storeDaemon.fixError', errorType);
+  }
+
   getJobInfo(jobPath: string): Observable<StoreJobInfo> {
     return this.execWithCallback('storeDaemon.getJobInfo', jobPath);
   }
 
   private _getJobsInfo(jobs: string[]): Observable<StoreJobInfo[]> {
     return this.execWithCallback('storeDaemon.getJobsInfo', jobs.join(','), jobs);
-  }
-
-  getJobByName(name: string): Observable<StoreJobInfo> {
-    return this.getJobList().pipe(
-      flatMap(
-        jobs =>
-          jobs.length === 0
-            ? of(undefined)
-            : forkJoin(jobs.map(job => this.getJobInfo(job))).pipe(
-                map((jobInfoList: StoreJobInfo[]) => jobInfoList.find(info => info.name === name)),
-              ),
-      ),
-    );
   }
 
   /**
@@ -202,24 +193,6 @@ export class StoreService {
       Channel.registerCallback(method, callback);
       return () => Channel.unregisterCallback(method, callback);
     });
-  }
-  getJobListInfo(): Observable<StoreJobInfo[]> {
-    return this.getJobList().pipe(
-      flatMap(
-        jobs => (jobs.length === 0 ? of([]) : forkJoin(jobs.map(job => this.getJobInfo(job)))),
-      ),
-    );
-  }
-  getJobInfoMap(): Observable<Map<string, StoreJobInfo>> {
-    return this.getJobList().pipe(
-      switchMap(
-        jobs =>
-          jobs.length === 0
-            ? of([] as StoreJobInfo[])
-            : forkJoin(jobs.map(job => this.getJobInfo(job))),
-      ),
-      map(jobInfoList => new Map(_.toPairs(_.keyBy(jobInfoList, 'name')))),
-    );
   }
 
   execWithCallback<T>(method: string, ...args: any[]): Observable<T> {
