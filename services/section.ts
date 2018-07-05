@@ -61,6 +61,8 @@ export class SectionTopic {
   backgroundImage = '';
   backgroundImageHD = '';
   backgroundColor = '';
+  nameColor = '';
+  subTitleColor: '';
   apps: SectionApp[] = [];
 }
 
