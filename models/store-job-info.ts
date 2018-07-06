@@ -48,6 +48,15 @@ export enum StoreJobErrorType {
   unknown,
   dpkgInterrupted = 'PkgSystemError::dpkgInterrupted',
   dependenciesBroken = 'PkgSystemError::dependenciesBroken',
+  invalidSourcesList = 'PkgSystemError::invalidSourcesList',
+
+  removeDDE = 'JobError::removeDDE',
+  fetchFailed = 'JobError::fetchFailed',
+  dpkgError = 'JobError::dpkgError',
+  pkgNotFound = 'JobError::pkgNotFound',
+  unmetDependencies = 'JobError::unmetDependencies',
+  noInstallationCandidate = 'JobError::noInstallationCandidate',
+  insufficientSpace = 'JobError::insufficientSpace',
 }
 export const CanFixError = [
   StoreJobErrorType.dpkgInterrupted,
