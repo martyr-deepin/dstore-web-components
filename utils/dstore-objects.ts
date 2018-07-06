@@ -22,6 +22,14 @@ export class DstoreObject {
     });
   }
 
+  static AdVisible(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      get(window, [...DstoreObjectPath, 'settings', 'upyunBannerVisible'], noop)((show: boolean) =>
+        resolve(show),
+      );
+    });
+  }
+
   static clearArchives(): Observable<void> {
     return new Observable<void>(obs => {
       const clearArchives: Signal = get(window, [
