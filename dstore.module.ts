@@ -41,6 +41,7 @@ import { RangePipe } from './pipes/range.pipe';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { DeepinInfoPipe } from './pipes/deepin-info.pipe';
 import { StopDirective } from './directive/stop.directive';
+import { IconPipe } from './pipes/icon.pipe';
 
 @NgModule({
   imports: [
@@ -81,6 +82,7 @@ import { StopDirective } from './directive/stop.directive';
     DstorePagingComponent,
     DeepinInfoPipe,
     StopDirective,
+    IconPipe,
   ],
   exports: [
     TitleComponent,
@@ -109,6 +111,7 @@ import { StopDirective } from './directive/stop.directive';
     ChunkPipe,
     RangePipe,
     DeepinInfoPipe,
+    IconPipe,
   ],
 })
 export class DstoreModule {}
