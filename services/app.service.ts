@@ -93,9 +93,7 @@ export class AppService {
             // set localInfo
             app.localInfo = app.locale[Locale.getUnixLocale()];
             if (!get(app.locale, [Locale.getUnixLocale(), 'description', 'name'])) {
-              app.localInfo = Object.values(app.locale).find(
-                local => local.description.name !== '',
-              );
+              app.localInfo = app.locale['en_US'];
             }
             app.localInfo = defaultsDeep(
               cloneDeep(app.localInfo),

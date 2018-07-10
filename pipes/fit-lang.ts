@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from '../../../environments/environment';
-// 在数组里选择合适的值，用于选择多语言和高清图片
+// 在数组里选择合适的值，用于选择多语言
 @Pipe({
   name: 'fitLanguage',
 })
