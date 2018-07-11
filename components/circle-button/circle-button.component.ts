@@ -12,6 +12,7 @@ export class CircleButtonComponent implements OnInit {
   constructor() {}
   @Input() running = true;
   @Input() progress = 0;
+  @Input() disabled: boolean;
 
   @Output() runningChange = new EventEmitter<boolean>();
   click$ = new Subject();
@@ -19,7 +20,9 @@ export class CircleButtonComponent implements OnInit {
   @HostListener('click', ['$event'])
   click(e: Event) {
     e.stopPropagation();
-    this.click$.next();
+    if (!this.disabled) {
+      this.click$.next();
+    }
   }
 
   ngOnInit() {
