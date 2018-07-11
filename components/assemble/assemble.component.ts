@@ -100,7 +100,6 @@ export class AssembleComponent implements OnInit, OnDestroy {
     );
     this.storeService.getVersion(apps).subscribe(vs => {
       this.versions = new Map(vs.map(v => [v.name, v] as [string, AppVersion]));
-      console.log('versions', this.versions);
     });
   }
 
