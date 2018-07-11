@@ -30,6 +30,10 @@ export class DstoreObject {
     });
   }
 
+  static imageViewer(data: string) {
+    window['dstore'].channel.objects.imageViewer.openBase64(data);
+  }
+
   static clearArchives(): Observable<void> {
     return new Observable<void>(obs => {
       const clearArchives: Signal = get(window, [
