@@ -3,12 +3,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'dstore-indication',
   templateUrl: './indication.component.html',
-  styleUrls: ['./indication.component.scss']
+  styleUrls: ['./indication.component.scss'],
 })
 export class IndicationComponent implements OnInit {
   @Input() count: number;
+  @Input() selectIndex = 0;
   @Output() change = new EventEmitter<number>();
-  selectIndex = 0;
   constructor() {}
 
   ngOnInit() {}
