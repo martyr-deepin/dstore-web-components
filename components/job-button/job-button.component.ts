@@ -12,6 +12,7 @@ export class JobButtonComponent implements OnInit {
   @Input() appName: string;
   @Input() localName: string;
   @Input() version: AppVersion;
+  disabled: boolean;
 
   @Output() start = new EventEmitter<string>();
 
@@ -25,12 +26,14 @@ export class JobButtonComponent implements OnInit {
   installApp(e: Event) {
     e.stopPropagation();
     this.storeService.installPackage(this.appName, this.localName).subscribe(job => {
+      this.disabled = true;
       this.start.emit(job);
     });
   }
   updateApp(e: Event) {
     e.stopPropagation();
     this.storeService.updatePackage(this.appName, this.localName).subscribe(job => {
+      this.disabled = true;
       this.start.emit(job);
     });
   }

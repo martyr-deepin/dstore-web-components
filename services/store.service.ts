@@ -16,7 +16,6 @@ interface SignalObject {
 @Injectable()
 export class StoreService {
   getJobList = _.throttle(() => this._getJobList().pipe(shareReplay()), 1000);
-  getJobsInfo = _.throttle((jobs: string[]) => this._getJobsInfo(jobs).pipe(shareReplay()), 1000);
 
   constructor(private zone: NgZone) {}
   /**
@@ -165,7 +164,7 @@ export class StoreService {
     return this.execWithCallback('storeDaemon.getJobInfo', jobPath);
   }
 
-  private _getJobsInfo(jobs: string[]): Observable<StoreJobInfo[]> {
+  getJobsInfo(jobs: string[]): Observable<StoreJobInfo[]> {
     return this.execWithCallback('storeDaemon.getJobsInfo', jobs.join(','), jobs);
   }
 
