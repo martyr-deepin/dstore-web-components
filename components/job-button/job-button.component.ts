@@ -12,15 +12,20 @@ export class JobButtonComponent implements OnInit {
   @Input() appName: string;
   @Input() localName: string;
   @Input() version: AppVersion;
-  disabled: boolean;
-
+  @Input() openType: string;
   @Output() start = new EventEmitter<string>();
+  canOpen = canOpen;
+  disabled: boolean;
 
   ngOnInit() {}
 
   openApp(e: Event) {
     e.stopPropagation();
-    this.storeService.openApp(this.appName);
+    switch (this.openType) {
+      case 'desktop':
+        this.storeService.openApp(this.appName);
+        break;
+    }
   }
 
   installApp(e: Event) {
@@ -30,6 +35,7 @@ export class JobButtonComponent implements OnInit {
       this.start.emit(job);
     });
   }
+
   updateApp(e: Event) {
     e.stopPropagation();
     this.storeService.updatePackage(this.appName, this.localName).subscribe(job => {
@@ -38,3 +44,5 @@ export class JobButtonComponent implements OnInit {
     });
   }
 }
+
+const canOpen = ['desktop'];

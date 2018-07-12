@@ -3,10 +3,12 @@
                 (click)="installApp($event)"
                 [disabled]="disabled"
                 i18n>Install</button>
-        <button *ngIf="$version.localVersion && !$version.upgradable"
-                (click)="openApp($event)"
-                [disabled]="disabled"
-                i18n>Open</button>
+        <ng-container *ngIf="$version.localVersion && !$version.upgradable">
+                <button (click)="openApp($event)"
+                        *ngIf="canOpen.includes(openType)"
+                        [disabled]="disabled"
+                        i18n>Open</button>
+        </ng-container>
         <button *ngIf="$version.upgradable"
                 (click)="updateApp($event)"
                 [disabled]="disabled"
