@@ -12,13 +12,13 @@ import { BaseService } from '../services/base.service';
 export class DeepinInfoPipe implements PipeTransform {
   constructor(private http: HttpClient) {}
   transform = memoize(
-    (value: string): Observable<DeepinInfo> => {
+    (uid: number): Observable<DeepinInfo> => {
       return this.http
-        .get<{ user: DeepinInfo }>(
-          BaseService.serverHosts.metadataServer + '/api/deepin_user/' + value,
-        )
+        .get<DeepinInfo[]>(BaseService.serverHosts.metadataServer + '/api/deepin_user', {
+          params: { uid: uid.toString() },
+        })
         .pipe(
-          map(resp => resp.user),
+          map(resp => resp.find(info => info.uid === uid)),
           shareReplay(),
         );
     },
@@ -28,8 +28,5 @@ export class DeepinInfoPipe implements PipeTransform {
 export interface DeepinInfo {
   uid: number;
   username: string;
-  scope: string;
   profile_image: string;
-  website: string;
-  signature: string;
 }

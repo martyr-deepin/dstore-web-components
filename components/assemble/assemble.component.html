@@ -35,6 +35,7 @@
                     <dstore-job-button [version]="versions.get($app.name)"
                                        [appName]="$app.name"
                                        [localName]="$app.localInfo.description.name"
+                                       [openType]="$app.extra['open']"
                                        (start)="ctlBtn.hidden=true"></dstore-job-button>
                   </div>
                   <dstore-circle-button [running]="true"
