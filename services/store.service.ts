@@ -211,6 +211,7 @@ export class StoreService {
       );
     });
     return obs$.pipe(
+      filter(resp => resp.errorName === ''),
       filter(resp => args.length === 0 || args[0] === resp.result.name),
       map(resp => resp.result.value),
       take(1),
