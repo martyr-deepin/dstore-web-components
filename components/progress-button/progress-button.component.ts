@@ -4,6 +4,8 @@ import { StoreJobType, StoreJobStatus } from '../../models/store-job-info';
 import { StoreService } from '../../services/store.service';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 
+const animateTime = 250;
+
 @Component({
   selector: 'dstore-progress-button',
   templateUrl: './progress-button.component.html',
@@ -15,11 +17,11 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
           transform: 'translateX(-4rem) translateY(-50%)',
           opacity: 0,
         }),
-        animate(500),
+        animate(animateTime),
       ]),
       transition(':leave', [
         animate(
-          500,
+          animateTime,
           style({
             transform: 'translateX(-4rem) translateY(-50%)',
             opacity: 0,
@@ -34,11 +36,11 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
           transform: 'translateX(2rem) translateY(-50%)',
           opacity: 0,
         }),
-        animate(500),
+        animate(animateTime),
       ]),
       transition(':leave', [
         animate(
-          500,
+          animateTime,
           style({
             transform: 'translateX(2rem) translateY(-50%)',
             opacity: 0,
