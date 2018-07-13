@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 import { StoreJobInfo } from '../models/store-job-info';
 import { AppVersion } from '../models/app-version';
 import { InstalledApp } from '../models/installed';
+import { HttpClient } from '@angular/common/http';
+import { BaseService } from '../../dstore/services/base.service';
 
 interface SignalObject {
   connect: (any) => {};
@@ -15,9 +17,13 @@ interface SignalObject {
 
 @Injectable()
 export class StoreService {
+  server = BaseService.serverHosts.operationServer;
   getJobList = _.throttle(() => this._getJobList().pipe(shareReplay()), 1000);
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone, private http: HttpClient) {}
+  private downloadRecord(appName: string) {
+    this.http.post<void>(`${this.server}/api/downloading/app/${appName}`, null).subscribe();
+  }
   /**
    * Check connectivity to backend lastore daemon.
    * @returns {Observable<boolean>} If returns false, all methods in this class will not work.
@@ -44,7 +50,7 @@ export class StoreService {
    * @returns {Observable<string>} path to job
    */
   installPackage(appName: string, localName: string): Observable<string> {
-    console.log('StoreService.installPackage()');
+    this.downloadRecord(appName);
     return this.execWithCallback('storeDaemon.installPackage', appName, localName);
   }
 
@@ -54,12 +60,11 @@ export class StoreService {
    * @returns {Observable<string>}
    */
   updatePackage(appName: string, localName: string): Observable<string> {
-    console.log('updatePackage: ', appName);
+    this.downloadRecord(appName);
     return this.execWithCallback('storeDaemon.updatePackage', appName, localName);
   }
 
   removePackage(appName: string, localName: string): Observable<string> {
-    console.log('removePackage: ', appName);
     return this.execWithCallback('storeDaemon.removePackage', appName, localName);
   }
 
