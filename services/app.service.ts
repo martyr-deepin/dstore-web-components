@@ -27,10 +27,10 @@ export class AppService {
     return localStorage.getItem('auth-token') || sessionStorage.getItem('auth-token');
   }
   get appsStoreKey() {
-    return (BaseService.isNative ? BaseService.domainName : this.token) + '-apps';
+    return BaseService.isNative ? 'apps' : this.token + '-apps';
   }
   get timeStoreKey() {
-    return (BaseService.isNative ? BaseService.domainName : this.token) + '-time';
+    return BaseService.isNative ? 'time' : this.token + '-time';
   }
 
   // 一秒的缓冲节流的_getAppMap
