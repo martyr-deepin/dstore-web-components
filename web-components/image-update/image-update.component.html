@@ -1,9 +1,0 @@
-<input type="file" hidden #imageInput [multiple]="multiple" [attr.accept]="accept">
-<div class="imgBox" (click)="imageInput.click()">
-  <img [src]="imgSrc" *ngIf="imgSrc;else Icon">
-  <ng-template #Icon>
-    <i class=material-icons>backup</i>
-  </ng-template>
-</div>
-
-<span class="grey-text">{{desc}}</span>

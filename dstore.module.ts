@@ -23,7 +23,7 @@ import { AppNavComponent } from './web-components/app-nav/app-nav.component';
 import { AppPagingComponent } from './web-components/app-paging/app-paging.component';
 import { DstorePagingComponent } from './web-components/dstore-paging/dstore-paging.component';
 import { AppSearchComponent } from './web-components/app-search/app-search.component';
-import { ImageUpdateComponent } from './web-components/image-update/image-update.component';
+import { ImageUploadComponent } from './web-components/image-upload/image-upload.component';
 import { ProgressComponent } from './web-components/progress/progress.component';
 import { StarComponent } from './widget/star/star.component';
 import { IndicationComponent } from './widget/indication/indication.component';
@@ -65,7 +65,7 @@ import { IconPipe } from './pipes/icon.pipe';
     AppPagingComponent,
     AppSearchComponent,
     AssembleComponent,
-    ImageUpdateComponent,
+    ImageUploadComponent,
     DevPipe,
     AppInfoPipe,
     AppSearchPipe,
@@ -97,7 +97,7 @@ import { IconPipe } from './pipes/icon.pipe';
     DstorePagingComponent,
     AppSearchComponent,
     AssembleComponent,
-    ImageUpdateComponent,
+    ImageUploadComponent,
     ProgressComponent,
     StarComponent,
     IndicationComponent,

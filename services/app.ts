@@ -87,7 +87,7 @@ export function appReviver(k: string, v: any): any {
     case 'tags':
       return v || [];
     case 'versions':
-      return v || [{ version: '', changeLog: '' }];
+      return v || [new Version()];
     case 'packageURI':
       return v ? JSON.parse(v) : [''];
     case 'extra':
@@ -188,10 +188,12 @@ class Description {
 export class Version {
   version: string;
   changeLog: string;
+  isNew?: boolean;
   constructor() {
     return {
       version: '',
       changeLog: '',
+      isNew: true,
     };
   }
 }
