@@ -6,11 +6,12 @@ import {
   Output,
   Input,
   EventEmitter,
+  HostListener,
 } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { from, fromEvent } from 'rxjs';
-import { map, flatMap, filter } from 'rxjs/operators';
+import { from, fromEvent, merge } from 'rxjs';
+import { map, flatMap, filter, catchError } from 'rxjs/operators';
 import * as localForage from 'localforage';
 
 import { ImageError, ImageErrorString } from '../../services/errno';
@@ -25,7 +26,7 @@ import { ImageType } from '../../services/app';
 })
 export class ImageUploadComponent implements OnInit {
   constructor(
-    private el: ElementRef,
+    private el: ElementRef<HTMLDivElement>,
     private domSanitizer: DomSanitizer,
     private http: HttpClient,
   ) {}
@@ -50,8 +51,8 @@ export class ImageUploadComponent implements OnInit {
   @Input() size: number;
   @Input() formats: string[];
   @Input() multiple = false;
-  @Output() update = new EventEmitter<string>();
-  @Output() error = new EventEmitter<ImageError>();
+  @Output() update = new EventEmitter<string>(true);
+  @Output() error = new EventEmitter<ImageError>(true);
 
   store = localForage.createInstance({ name: 'images' });
   imgSrc: SafeUrl;
@@ -64,10 +65,24 @@ export class ImageUploadComponent implements OnInit {
 
     this.error.subscribe(err => console.log(err));
 
-    fromEvent(this.imageInput.nativeElement, 'change')
+    merge(
+      ...['dragleave', 'drop', 'dragenter', 'dragover'].map(eName => fromEvent(document, eName)),
+    ).subscribe(e => {
+      e.preventDefault();
+    });
+    fromEvent(this.el.nativeElement, 'drop').subscribe((e: DragEvent) => {
+      console.log(e.dataTransfer.files);
+    });
+
+    merge(
+      fromEvent(this.imageInput.nativeElement, 'change').pipe(
+        map(() => this.imageInput.nativeElement.files),
+      ),
+      fromEvent(this.el.nativeElement, 'drop').pipe(map((e: DragEvent) => e.dataTransfer.files)),
+    )
       .pipe(
         // multiple file
-        flatMap(() => from(this.imageInput.nativeElement.files)),
+        flatMap(files => from(files)),
         // check file
         filter(file => {
           // check file size
@@ -137,9 +152,15 @@ export class ImageUploadComponent implements OnInit {
           );
         }),
       )
-      .subscribe(path => {
-        this.update.emit(path);
-      });
+      .subscribe(
+        path => {
+          this.update.emit(path);
+        },
+        err => {
+          this.error.emit(ImageError.Unknown);
+          console.error(err);
+        },
+      );
   }
   // 图片类型
   get accept() {
