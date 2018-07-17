@@ -148,16 +148,11 @@ export class ImageUploadComponent implements OnInit {
             }),
           );
         }),
+        catchError((err, caught) => caught),
       )
-      .subscribe(
-        path => {
-          this.upload.emit(path);
-        },
-        err => {
-          this.error.emit(ImageError.Unknown);
-          console.error(err);
-        },
-      );
+      .subscribe(path => {
+        this.upload.emit(path);
+      });
   }
   // 图片类型
   get accept() {
