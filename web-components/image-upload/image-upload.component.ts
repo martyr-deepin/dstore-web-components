@@ -51,7 +51,7 @@ export class ImageUploadComponent implements OnInit {
   @Input() size: number;
   @Input() formats: string[];
   @Input() multiple = false;
-  @Output() update = new EventEmitter<string>(true);
+  @Output() upload = new EventEmitter<string>(true);
   @Output() error = new EventEmitter<ImageError>(true);
 
   store = localForage.createInstance({ name: 'images' });
@@ -62,8 +62,7 @@ export class ImageUploadComponent implements OnInit {
       this.store.clear();
       sessionStorage.setItem('imagesClear', 'imagesClear');
     }
-
-    this.error.subscribe(err => console.log(err));
+    this.error.subscribe(err => console.error(ImageErrorString[err]));
 
     merge(
       ...['dragleave', 'drop', 'dragenter', 'dragover'].map(eName => fromEvent(document, eName)),
@@ -133,9 +132,7 @@ export class ImageUploadComponent implements OnInit {
             flatMap(img => {
               const formData = new FormData();
               formData.append('file', file);
-              if (this.type) {
-                formData.append('type', this.type.toString());
-              }
+              formData.append('type', `${this.type || 1}`);
 
               return this.http.post<{ path: string }>(this.server + '/api/upload', formData).pipe(
                 flatMap(result => {
@@ -154,7 +151,7 @@ export class ImageUploadComponent implements OnInit {
       )
       .subscribe(
         path => {
-          this.update.emit(path);
+          this.upload.emit(path);
         },
         err => {
           this.error.emit(ImageError.Unknown);

@@ -18,6 +18,7 @@ import { Locale } from '../utils/locale';
 @Injectable()
 export class AppService {
   private metadataService = BaseService.serverHosts.metadataServer;
+  private isNative = BaseService.isNative;
   private apiURL = `${this.metadataService}/api/app`;
   private store = localForage.createInstance({ name: 'apps' });
 
@@ -49,6 +50,9 @@ export class AppService {
         let params = new HttpParams();
         if (lastTime) {
           params = params.append('since', lastTime);
+        }
+        if (!this.isNative) {
+          params = params.append('r', Math.random().toString());
         }
         return forkJoin(
           of(appMap),
