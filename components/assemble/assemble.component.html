@@ -3,7 +3,7 @@
      *ngIf="categoryList">
   <ng-container *ngFor="let $assemble of assembleList">
     <div class="assemble"
-         *ngIf="categoryList[$assemble.category]">
+         *ngIf="$assemble.show && categoryList[$assemble.category]">
       <div class="title"
            [routerLink]="['/category',$assemble.category]">
         {{categoryList[$assemble.category].LocalName}}
