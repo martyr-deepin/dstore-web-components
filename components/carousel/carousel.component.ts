@@ -1,7 +1,15 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, timer, from, fromEvent, merge, Subject, Subscription } from 'rxjs';
+import {
+  animationFrameScheduler,
+  timer,
+  from,
+  fromEvent,
+  merge,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { map, take, startWith, timeInterval, delayWhen, switchMap } from 'rxjs/operators';
 
 import { range, throttle, cloneDeep } from 'lodash';
@@ -13,7 +21,7 @@ import { App } from '../../services/app';
 import { SectionCarousel, CarouselType } from '../../services/section';
 import { AppFilterFunc, Allowed } from '../appFilter';
 
-const speed = '0.3s';
+const speed = 300;
 const defaultStyle = style({ transform: 'translateX(0)' });
 const toLeft = [style({ transform: 'translateX(100%)' }), animate(speed)];
 const toRight = [style({ transform: 'translateX(-100%)' }), animate(speed)];
@@ -166,13 +174,8 @@ export class CarouselComponent implements OnInit, OnDestroy {
     this._click(this.selectIndex);
     this._click.flush();
     const arr = range(this.selectIndex, index + (this.selectIndex > index ? -1 : 1));
-    this.go(arr);
-  }
-
-  go(arr: number[]) {
-    this.selectSub.next(arr.shift());
-    if (arr.length > 0) {
-      setTimeout(() => requestAnimationFrame(() => this.go(arr)), 50);
-    }
+    from(arr, animationFrameScheduler)
+      .pipe(delayWhen(i => timer(100 * arr.indexOf(i))))
+      .subscribe(i => this.selectSub.next(i));
   }
 }

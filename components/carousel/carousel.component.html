@@ -7,9 +7,10 @@
          [attr.index]="$index">
   </ng-container>
   <div class="indicationList">
-    <div class="indicationItem"
-         [class.active]="$index===selectIndex"
-         *ngFor="let items of _carouselList;index as $index"
-         (click)="select($index)"></div>
+    <div *ngFor="let items of _carouselList;index as $index"
+         (click)="select($index)">
+      <div class="indicationItem"
+           [class.active]="$index===selectIndex"></div>
+    </div>
   </div>
 </div>
