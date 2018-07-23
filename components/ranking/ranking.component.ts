@@ -5,7 +5,6 @@ import { map, tap, flatMap, shareReplay, switchMap, concat, startWith } from 'rx
 
 import { BaseService } from '../../services/base.service';
 import { App, AppService } from '../../../services/app.service';
-import { DownloadingService } from '../../services/downloading.service';
 
 import { Section } from '../../services/section';
 import { AppFilterFunc, Allowed } from '../appFilter';
@@ -23,7 +22,7 @@ import { AppVersion } from '../../../dstore-client.module/models/app-version';
   styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit, OnDestroy {
-  constructor(private downloadingService: DownloadingService, private storeService: StoreService) {}
+  constructor(private appService: AppService, private storeService: StoreService) {}
 
   metadataServer = BaseService.serverHosts.metadataServer;
   isNative = BaseService.isNative;
@@ -46,14 +45,24 @@ export class RankingComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log('ranking');
     const category = this.section.ranking.category;
-    this.downloadingService.getList().subscribe(apps => {
+    this.appService.list().subscribe(apps => {
       if (category) {
         apps = apps.filter(app => app.category === category);
       }
-      this.appList = apps.slice(0, this.section.ranking.count) as App[];
+      this.appList = apps
+        .filter(app => {
+          if (category) {
+            return app.category === category && this.appFilter(app.name);
+          } else {
+            return this.appFilter(app.name);
+          }
+        })
+        .sort((a, b) => b.downloads - a.downloads)
+        .slice(0, this.section.ranking.count);
       this.getJobs();
     });
   }
+
   getJobs() {
     this.jobs$ = merge(this.storeService.getJobList(), this.storeService.jobListChange())
       .pipe(
