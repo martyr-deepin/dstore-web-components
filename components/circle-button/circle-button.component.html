@@ -1,8 +1,8 @@
 <svg width="22px"
      height="22px"
-     class="controlBtn"
-     [class.disabled]="disabled">
-  <ng-container [ngSwitch]="true">
+     class="controlBtn">
+  <ng-container [ngSwitch]="true"
+                *ngIf="!disabled">
     <image x="4"
            y="4"
            [attr.xlink:href]="'/assets/buttons/pause.svg'"
@@ -31,5 +31,5 @@
           fill="none"
           [style.transform-origin]="'center'"
           [style.transform]="'rotate(-90deg)'"
-          attr.stroke-dasharray="calc( 2rem * 3.14 * {{progress}} ) calc( 2rem * 3.14 * 2 )"></circle>
+          attr.stroke-dasharray="calc( ( 22px * 0.4 ) * 2 * 3.1415926 * {{progress}} ) calc( 22px * 3.14  )"></circle>
 </svg>
