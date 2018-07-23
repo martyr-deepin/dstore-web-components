@@ -94,15 +94,17 @@ export class ImageUploadComponent implements OnInit {
             this.error.emit(ImageError.FileSize);
             return false;
           }
-          // check file format
-          const [type, format] = file.type.split('/');
-          if (type !== 'image') {
-            this.error.emit(ImageError.File);
-            return false;
-          }
-          if (this.formats && !this.formats.map(t => MimeType[t] || t).includes(format)) {
-            this.error.emit(ImageError.Format);
-            return false;
+          if (file.type) {
+            // check file format
+            const [type, format] = file.type.split('/');
+            if (type !== 'image') {
+              this.error.emit(ImageError.File);
+              return false;
+            }
+            if (this.formats && !this.formats.map(t => MimeType[t] || t).includes(format)) {
+              this.error.emit(ImageError.Format);
+              return false;
+            }
           }
           return true;
         }),
