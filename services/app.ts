@@ -37,8 +37,7 @@ export class App {
   localCategory: string;
   version: AppVersion;
 
-  downloadCount: number;
-  downloadRanking: number;
+  downloads: number;
 }
 
 // 自定义序列号App JSON
