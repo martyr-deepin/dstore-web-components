@@ -3,6 +3,8 @@ import { AppVersion } from '../../dstore-client.module/models/app-version';
 
 export class App {
   id = 0;
+  userID: number;
+  submitterEmail: string;
   state: AppState;
   updateTime: Date;
   comment: string;
