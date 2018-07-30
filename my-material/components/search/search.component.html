@@ -8,7 +8,9 @@
           (click)="search.setValue()">
     <mat-icon>close</mat-icon>
   </button>
-  <input matInput
+  <input type="search"
+         class="browser-default"
+         matInput
          placeholder="搜索"
          [formControl]='search'>
 </mat-form-field>

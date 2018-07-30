@@ -7,10 +7,13 @@ import { MatPaginator } from '@angular/material';
 export class MyPaginatorDirective {
   constructor(paginator: MatPaginator) {
     paginator.initialized.subscribe(() => {
+      if (paginator.pageSize === 50) {
+        paginator.pageSize = Number(localStorage.getItem('pageSize')) || 8;
+      }
+      if (paginator.pageSizeOptions.length === 0) {
+        paginator.pageSizeOptions = [8, 10, 16];
+      }
       paginator.showFirstLastButtons = true;
-      paginator.pageSizeOptions = [8, 10, 16];
-      paginator.pageSize = Number(localStorage.getItem('pageSize')) || 8;
-
       paginator.page.subscribe(e => {
         localStorage.setItem('pageSize', e.pageSize);
       });
