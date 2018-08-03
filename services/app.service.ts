@@ -52,12 +52,10 @@ export class AppService {
         if (lastTime) {
           params = params.append('since', lastTime);
         }
-        if (
-          !this.isNative &&
-          BaseService.serverHosts.metadataServer &&
-          BaseService.serverHosts.operationServer
-        ) {
-          params = params.append('r', Math.random().toString());
+        if (!this.isNative) {
+          if (!BaseService.serverHosts.metadataServer || !BaseService.serverHosts.operationServer) {
+            params = params.append('r', Math.random().toString());
+          }
         }
         return forkJoin(
           of(appMap),
