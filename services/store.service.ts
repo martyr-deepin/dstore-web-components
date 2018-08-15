@@ -1,7 +1,17 @@
 import { Injectable, NgZone, Version } from '@angular/core';
 import { Channel } from '../utils/channel';
-import { Observable, forkJoin, of } from 'rxjs';
-import { flatMap, map, filter, take, switchMap, shareReplay, share } from 'rxjs/operators';
+import { Observable, forkJoin, of, BehaviorSubject } from 'rxjs';
+import {
+  flatMap,
+  map,
+  filter,
+  take,
+  switchMap,
+  shareReplay,
+  share,
+  first,
+  skip,
+} from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { StoreJobInfo } from '../models/store-job-info';
@@ -17,10 +27,27 @@ interface SignalObject {
 
 @Injectable()
 export class StoreService {
-  server = BaseService.serverHosts.operationServer;
-  getJobList = _.throttle(() => this._getJobList().pipe(shareReplay()), 1000);
+  private server = BaseService.serverHosts.operationServer;
+  private jobList$ = new BehaviorSubject<string[]>([]);
 
-  constructor(private zone: NgZone, private http: HttpClient) {}
+  constructor(private zone: NgZone, private http: HttpClient) {
+    this.initJobListSub();
+  }
+
+  private initJobListSub() {
+    const callback = (list: string[]) => this.jobList$.next(list);
+    this.execWithCallback('storeDaemon.jobList').subscribe(callback);
+    Channel.registerCallback('storeDaemon.jobListChanged', callback);
+  }
+
+  getJobList(): Observable<string[]> {
+    return this.jobList$.asObservable().pipe(first());
+  }
+
+  jobListChange(): Observable<string[]> {
+    return this.jobList$.asObservable().pipe(skip(1));
+  }
+
   private downloadRecord(appName: string) {
     this.http.post<void>(`${this.server}/api/downloading/app/${appName}`, null).subscribe();
   }
@@ -126,8 +153,7 @@ export class StoreService {
         (apps, times) => {
           apps.forEach(
             app =>
-              (app.time = _
-                .chain(times)
+              (app.time = _.chain(times)
                 .find({ app: app.name })
                 .get('time')
                 .value()),
@@ -150,8 +176,7 @@ export class StoreService {
       map(
         installedTime =>
           new Map(
-            _
-              .chain(installedTime)
+            _.chain(installedTime)
               .keyBy('app')
               .mapValues('time')
               .entries()
@@ -185,19 +210,6 @@ export class StoreService {
    * Get all of jobs in backend.
    * @returns {Observable<string[]>}
    */
-  private _getJobList(): Observable<string[]> {
-    return this.execWithCallback('storeDaemon.jobList');
-  }
-  jobListChange(): Observable<string[]> {
-    return new Observable<string[]>(obs => {
-      const callback = (jobList: string[]) => {
-        obs.next(jobList);
-      };
-      const method = 'storeDaemon.jobListChanged';
-      Channel.registerCallback(method, callback);
-      return () => Channel.unregisterCallback(method, callback);
-    });
-  }
 
   execWithCallback<T>(method: string, ...args: any[]): Observable<T> {
     const obs$ = new Observable<StoreResponse>(obs => {
