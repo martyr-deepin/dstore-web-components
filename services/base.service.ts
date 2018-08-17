@@ -5,8 +5,8 @@ export class BaseService {
 
   static get serverHosts(): ServerHosts {
     return {
-      operationServer: get(window, ['dstore', 'operationServer'], environment.operationServer),
-      metadataServer: get(window, ['dstore', 'metadataServer'], environment.metadataServer),
+      operationServer: environment.operationServer,
+      metadataServer: environment.metadataServer,
     };
   }
 
