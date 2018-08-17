@@ -22,6 +22,8 @@ export class AppService {
   private isNative = BaseService.isNative;
   private apiURL = `${this.metadataService}/api/app`;
   private store = localForage.createInstance({ name: 'apps' });
+  private sync$ = new Subject<void>();
+  private appMap$ = new Subject<AppMap>();
 
   constructor(private http: HttpClient, private categoryServer: CategoryService) {}
 
@@ -119,7 +121,7 @@ export class AppService {
       shareReplay(),
     );
   }
-
+  private async sync() {}
   // 获取全部应用列表
   getAppList(): Observable<App[]> {
     return this._getAppMapCache().pipe(map(m => compact(Object.values(m))));
