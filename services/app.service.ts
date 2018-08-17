@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject, forkJoin, from, of } from 'rxjs';
 import { retry, shareReplay, map, tap, flatMap, scan, switchMap, last } from 'rxjs/operators';
 
+import * as _ from 'lodash';
 import { throttle, filter, compact, chain, get, cloneDeep, defaultsDeep } from 'lodash';
 
 import * as localForage from 'localforage';
@@ -95,14 +96,20 @@ export class AppService {
         (appMap, categories) => {
           Object.values(appMap).forEach(app => {
             // set localInfo
-            app.localInfo = app.locale[Locale.getUnixLocale()];
-            if (!get(app.locale, [Locale.getUnixLocale(), 'description', 'name'])) {
-              app.localInfo = app.locale['en_US'];
-            }
-            app.localInfo = defaultsDeep(
-              cloneDeep(app.localInfo),
-              ...Object.values(app.locale),
-              new App().localInfo,
+            // app.localInfo = app.locale[Locale.getUnixLocale()];
+            // if (!get(app.locale, [Locale.getUnixLocale(), 'description', 'name'])) {
+            //   app.localInfo = app.locale['en_US'];
+            // }
+            // app.localInfo = defaultsDeep(
+            //   cloneDeep(app.localInfo),
+            //   ...Object.values(app.locale),
+            //   new App().localInfo,
+            // );
+            app.localInfo = _.merge(
+              {},
+              Object.values(app.locale).find(info => Boolean(info.description.name)),
+              app.locale['en_US'],
+              app.locale[Locale.getUnixLocale()],
             );
             app.localCategory = categories[app.category].LocalName || app.category;
           });

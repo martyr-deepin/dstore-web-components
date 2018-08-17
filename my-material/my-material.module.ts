@@ -10,10 +10,12 @@ import {
   MatIconModule,
   MatButtonModule,
   MatCardModule,
-  MatPaginatorModule,
   MatPaginatorIntl,
+  MatPaginatorModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSliderModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { MyMatPaginatorIntl } from './my-paginator-intl';
@@ -32,6 +34,7 @@ const modules = [
   MatCardModule,
   MatFormFieldModule,
   MatInputModule,
+  MatProgressSpinnerModule,
 ];
 const directives = [MyPaginatorDirective];
 const components = [SearchComponent];
